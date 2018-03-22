@@ -3,7 +3,7 @@
         ns.$ = H5P.jQuery;
 
         if (H5PIntegration !== undefined && H5PIntegration.editor !== undefined) {
-            ns.basePath = H5PIntegration.editor.libraryUrl;
+            ns.basePath = H5PIntegration.editor.libraryPath;
             ns.fileIcon = H5PIntegration.editor.fileIcon;
             ns.ajaxPath = H5PIntegration.editor.ajaxPath;
             ns.filesPath = H5PIntegration.editor.filesPath;
@@ -13,7 +13,8 @@
             // Required styles and scripts for the editor
             ns.assets = H5PIntegration.editor.assets;
             // Required for assets
-            ns.baseUrl = '';
+            ns.baseUrl = H5PIntegration.baseUrl;
+
             if (H5PIntegration.editor.nodeVersionId !== undefined) {
                 ns.contentId = H5PIntegration.editor.nodeVersionId;
             }

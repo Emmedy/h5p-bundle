@@ -10,8 +10,11 @@ use Emmedy\H5PBundle\Entity\LibrariesHubCache;
 use Emmedy\H5PBundle\Entity\LibrariesLanguages;
 use Emmedy\H5PBundle\Entity\Library;
 use Emmedy\H5PBundle\Entity\LibraryLibraries;
+use Emmedy\H5PBundle\Event\H5PEvents;
+use Emmedy\H5PBundle\Event\LibrarySemanticsEvent;
 use GuzzleHttp\Client;
 use H5PPermission;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -41,6 +44,10 @@ class H5PSymfony implements \H5PFrameworkInterface {
      * @var EditorStorage
      */
     private $editorStorage;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * H5PSymfony constructor.
@@ -50,8 +57,9 @@ class H5PSymfony implements \H5PFrameworkInterface {
      * @param EntityManager $manager
      * @param FlashBagInterface $flashBag
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(H5POptions $options, EditorStorage $editorStorage, TokenStorageInterface $tokenStorage, EntityManager $manager, FlashBagInterface $flashBag, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(H5POptions $options, EditorStorage $editorStorage, TokenStorageInterface $tokenStorage, EntityManager $manager, FlashBagInterface $flashBag, AuthorizationCheckerInterface $authorizationChecker, EventDispatcherInterface $eventDispatcher)
     {
         $this->options = $options;
         $this->editorStorage = $editorStorage;
@@ -59,6 +67,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
         $this->manager = $manager;
         $this->flashBag = $flashBag;
         $this->authorizationChecker = $authorizationChecker;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -804,20 +813,19 @@ class H5PSymfony implements \H5PFrameworkInterface {
    * Implements loadLibrary
    */
   public function loadLibrary($machineName, $majorVersion, $minorVersion) {
-      $library = $this->manager->getRepository('EmmedyH5PBundle:Library')->findOneBy(['machineName' => $machineName, 'majorVersion' => $majorVersion, 'minorVersion' => $minorVersion]);
+      $library = $this->manager->getRepository('EmmedyH5PBundle:Library')->findOneArrayBy(['machineName' => $machineName, 'majorVersion' => $majorVersion, 'minorVersion' => $minorVersion]);
       if (!$library) {
           return false;
       }
+      $library['libraryId'] = $library['id'];
 
-      $libraryLibraries = $this->manager->getRepository('EmmedyH5PBundle:LibraryLibraries')->findBy(['library' => $library->getId()]);
-
-
+      $libraryLibraries = $this->manager->getRepository('EmmedyH5PBundle:LibraryLibraries')->findBy(['library' => $library['id']]);
     foreach ($libraryLibraries as $dependency) {
         $requiredLibrary = $dependency->getRequiredLibrary();
       $library["{$dependency->getDependencyType()}Dependencies"][] = [
         'machineName' => $requiredLibrary->getMachineName(),
-        'majorVersion' => $requiredLibrary->getMajor(),
-        'minorVersion' => $requiredLibrary->getMinor(),
+        'majorVersion' => $requiredLibrary->getMajorVersion(),
+        'minorVersion' => $requiredLibrary->getMinorVersion(),
       ];
     }
 
@@ -840,10 +848,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
    * Implements alterLibrarySemantics().
    */
   public function alterLibrarySemantics(&$semantics, $name, $majorVersion, $minorVersion) {
-//    // alter only takes 4 arguments, so versions are combined to single parameter
-//    $version = $majorVersion . '.'. $minorVersion;
-//    \Drupal::moduleHandler()->alter('h5p_semantics', $semantics, $name, $version);
-      // todo: call event dispatcher here
+      $this->eventDispatcher->dispatch(H5PEvents::SEMANTICS, new LibrarySemanticsEvent($semantics, $name, $majorVersion, $minorVersion));
   }
 
     /**

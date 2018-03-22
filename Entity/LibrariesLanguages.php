@@ -5,7 +5,7 @@ namespace Emmedy\H5PBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="LibrariesLanguagesRepository")
  * @ORM\Table(name="h5p_libraries_languages")
  */
 class LibrariesLanguages

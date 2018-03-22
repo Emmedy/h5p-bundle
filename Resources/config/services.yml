@@ -6,11 +6,11 @@ services:
 
     emmedy_h5p.editor_storage:
         class: Emmedy\H5PBundle\Editor\EditorStorage
-        arguments: ['@emmedy_h5p.options', '@filesystem']
+        arguments: ['@emmedy_h5p.options', '@filesystem', '@security.authorization_checker', '@doctrine.orm.entity_manager', '@event_dispatcher']
 
     emmedy_h5p.interface:
         class: Emmedy\H5PBundle\Core\H5PSymfony
-        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker']
+        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker', '@event_dispatcher']
 
     emmedy_h5p.core:
         class: H5PCore

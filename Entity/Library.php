@@ -134,16 +134,32 @@ class Library
 
     public function __get($name)
     {
-        $name = \H5PCore::snakeToCamel([$name => 1]);
-        $name = array_keys($name)[0];
+        if ($name === "name") {
+            return $this->machineName;
+        }
+
+        $name = $this->getLocalName($name);
         return $this->$name;
     }
 
     public function __isset($name)
     {
+        $name = $this->getLocalName($name);
+        return isset($this->$name);
+    }
+
+    public function __set($name, $value)
+    {
+        $name = $this->getLocalName($name);
+
+        $this->$name = $value;
+    }
+
+    private function getLocalName($name)
+    {
         $name = \H5PCore::snakeToCamel([$name => 1]);
         $name = array_keys($name)[0];
-        return isset($this->$name);
+        return $name;
     }
 
     /**

@@ -2,7 +2,10 @@
 
 namespace Emmedy\H5PBundle\Entity;
 
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
@@ -70,59 +73,45 @@ EOT;
         foreach ($libraryVersions as &$libraryVersion) {
             $libraryVersion = (object)$libraryVersion;
         }
+
         return $libraryVersions;
+    }
 
+    public function findHasSemantics($machineName, $majorVersion, $minorVersion)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->select('l.title, l.runnable, l.restricted, l.tutorialUrl')
+            ->where('l.machineName = :machineName and l.majorVersion = :majorVersion and l.minorVersion = :minorVersion and l.semantics is not null')
+            ->setParameters(['machineName' => $machineName, 'majorVersion' => $majorVersion, 'minorVersion' => $minorVersion]);
 
+        try {
+            $library = $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        }
+        return (object)$library;
+    }
 
+    public function findAllRunnableWithSemantics()
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->select('l.machineName as name, l.title, l.majorVersion, l.minorVersion, l.restricted, l.tutorialUrl')
+            ->where('l.runnable = true and l.semantics is not null')
+            ->orderBy('l.title');
 
+        $libraries = $qb->getQuery()->getResult();
+        foreach ($libraries as &$library) {
+            $library = (object)$library;
+        }
+        return $libraries;
+    }
 
-//    // Retrieve latest major version
-//    $max_major_version = $connection->select('h5p_libraries', 'h1');
-//    $max_major_version->fields('h1', ['machine_name']);
-//    $max_major_version->addExpression('MAX(h1.major_version)', 'major_version');
-//    $max_major_version->condition('h1.runnable', 1);
-//    $max_major_version->groupBy('h1.machine_name');
-//
-//    // Find latest minor version among the latest major versions
-//    $max_minor_version = $connection->select('h5p_libraries', 'h2');
-//    $max_minor_version->fields('h2', [
-//      'machine_name',
-//      'major_version',
-//    ]);
-//    $max_minor_version->addExpression('MAX(h2.minor_version)', 'minor_version');
-//
-//    // Join max major version and minor versions
-//    $max_minor_version->join($max_major_version, 'h1', "
-//      h1.machine_name = h2.machine_name AND
-//      h1.major_version = h2.major_version
-//    ");
-//
-//    // Group together on major versions to get latest minor version
-//    $max_minor_version->groupBy('h2.machine_name');
-//    $max_minor_version->groupBy('h2.major_version');
-//
-//    // Find latest patch version from latest major and minor version
-//    $latest = $connection->select('h5p_libraries', 'h3');
-//    $latest->addField('h3', 'library_id', 'id');
-//    $latest->fields('h3', [
-//      'machine_name',
-//      'title',
-//      'major_version',
-//      'minor_version',
-//      'patch_version',
-//      'has_icon',
-//      'restricted',
-//    ]);
-//
-//    // Join max minor versions with the latest patch version
-//    $latest->join($max_minor_version, 'h4', "
-//      h4.machine_name = h3.machine_name AND
-//      h4.major_version = h3.major_version AND
-//      h4.minor_version = h3.minor_version
-//    ");
-//
-//    // Grab the results
-//    $results = $latest->execute()->fetchAll();
-//    return $results;
+    public function findOneArrayBy($parameters)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->where('l.machineName = :machineName and l.majorVersion = :majorVersion and l.minorVersion = :minorVersion')
+            ->setParameters($parameters);
+
+        return $qb->getQuery()->getSingleResult(AbstractQuery::HYDRATE_ARRAY);
     }
 }

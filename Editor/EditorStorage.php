@@ -3,9 +3,14 @@
 namespace Emmedy\H5PBundle\Editor;
 
 
+use Doctrine\ORM\EntityManager;
 use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Event\H5PEvents;
+use Emmedy\H5PBundle\Event\LibraryFileEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EditorStorage implements \H5peditorStorage
 {
@@ -26,16 +31,34 @@ class EditorStorage implements \H5peditorStorage
      * @var EditorStorage
      */
     private static $instance;
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * EditorStorage constructor.
      * @param H5POptions $options
      * @param Filesystem $filesystem
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param EntityManager $entityManager
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(H5POptions $options, Filesystem $filesystem)
+    public function __construct(H5POptions $options, Filesystem $filesystem, AuthorizationCheckerInterface $authorizationChecker, EntityManager $entityManager, EventDispatcherInterface $eventDispatcher)
     {
         $this->options = $options;
         $this->filesystem = $filesystem;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->entityManager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
 
         self::$instance = $this;
     }
@@ -50,26 +73,12 @@ class EditorStorage implements \H5peditorStorage
    * @param string $languageCode Language code
    * @return string Translation in JSON format
    */
-  public function getLanguage($machineName, $majorVersion, $minorVersion, $languageCode) {
-    $lang = db_query(
-      "SELECT language_json
-           FROM {h5p_libraries_languages} hlt
-           JOIN {h5p_libraries} hl
-             ON hl.library_id = hlt.library_id
-          WHERE hl.machine_name = :name
-            AND hl.major_version = :major
-            AND hl.minor_version = :minor
-            AND hlt.language_code = :lang",
-      array(
-        ':name' => $machineName,
-        ':major' => $majorVersion,
-        ':minor' => $minorVersion,
-        ':lang' => $languageCode,
-      ))->fetchField();
+  public function getLanguage($machineName, $majorVersion, $minorVersion, $languageCode)
+  {
+      $lang = $this->entityManager->getRepository('EmmedyH5PBundle:LibrariesLanguages')->findForLibrary($machineName, $majorVersion, $minorVersion, $languageCode);
 
-    return ($lang === FALSE ? NULL : $lang);
+      return $lang ? $lang->getLanguageJson() : null;
   }
-
 
   /**
    * "Callback" for mark the given file as a permanent file.
@@ -102,83 +111,62 @@ class EditorStorage implements \H5peditorStorage
    * @param array $libraries List of library names + version to load info for
    * @return array List of all libraries loaded
    */
-  public function getLibraries($libraries = NULL) {
-
-    $user = \Drupal::currentUser();
-    $super_user = $user->hasPermission('create restricted h5p content types');
+  public function getLibraries($libraries = NULL)
+  {
+    $canCreateRestricted = $this->authorizationChecker->isGranted('ROLE_H5P_CREATE_RESTRICTED_CONTENT_TYPES');
 
     if ($libraries !== NULL) {
-      // Get details for the specified libraries only.
-      $librariesWithDetails = array();
-      foreach ($libraries as $library) {
-        $details = db_query(
-          "SELECT title, runnable, restricted, tutorial_url
-           FROM {h5p_libraries}
-           WHERE machine_name = :name
-           AND major_version = :major
-           AND minor_version = :minor
-           AND semantics IS NOT NULL", // TODO: Consider if semantics is really needed (DB performance-wise)
-          array(
-            ':name' => $library->name,
-            ':major' => $library->majorVersion,
-            ':minor' => $library->minorVersion
-          ))
-          ->fetchObject();
-        if ($details !== FALSE) {
-          $library->tutorialUrl = $details->tutorial_url;
-          $library->title = $details->title;
-          $library->runnable = $details->runnable;
-          $library->restricted = $super_user ? FALSE : ($details->restricted === '1' ? TRUE : FALSE);
-          $librariesWithDetails[] = $library;
-        }
-      }
-
-      return $librariesWithDetails;
+        return $this->getLibrariesWithDetails($libraries, $canCreateRestricted);
     }
 
-    $libraries = array();
+    $libraries = [];
+    $librariesResult = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findAllRunnableWithSemantics();
 
-    $libraries_result = db_query(
-      "SELECT machine_name AS name,
-              title,
-              major_version,
-              minor_version,
-              restricted,
-              tutorial_url
-       FROM {h5p_libraries}
-       WHERE runnable = 1
-       AND semantics IS NOT NULL
-       ORDER BY title"); // TODO: Consider if semantics is really needed (DB performance-wise)
-    foreach ($libraries_result as $library) {
-      // Convert result object properties to camelCase.
-      $library = \H5PCore::snakeToCamel($library, true);
-
+    foreach ($librariesResult as $library) {
       // Make sure we only display the newest version of a library.
       foreach ($libraries as $existingLibrary) {
-        if ($library->name === $existingLibrary->name) {
-
+        if ($library->machineName === $existingLibrary->machineName) {
           // Mark old ones
           // This is the newest
           if (($library->majorVersion === $existingLibrary->majorVersion && $library->minorVersion > $existingLibrary->minorVersion) ||
             ($library->majorVersion > $existingLibrary->majorVersion)) {
-            $existingLibrary->isOld = TRUE;
+            $existingLibrary->isOld = true;
           }
           else {
-            $library->isOld = TRUE;
+            $library->isOld = true;
           }
         }
       }
-
-      $library->restricted = $super_user ? FALSE : ($library->restricted === '1' ? TRUE : FALSE);
-
-      // Add new library
+      $library->restricted = ($canCreateRestricted ? false : ($library->restricted === '1'));
       $libraries[] = $library;
     }
 
     return $libraries;
   }
 
-  /**
+    /**
+     * @param $libraries
+     * @param $canCreateRestricted
+     * @return array
+     */
+    private function getLibrariesWithDetails($libraries, $canCreateRestricted)
+    {
+        $librariesWithDetails = [];
+        foreach ($libraries as $library) {
+            $details = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findHasSemantics($library->name, $library->majorVersion, $library->minorVersion);
+            if ($details) {
+                $library->tutorialUrl = $details->tutorialUrl;
+                $library->title = $details->title;
+                $library->runnable = $details->runnable;
+                $library->restricted = $canCreateRestricted ? false : ($details->restricted === '1');
+                $librariesWithDetails[] = $library;
+            }
+        }
+
+        return $librariesWithDetails;
+    }
+
+    /**
    * Allow for other plugins to decide which styles and scripts are attached.
    * This is useful for adding and/or modifing the functionality and look of
    * the content types.
@@ -199,11 +187,16 @@ class EditorStorage implements \H5peditorStorage
       ];
     }
 
-    \Drupal::moduleHandler()->alter('h5p_scripts', $files['scripts'], $library_list, $mode);
-    \Drupal::moduleHandler()->alter('h5p_styles', $files['styles'], $library_list, $mode);
+    $event = new LibraryFileEvent($files['scripts'], $library_list, $mode);
+    $this->eventDispatcher->dispatch(H5PEvents::SCRIPTS, $event);
+    $files['scripts'] = $event->getFiles();
+
+    $event = new LibraryFileEvent($files['styles'], $library_list, $mode);
+    $this->eventDispatcher->dispatch(H5PEvents::STYLES, $event);
+    $files['styles'] = $event->getFiles();
   }
 
-  /**
+    /**
    * Saves a file temporarily with a given name
    *
    * @param string $data
@@ -215,7 +208,7 @@ class EditorStorage implements \H5peditorStorage
     return self::$instance->saveFileTemporarilyUnstatic($data, $move_file);
   }
 
-  private function saveFileTemporarilyUnstatic($data, $move_file = false) {
+    private function saveFileTemporarilyUnstatic($data, $move_file = false) {
       $h5p_path = $this->options->getAbsoluteH5PPath();
       $temp_id = uniqid('h5p-');
 
@@ -243,7 +236,7 @@ class EditorStorage implements \H5peditorStorage
       );
   }
 
-  /**
+    /**
    * Marks a file for later cleanup, useful when files are not instantly cleaned
    * up. E.g. for files that are uploaded through the editor.
    *
@@ -279,7 +272,7 @@ class EditorStorage implements \H5peditorStorage
     $file_managed->save();
   }
 
-  /**
+    /**
    * Clean up temporary files
    *
    * @param string $filePath Path to file or directory
