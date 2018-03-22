@@ -62,14 +62,14 @@ class ContentUserData
     /**
      * @var boolean
      *
-     * @ORM\Column(name="preloaded", type="boolean")
+     * @ORM\Column(name="preloaded", type="boolean", nullable=true)
      */
     private $preloaded;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="delete_on_content_change", type="boolean")
+     * @ORM\Column(name="delete_on_content_change", type="boolean", nullable=true)
      */
     private $deleteOnContentChange;
 

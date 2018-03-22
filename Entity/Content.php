@@ -30,21 +30,21 @@ class Content
     /**
      * @var string
      *
-     * @ORM\Column(name="parameters", type="text")
+     * @ORM\Column(name="parameters", type="text", nullable=true)
      */
     private $parameters;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="filtered_parameters", type="text")
+     * @ORM\Column(name="filtered_parameters", type="text", nullable=true)
      */
     private $filteredParameters;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="disabled_features", type="integer")
+     * @ORM\Column(name="disabled_features", type="integer", nullable=true)
      */
     private $disabledFeatures;
 

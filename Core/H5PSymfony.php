@@ -675,53 +675,47 @@ class H5PSymfony implements \H5PFrameworkInterface {
     /**
    * Implements updateContent
    */
-  public function updateContent($content, $contentMainId = NULL)
+  public function updateContent($contentData, $contentMainId = NULL)
   {
-      $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($content['id']);
-
-      $library = $this->manager->getRepository('EmmedyH5PBundle:Library')->find($content['library']['libraryId']);
-      $content->setLibrary($library);
-      $content->setParameters($content['params']);
-      $content->setDisabledFeatures($content['disable']);
-      $content->setFilteredParameters('');
-
-      $this->manager->persist($content);
-      $this->manager->flush();
+      $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($contentData['id']);
+      return $this->storeContent($contentData, $content);
   }
 
     /**
    * Implements insertContent
    */
-  public function insertContent($content, $contentMainId = NULL)
+  public function insertContent($contentData, $contentMainId = NULL)
   {
-      $library = $this->manager->getRepository('EmmedyH5PBundle:Library')->find($content['library']['libraryId']);
-
       $content = new Content();
-      $content->setLibrary($library);
-      $content->setParameters($content['params']);
-      $content->setDisabledFeatures($content['disable']);
-
-      $this->manager->persist($content);
-      $this->manager->flush();
-
-    // Grab id of new entitu
-    $content['id'] = $content->getId();
-
-    // Return content id of the new entity
-    return $content['id'];
+      return $this->storeContent($contentData, $content);
   }
+
+    private function storeContent($contentData, Content $content)
+    {
+        $library = $this->manager->getRepository('EmmedyH5PBundle:Library')->find($contentData['library']['libraryId']);
+        $content->setLibrary($library);
+        $content->setParameters($contentData['params']);
+        $content->setDisabledFeatures($contentData['disable']);
+        $content->setFilteredParameters(null);
+
+        $this->manager->persist($content);
+        $this->manager->flush();
+
+        return $content->getId();
+    }
 
     /**
    * Implements resetContentUserData
    */
   public function resetContentUserData($contentId)
   {
-      $contentUserData = $this->manager->getRepository('EmmedyH5PBundle:ContentUserData')->find(['mainContent' => $contentId]);
-      $contentUserData->setData('RESET');
-      $contentUserData->setTimestamp(time());
-      $contentUserData->setDeleteOnContentChange(true);
+      $contentUserDatas = $this->manager->getRepository('EmmedyH5PBundle:ContentUserData')->findBy(['mainContent' => $contentId, 'deleteOnContentChange' => true]);
+      foreach ($contentUserDatas as $contentUserData) {
+          $contentUserData->setData('RESET');
+          $contentUserData->setTimestamp(time());
 
-      $this->manager->persist($contentUserData);
+          $this->manager->persist($contentUserData);
+      }
       $this->manager->flush();
   }
 
@@ -860,6 +854,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
     // content entity is loaded.
   }
 
+
     /**
    * Implements loadContentDependencies().
    */
@@ -881,12 +876,11 @@ class H5PSymfony implements \H5PFrameworkInterface {
     return $dependencies;
   }
 
-
-  public function getOption($name, $default = NULL) {
+    public function getOption($name, $default = NULL) {
       return $this->options->getOption($name, $default);
   }
 
-  public function setOption($name, $value) {
+    public function setOption($name, $value) {
       $this->options->setOption($name, $value);
   }
 

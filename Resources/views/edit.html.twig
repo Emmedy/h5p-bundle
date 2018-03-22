@@ -5,7 +5,13 @@
 </head>
 <body>
 
-<div id="h5p-editor">Waiting for javascript...</div>
+{{ form_start(form) }}
+    <div id="h5p-editor">Waiting for javascript...</div>
+    <br /><br />
+    {{ form_row(form.save) }}
+    {{ form_row(form.library) }}
+    {{ form_row(form.parameters) }}
+{{ form_end(form) }}
 
 <script>
 
@@ -74,7 +80,7 @@
                  "licenseC": "Copyright"
              }
          },
-         "hubIsEnabled": 1,
+         "hubIsEnabled": true,
          "user": {"name": "nieck", "mail": "nieck@emmedy.nl"},
          "editor": {
              "filesPath": "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor",
@@ -163,143 +169,9 @@
              "apiVersion": {"majorVersion": 1, "minorVersion": 14}
          }
      };
-
-
-    // var H5PIntegration = {
-    //     "baseUrl": "http://onlineleren.loc",
-    //     "url": "http://onlineleren.loc/bundles/emmedyh5p/h5p",
-    //     "postUserStatistics": false,
-    //     "ajax": {"setFinished": "http://laravel-h5p.loc/ajax/finish", "contentUserData": "http://laravel-h5p.loc/ajax/content-user-data"},
-    //     "saveFreq": false,
-    //     "siteUrl": "http://onlineleren.loc",
-    //     "l10n": {
-    //         "H5P": {
-    //             "fullscreen": "Fullscreen",
-    //             "disableFullscreen": "Disable fullscreen",
-    //             "download": "Download",
-    //             "copyrights": "Rights of use",
-    //             "embed": "Embed",
-    //             "size": "Size",
-    //             "showAdvanced": "Show advanced",
-    //             "hideAdvanced": "Hide advanced",
-    //             "advancedHelp": "Include this script on your website if you want dynamic sizing of the embedded content:",
-    //             "copyrightInformation": "Rights of use",
-    //             "close": "Close",
-    //             "title": "Title",
-    //             "author": "Author",
-    //             "year": "Year",
-    //             "source": "Source",
-    //             "license": "License",
-    //             "thumbnail": "Thumbnail",
-    //             "noCopyrights": "No copyright information available for this content.",
-    //             "downloadDescription": "Download this content as a H5P file.",
-    //             "copyrightsDescription": "View copyright information for this content.",
-    //             "embedDescription": "View the embed code for this content.",
-    //             "h5pDescription": "Visit H5P.org to check out more cool content.",
-    //             "contentChanged": "This content has changed since you last used it.",
-    //             "startingOver": "You'll be starting over.",
-    //             "confirmDialogHeader": "Confirm action",
-    //             "confirmDialogBody": "Please confirm that you wish to proceed. This action is not reversible.",
-    //             "cancelLabel": "Cancel",
-    //             "confirmLabel": "Confirm"
-    //         }
-    //     },
-    //     "hubIsEnabled": 1,
-    //     "editor": {
-    //         "filesPath": "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor",
-    //         "fileIcon": {"path": "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/images/binary-file.png", "width": 50, "height": 50},
-    //         "ajaxPath": "http://laravel-h5p.loc/ajax/",
-    //         "libraryUrl": "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor",
-    //         "copyrightSemantics": {
-    //             "name": "copyright",
-    //             "type": "group",
-    //             "label": "Copyright information",
-    //             "fields": [{"name": "title", "type": "text", "label": "Title", "placeholder": "La Gioconda", "optional": true}, {
-    //                 "name": "author",
-    //                 "type": "text",
-    //                 "label": "Author",
-    //                 "placeholder": "Leonardo da Vinci",
-    //                 "optional": true
-    //             }, {"name": "year", "type": "text", "label": "Year(s)", "placeholder": "1503 - 1517", "optional": true}, {
-    //                 "name": "source",
-    //                 "type": "text",
-    //                 "label": "Source",
-    //                 "placeholder": "http://en.wikipedia.org/wiki/Mona_Lisa",
-    //                 "optional": true,
-    //                 "regexp": {"pattern": "^http[s]?://.+", "modifiers": "i"}
-    //             }, {
-    //                 "name": "license",
-    //                 "type": "select",
-    //                 "label": "License",
-    //                 "default": "U",
-    //                 "options": [{"value": "U", "label": "Undisclosed"}, {
-    //                     "value": "CC BY",
-    //                     "label": "Attribution",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "CC BY-SA",
-    //                     "label": "Attribution-ShareAlike",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "CC BY-ND",
-    //                     "label": "Attribution-NoDerivs",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "CC BY-NC",
-    //                     "label": "Attribution-NonCommercial",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "CC BY-NC-SA",
-    //                     "label": "Attribution-NonCommercial-ShareAlike",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "CC BY-NC-ND",
-    //                     "label": "Attribution-NonCommercial-NoDerivs",
-    //                     "versions": [{"value": "4.0", "label": "4.0 International"}, {"value": "3.0", "label": "3.0 Unported"}, {
-    //                         "value": "2.5",
-    //                         "label": "2.5 Generic"
-    //                     }, {"value": "2.0", "label": "2.0 Generic"}, {"value": "1.0", "label": "1.0 Generic"}]
-    //                 }, {
-    //                     "value": "GNU GPL",
-    //                     "label": "General Public License",
-    //                     "versions": [{"value": "v3", "label": "Version 3"}, {"value": "v2", "label": "Version 2"}, {"value": "v1", "label": "Version 1"}]
-    //                 }, {
-    //                     "value": "PD",
-    //                     "label": "Public Domain",
-    //                     "versions": [{"value": "-", "label": "-"}, {"value": "CC0 1.0", "label": "CC0 1.0 Universal"}, {"value": "CC PDM", "label": "Public Domain Mark"}]
-    //                 }, {"value": "C", "label": "Copyright"}]
-    //             }, {"name": "version", "type": "select", "label": "License Version", "options": []}]
-    //         },
-    //         "assets": {
-    //             "css": ["http://onlineleren.loc/bundles/emmedyh5p/laravel-h5p/css/laravel-h5p.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p-confirmation-dialog.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p-core-button.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/libs/darkroom.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/styles/css/h5p-hub-client.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/styles/css/fonts.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/styles/css/application.css"],
-    //             "js": ["http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/jquery.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-event-dispatcher.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api-event.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-content-type.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-confirmation-dialog.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-action-bar.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-editor.js", "http://onlineleren.loc/bundles/emmedyh5p/laravel-h5p/js/laravel-h5p.js", "http://onlineleren.loc/bundles/emmedyh5p/laravel-h5p/js/laravel-h5p-editor.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5p-hub-client.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-semantic-structure.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-library-selector.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-form.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-text.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-html.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-number.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-textarea.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-file-uploader.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-file.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-image.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-image-popup.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-av.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-group.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-boolean.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-list.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-list-editor.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-library.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-library-list-cache.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-select.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-selector-hub.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-selector-legacy.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-dimensions.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-coordinates.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-none.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/ckeditor/ckeditor.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/language/en.js"]
-    //         },
-    //         "deleteMessage": "laravel-h5p.content.destoryed",
-    //         "apiVersion": {"majorVersion": 1, "minorVersion": 14}
-    //     },
-    //     "loadedJs": [],
-    //     "loadedCss": [],
-    //     "core": {
-    //         "styles": ["http://onlineleren.loc/bundles/emmedyh5p/laravel-h5p/css/laravel-h5p.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p-confirmation-dialog.css", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/styles/h5p-core-button.css"],
-    //         "scripts": ["http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/jquery.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-event-dispatcher.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api-event.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-content-type.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-confirmation-dialog.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-core/js/h5p-action-bar.js", "http://onlineleren.loc/bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-editor.js", "http://onlineleren.loc/bundles/emmedyh5p/laravel-h5p/js/laravel-h5p.js"]
-    //     }
-    // };
-
+     {% if contentId %}
+        H5PIntegration.editor.contentId = {{ contentId }};
+     {% endif %}
 
 </script>
 
@@ -316,67 +188,6 @@
     <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-selector-hub.js') }}"></script>
     <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-editor/scripts/h5peditor-editor.js') }}"></script>
     <script src="{{ asset('bundles/emmedyh5p/h5p/symfony-h5p.js') }}"></script>
-
-{#<script>#}
-    {#$('.h5p-editor', context).once('H5PEditor').each(function () {#}
-        {#H5PEditor.init(settings);#}
-
-        {#// Grab data values specifc for editor instance#}
-        {#var $this = $(this);#}
-        {#var parametersFieldId = $this.data('parametersid');#}
-        {#var libraryFieldId = $this.data('libraryid');#}
-        {#var contentId = $this.data('contentId');#}
-        {#var $form = $this.parents('form');#}
-
-        {#// Locate parameters field#}
-        {#var $params = $('#' + parametersFieldId, context);#}
-
-        {#// Locate library field#}
-        {#var $library = $('#' + libraryFieldId, context);#}
-
-        {#// Create form submit handler#}
-        {#var submit = {#}
-            {#element: null,#}
-            {#handler: function () {#}
-                {#var params = h5peditor.getParams();#}
-
-                {#if (params !== undefined) {#}
-                    {#$library.val(h5peditor.getLibrary());#}
-                    {#$params.val(JSON.stringify(params));#}
-                {#}#}
-            {#}#}
-        {#};#}
-        {#submitHandlers.push(submit);#}
-
-        {#// Create new editor#}
-        {#var h5peditor = new ns.Editor($library.val(), $params.val(), this, function () {#}
-            {#submit.element = this.frameElement; // Update frame element#}
-            {#var iframeH5PEditor = this.H5PEditor;#}
-            {#iframeH5PEditor.contentId = (contentId ? contentId : undefined);#}
-            {#iframeH5PEditor.ajaxPath = settings.h5peditor.ajaxPath.replace(':contentId', (contentId ? contentId : 0));#}
-            {#iframeH5PEditor.filesPath = settings.h5peditor.filesPath + '/editor';#}
-
-            {#/**#}
-             {#* Help build URLs for AJAX requests#}
-             {#*/#}
-            {#iframeH5PEditor.getAjaxUrl = function (action, parameters) {#}
-                {#var url = iframeH5PEditor.ajaxPath + action;#}
-
-                {#if (parameters !== undefined) {#}
-                    {#for (var key in parameters) {#}
-                        {#url += '/' + parameters[key];#}
-                    {#}#}
-                {#}#}
-
-                {#return url;#}
-            {#};#}
-        {#});#}
-
-        {#$form.submit(submit.handler);#}
-    {#});#}
-{#</script>#}
-
-
 
 </body>
 </html>

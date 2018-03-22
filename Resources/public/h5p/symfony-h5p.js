@@ -15,19 +15,34 @@
             // Required for assets
             ns.baseUrl = H5PIntegration.baseUrl;
 
-            if (H5PIntegration.editor.nodeVersionId !== undefined) {
-                ns.contentId = H5PIntegration.editor.nodeVersionId;
+            if (H5PIntegration.editor.contentId !== undefined) {
+                ns.contentId = H5PIntegration.editor.contentId;
             }
 
             var h5peditor;
             var $editor = $('#h5p-editor');
+            var $parameters = $('#h5p_parameters');
+            var $library = $('#h5p_library');
+            var library = $library.val();
 
             if (h5peditor === undefined) {
-                h5peditor = new ns.Editor(0, 0, $editor[0]);
+                h5peditor = new ns.Editor(library, $parameters.val(), $editor[0]);
             }
+
+            $("form[name='h5p']").submit(function () {
+                if (h5peditor !== undefined) {
+                    var editorParameters = h5peditor.getParams();
+
+                    if (editorParameters !== undefined) {
+                        $library.val(h5peditor.getLibrary());
+                        $parameters.val(JSON.stringify(editorParameters));
+                    } else {
+                        return false;
+                    }
+                }
+            });
         }
     };
-
 
     ns.getAjaxUrl = function (action, parameters) {
         var url = H5PIntegration.editor.ajaxPath + action + '/?';
@@ -42,8 +57,6 @@
         }
         return url + request_params.join('&');
     };
-
-
 
     $(document).ready(ns.init);
 

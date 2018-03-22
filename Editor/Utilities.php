@@ -1,12 +1,27 @@
 <?php
 
-namespace Drupal\h5peditor\Editor;
+namespace Emmedy\H5PBundle\Editor;
 
+use Doctrine\ORM\EntityManager;
 use Emmedy\H5PBundle\Core\H5PSymfony;
 
 class Utilities
 {
-  /**
+    /**
+     * @var EntityManager
+     */
+    private $manager;
+
+    /**
+     * Utilities constructor.
+     * @param EntityManager $manager
+     */
+    public function __construct(EntityManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
+    /**
    * Get editor settings needed for JS front-end
    *
    * @return array Settings needed for view
@@ -122,12 +137,10 @@ class Utilities
    * Extract library information from library string
    *
    * @param string $library Library string with versioning, e.g. H5P.MultiChoice 1.9
-   * @param string $property May be used to only extract certain information
-   * about library. Available values are 'all', 'libraryId' and specific property
-   *
-   * @return int|bool|array One or more properties, or false if invalid.
+   * @return array|bool
    */
-  public static function getLibraryProperty($library, $property = 'all') {
+  public static function getLibraryProperties($library)
+  {
     $matches = [];
     preg_match_all('/(.+)\s(\d+)\.(\d+)$/', $library, $matches);
     if (count($matches) == 4) {
@@ -137,36 +150,8 @@ class Utilities
         'majorVersion' => $matches[2][0],
         'minorVersion' => $matches[3][0],
       ];
-      switch ($property) {
-        case 'all':
-          $libraryData['libraryId'] = self::getLibraryId($libraryData);
-          return $libraryData;
-        case 'libraryId':
-          $libraryId = self::getLibraryId($libraryData);
-          return $libraryId;
-        default:
-          return $libraryData[$property];
-      }
+      return $libraryData;
     }
-    else {
-      return FALSE;
-    }
-  }
-
-  /**
-   * Library ID from unique library data
-   *
-   * @param array $libraryData Library data which must contain
-   * 'machineName', 'majorVersion' and 'minorVersion'
-   *
-   * @return null|int Library id
-   */
-  private static function getLibraryId($libraryData) {
-    $select = \Drupal::database()->select('h5p_libraries');
-    $select->fields('h5p_libraries', array('library_id'))
-           ->condition('machine_name', $libraryData['machineName'])
-           ->condition('major_version', $libraryData['majorVersion'])
-           ->condition('minor_version', $libraryData['minorVersion']);
-    return $select->execute()->fetchField();
+    return false;
   }
 }

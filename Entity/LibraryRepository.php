@@ -114,4 +114,18 @@ EOT;
 
         return $qb->getQuery()->getSingleResult(AbstractQuery::HYDRATE_ARRAY);
     }
+
+    public function findIdBy($machineName, $majorVersion, $minorVersion)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->select('l.id')
+            ->where('l.machineName = :machineName and l.majorVersion = :majorVersion and l.minorVersion = :minorVersion and l.semantics is not null')
+            ->setParameters(['machineName' => $machineName, 'majorVersion' => $majorVersion, 'minorVersion' => $minorVersion]);
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return null;
+        }
+    }
 }
