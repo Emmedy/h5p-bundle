@@ -1,1 +1,41 @@
 services:
+
+    emmedy_h5p.options:
+        class: Emmedy\H5PBundle\Core\H5POptions
+        arguments: [~, '%kernel.root_dir%']
+
+    emmedy_h5p.editor_storage:
+        class: Emmedy\H5PBundle\Editor\EditorStorage
+        arguments: ['@emmedy_h5p.options', '@filesystem']
+
+    emmedy_h5p.interface:
+        class: Emmedy\H5PBundle\Core\H5PSymfony
+        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker']
+
+    emmedy_h5p.core:
+        class: H5PCore
+        arguments: ['@emmedy_h5p.interface', ~, ~]
+
+    emmedy_h5p.editor_ajax:
+        class: Emmedy\H5PBundle\Editor\EditorAjax
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage']
+
+    emmedy_h5p.editor:
+        class: H5peditor
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor_storage', '@emmedy_h5p.editor_ajax']
+
+    emmedy_h5p.validator:
+        class: H5PValidator
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+
+    emmedy_h5p.storage:
+        class: H5PStorage
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+
+    emmedy_h5p.contentvalidator:
+        class: H5PContentValidator
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+
+    emmedy_h5p.export:
+        class: H5PExport
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
