@@ -67,6 +67,17 @@ class H5POptions
         }
     }
 
+    private function retrieveStoredConfig()
+    {
+        if ($this->storedConfig === null) {
+            $this->storedConfig = [];
+            $options = $this->manager->getRepository('EmmedyH5PBundle:Option')->findAll();
+            foreach ($options as $option) {
+                $this->storedConfig[$option->getName()] = $option->getValue();
+            }
+        }
+    }
+
     public function getUploadedH5pFolderPath($set = null)
     {
         if (!empty($set)) {
@@ -87,7 +98,7 @@ class H5POptions
 
     public function getRelativeH5PPath()
     {
-        return $this->getOption('storage_path');
+        return "/" . $this->getOption('storage_path');
     }
 
     public function getAbsoluteH5PPath()
@@ -97,18 +108,12 @@ class H5POptions
 
     public function getLibraryFileUrl($libraryFolderName, $fileName)
     {
-        return '/' . $this->getRelativeH5PPath() . "/libraries/$libraryFolderName/$fileName";
+        return $this->getRelativeH5PPath() . "/libraries/$libraryFolderName/$fileName";
     }
 
-    private function retrieveStoredConfig()
+    public function getH5PAssetPath()
     {
-        if ($this->storedConfig === null) {
-            $this->storedConfig = [];
-            $options = $this->manager->getRepository('EmmedyH5PBundle:Option')->findAll();
-            foreach ($options as $option) {
-                $this->storedConfig[$option->getName()] = $option->getValue();
-            }
-        }
+        return '/bundles/emmedyh5p/h5p';
     }
 
 }

@@ -10,7 +10,7 @@ services:
 
     emmedy_h5p.interface:
         class: Emmedy\H5PBundle\Core\H5PSymfony
-        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker', '@event_dispatcher']
+        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker', '@event_dispatcher', '@router.default']
 
     emmedy_h5p.core:
         class: H5PCore
@@ -39,3 +39,7 @@ services:
     emmedy_h5p.export:
         class: H5PExport
         arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+
+    emmedy_h5p.integration:
+        class: Emmedy\H5PBundle\Core\H5PIntegration
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router']

@@ -65,7 +65,7 @@ class AjaxController extends Controller
 
         $editor = $this->get('emmedy_h5p.editor');
         $editor->ajax->action(\H5PEditorEndpoints::SINGLE_LIBRARY, $request->get('machineName'),
-            $request->get('majorVersion'), $request->get('minorVersion'), $language, $this->get('emmedy_h5p.options')->getRelativeH5PPath()
+            $request->get('majorVersion'), $request->get('minorVersion'), $language, $this->get('emmedy_h5p.options')->getOption('storage_path')
         );
         exit();
     }

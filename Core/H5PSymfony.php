@@ -16,6 +16,7 @@ use GuzzleHttp\Client;
 use H5PPermission;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -48,6 +49,10 @@ class H5PSymfony implements \H5PFrameworkInterface {
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+    /**
+     * @var Router
+     */
+    private $router;
 
     /**
      * H5PSymfony constructor.
@@ -58,8 +63,16 @@ class H5PSymfony implements \H5PFrameworkInterface {
      * @param FlashBagInterface $flashBag
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param EventDispatcherInterface $eventDispatcher
+     * @param Router $router
      */
-    public function __construct(H5POptions $options, EditorStorage $editorStorage, TokenStorageInterface $tokenStorage, EntityManager $manager, FlashBagInterface $flashBag, AuthorizationCheckerInterface $authorizationChecker, EventDispatcherInterface $eventDispatcher)
+    public function __construct(H5POptions $options,
+                                EditorStorage $editorStorage,
+                                TokenStorageInterface $tokenStorage,
+                                EntityManager $manager,
+                                FlashBagInterface $flashBag,
+                                AuthorizationCheckerInterface $authorizationChecker,
+                                EventDispatcherInterface $eventDispatcher,
+                                Router $router)
     {
         $this->options = $options;
         $this->editorStorage = $editorStorage;
@@ -68,6 +81,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
         $this->flashBag = $flashBag;
         $this->authorizationChecker = $authorizationChecker;
         $this->eventDispatcher = $eventDispatcher;
+        $this->router = $router;
     }
 
     /**
@@ -80,64 +94,12 @@ class H5PSymfony implements \H5PFrameworkInterface {
   }
 
     /**
-   * Prepares the generic H5PIntegration settings
-   */
-  public function getGenericH5PIntegrationSettings() {
-    static $settings;
-
-    if (!empty($settings)) {
-      return $settings; // Only needs to be generated the first time
-    }
-
-    // Load current user
-    $user = $this->tokenStorage->getToken()->getUser();
-
-    // Load configuration settings
-    $h5p_save_content_state = $this->getOption('save_content_state', FALSE);
-    $h5p_save_content_frequency = $this->getOption('save_content_frequency', 30);
-    $h5p_hub_is_enabled = $this->getOption('hub_is_enabled', TRUE);
-
-    // Create AJAX URLs
-    $set_finished_url = Url::fromUri('internal:/h5p-ajax/set-finished.json', ['query' => ['token' => \H5PCore::createToken('result')]])->toString(TRUE)->getGeneratedUrl();
-    $content_user_data_url = Url::fromUri('internal:/h5p-ajax/content-user-data/:contentId/:dataType/:subContentId', ['query' => ['token' => \H5PCore::createToken('contentuserdata')]])->toString(TRUE)->getGeneratedUrl();
-    $h5p_url = $GLOBALS['base_path'] . $this->getRelativeH5PPath();
-
-    // Define the generic H5PIntegration settings
-    $settings = array(
-      'baseUrl' => $GLOBALS['base_path'],
-      'url' => $h5p_url,
-      'postUserStatistics' => $user->getId() > 0,
-      'ajax' => array(
-        'setFinished' => $set_finished_url,
-        'contentUserData' => str_replace('%3A', ':', $content_user_data_url),
-      ),
-      'saveFreq' => $h5p_save_content_state ? $h5p_save_content_frequency : FALSE,
-      'l10n' => array(
-        'H5P' => 'en',
-      ),
-      'hubIsEnabled' => $h5p_hub_is_enabled,
-    );
-
-    if ($user->id()) {
-      $settings['user'] = [
-        'name' => $user->getUsername(),
-        'mail' => $user->getEmail(),
-      ];
-    }
-    else {
-      $settings['siteUrl'] = Url::fromUri('internal:/', ['absolute' => TRUE])->toString();
-    }
-
-    return $settings;
-  }
-
-    /**
    * Get a list with prepared asset links that is used when JS loads components.
    *
    * @param array [$keys] Optional keys, first for JS second for CSS.
    * @return array
    */
-  public static function getCoreAssets($keys = NULL) {
+  public function getCoreAssets($keys = NULL) {
     if (empty($keys)) {
       $keys = ['scripts', 'styles'];
     }
@@ -148,74 +110,17 @@ class H5PSymfony implements \H5PFrameworkInterface {
       $keys[1] => [],
     ];
 
-    // Determine cache buster
-    $cache_buster = \Drupal::state()->get('system.css_js_query_string', '0');
-    $h5p_module_path = drupal_get_path('module', 'h5p');
-
     // Add all core scripts
     foreach (\H5PCore::$scripts as $script) {
-      $assets[$keys[0]][] = "{$h5p_module_path}/vendor/h5p/h5p-core/{$script}?{$cache_buster}";
+      $assets[$keys[0]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$script}";
     }
 
     // and styles
     foreach (\H5PCore::$styles as $style) {
-      $assets[$keys[1]][] = "{$h5p_module_path}/vendor/h5p/h5p-core/{$style}?{$cache_buster}";
+      $assets[$keys[1]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$style}";
     }
 
     return $assets;
-  }
-
-    /**
-   *
-   */
-  public static function aggregatedAssets($scriptAssets, $styleAssets) {
-    $jsOptimizer = \Drupal::service('asset.js.collection_optimizer');
-    $cssOptimizer = \Drupal::service('asset.css.collection_optimizer');
-    $systemPerformance = \Drupal::config('system.performance');
-    $jsAssetConfig = ['preprocess' => $systemPerformance->get('js.preprocess')];
-    $cssAssetConfig = ['preprocess' => $systemPerformance->get('css.preprocess'), 'media' => 'css'];
-    $assets = ['scripts' => [], 'styles' => []];
-    foreach ($scriptAssets as $jsFiles) {
-      $assets['scripts'][] = self::createCachedPublicFiles($jsFiles, $jsOptimizer, $jsAssetConfig);
-    }
-    foreach ($styleAssets as $cssFiles) {
-      $assets['styles'][] = self::createCachedPublicFiles($cssFiles, $cssOptimizer, $cssAssetConfig);
-    }
-    return $assets;
-  }
-
-    /**
-   * Combines a set of files to a cached version, that is public available
-   *
-   * @param string[] $filePaths
-   * @param AssetCollectionOptimizerInterface $optimizer
-   * @param array $assetConfig
-   *
-   * @return string[]
-   */
-  private static function createCachedPublicFiles(array $filePaths, $optimizer, $assetConfig) {
-    $assets = [];
-
-    $defaultAssetConfig = [
-      'type' => 'file',
-      'group' => 'h5p',
-      'cache' => TRUE,
-      'attributes' => [],
-      'version' => NULL,
-      'browsers' => [],
-    ];
-
-    foreach ($filePaths as $index => $path) {
-      $path = explode('?', $path)[0];
-
-      $assets[$path] = [
-        'weight' => count($filePaths) - $index,
-        'data' => $path,
-      ] + $assetConfig + $defaultAssetConfig;
-    }
-    $cachedAsset = $optimizer->optimize($assets);
-
-    return array_map(function($publicUrl){ return file_create_url($publicUrl); }, array_column($cachedAsset, 'data'));
   }
 
     /**
@@ -391,23 +296,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
       return TRUE;
     }
 
-//    $result = db_query(
-//        "SELECT 1
-//           FROM {h5p_libraries}
-//          WHERE machine_name = :machineName
-//            AND major_version = :majorVersion
-//            AND minor_version = :minorVersion
-//            AND patch_version < :patchVersion",
-//        [
-//          ':machineName' => $library['machineName'],
-//          ':majorVersion' => $library['majorVersion'],
-//          ':minorVersion' => $library['minorVersion'],
-//          ':patchVersion' => $library['patchVersion']
-//        ]
-//    )->fetchField();
-//    return $result === '1';
-
-      return false;
+    return $this->manager->getRepository('EmmedyH5PBundle:Library')->isPatched($library);
   }
 
     /**
@@ -773,8 +662,10 @@ class H5PSymfony implements \H5PFrameworkInterface {
    */
   public function deleteLibraryUsage($contentId) {
 
-      $contentLibraries = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->find(['content' => $contentId]);
-      $this->manager->remove($contentLibraries);
+      $contentLibraries = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->findBy(['content' => $contentId]);
+      foreach ($contentLibraries as $contentLibrary) {
+          $this->manager->remove($contentLibrary);
+      }
       $this->manager->flush();
   }
 

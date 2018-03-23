@@ -1,0 +1,23 @@
+{% extends '@EmmedyH5P/layout.html.twig' %}
+
+{% block content %}
+    {% if isDivEmbeddable %}
+        <div class="h5p-content" data-content-id="{{ contentId }}"></div>
+    {% else %}
+        <div class="h5p-iframe-wrapper"><iframe id="h5p-iframe-{{ contentId }}" class="h5p-iframe" data-content-id="{{ contentId }}" style="height:1px;width:100%;" frameBorder="0" scrolling="no"></iframe></div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var H5PIntegration = {{ h5pIntegration|json_encode|raw }};
+    </script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-event-dispatcher.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api-event.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-x-api.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-content-type.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-confirmation-dialog.js') }}"></script>
+    <script src="{{ asset('bundles/emmedyh5p/h5p/h5p-core/js/h5p-action-bar.js') }}"></script>
+{% endblock %}

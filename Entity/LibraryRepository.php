@@ -128,4 +128,14 @@ EOT;
             return null;
         }
     }
+
+    public function isPatched($library)
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.machineName = :machineName and l.majorVersion = :majorVersion and l.minorVersion = :minorVersion and l.patchVersion < :patchVersion')
+            ->setParameters(['machineName' => $library['machineName'], 'majorVersion' => $library['majorVersion'], 'minorVersion' => $library['minorVersion'], 'patchVersion' => $library['patchVersion']]);
+
+        return $qb->getQuery()->getSingleScalarResult() > 0;
+    }
 }

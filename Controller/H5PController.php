@@ -10,8 +10,52 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class EditController extends Controller
+class H5PController extends Controller
 {
+    /**
+     * @Route("h5p/list")
+     */
+    public function listAction()
+    {
+        $contents = $this->getDoctrine()->getRepository('EmmedyH5PBundle:Content')->findAll();
+        return $this->render('@EmmedyH5P/list.html.twig', ['contents' => $contents]);
+    }
+
+    /**
+     * @Route("h5p/show/{content}")
+     */
+    public function showAction(Content $content)
+    {
+        $h5pIntegration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
+        $contentIdStr = 'cid-' . $content->getId();
+        $h5pIntegration['contents'][$contentIdStr] = $this->get('emmedy_h5p.integration')->getH5PContentIntegrationSettings($content);
+
+        $preloaded_dependencies = $this->get('emmedy_h5p.core')->loadContentDependencies($content->getId(), 'preloaded');
+
+        $files = $this->get('emmedy_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('emmedy_h5p.options')->getRelativeH5PPath());
+
+        if (!$content->getLibrary()->isDivEmbeddable()) {
+            $jsFilePaths = array_map(function($asset){ return $asset->path; }, $files['scripts']);
+            $cssFilePaths = array_map(function($asset){ return $asset->path; }, $files['styles']);
+            $coreAssets = $this->get('emmedy_h5p.interface')->getCoreAssets();
+
+            $h5pIntegration['core']['scripts'] = $coreAssets['scripts'];
+            $h5pIntegration['core']['styles'] = $coreAssets['styles'];
+            $h5pIntegration['contents'][$contentIdStr]['scripts'] = $jsFilePaths;
+            $h5pIntegration['contents'][$contentIdStr]['styles'] = $cssFilePaths;
+        }
+
+        return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isDivEmbeddable' => $content->getLibrary()->isDivEmbeddable(), 'h5pIntegration' => $h5pIntegration]);
+    }
+
+    /**
+     * @Route("h5p/embed/{content}")
+     */
+    public function embedAction(Request $request, Content $content)
+    {
+
+    }
+
     /**
      * @Route("h5p/new")
      */
@@ -41,7 +85,7 @@ class EditController extends Controller
             $data = $form->getData();
             $contentId = $this->storeLibraryData($data['library'], $data['parameters'], $content->getId());
 
-            return $this->redirectToRoute('emmedy_h5p_edit_edit', ['content' => $contentId]);
+            return $this->redirectToRoute('emmedy_h5p_h5p_edit', ['content' => $contentId]);
         }
 
         return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'contentId' => $content ? $content->getId() : null]);

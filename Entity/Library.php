@@ -170,6 +170,11 @@ class Library
         $this->contentLibraries = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return "{$this->machineName} {$this->majorVersion}.{$this->minorVersion}";
+    }
+
     /**
      * @return int
      */
@@ -426,4 +431,8 @@ class Library
         $this->hasIcon = $hasIcon;
     }
 
+    public function isDivEmbeddable()
+    {
+        return (strpos($this->embedTypes, 'iframe') === false);
+    }
 }
