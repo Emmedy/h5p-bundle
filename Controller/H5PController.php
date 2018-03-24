@@ -37,7 +37,7 @@ class H5PController extends Controller
         if (!$content->getLibrary()->isDivEmbeddable()) {
             $jsFilePaths = array_map(function($asset){ return $asset->path; }, $files['scripts']);
             $cssFilePaths = array_map(function($asset){ return $asset->path; }, $files['styles']);
-            $coreAssets = $this->get('emmedy_h5p.interface')->getCoreAssets();
+            $coreAssets = $this->get('emmedy_h5p.integration')->getCoreAssets();
 
             $h5pIntegration['core']['scripts'] = $coreAssets['scripts'];
             $h5pIntegration['core']['styles'] = $coreAssets['styles'];
@@ -88,7 +88,13 @@ class H5PController extends Controller
             return $this->redirectToRoute('emmedy_h5p_h5p_edit', ['content' => $contentId]);
         }
 
-        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'contentId' => $content ? $content->getId() : null]);
+        $h5pIntegration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
+        $h5pIntegration['editor'] = $this->get('emmedy_h5p.integration')->getEditorIntegrationSettings($this->get('emmedy_h5p.contentvalidator'));
+        if ($content) {
+            $h5pIntegration['editor']['contentId'] = $content->getId();
+        }
+
+        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration]);
     }
 
     private function storeLibraryData($library, $parameters, $contentId)

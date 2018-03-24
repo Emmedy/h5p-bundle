@@ -94,36 +94,6 @@ class H5PSymfony implements \H5PFrameworkInterface {
   }
 
     /**
-   * Get a list with prepared asset links that is used when JS loads components.
-   *
-   * @param array [$keys] Optional keys, first for JS second for CSS.
-   * @return array
-   */
-  public function getCoreAssets($keys = NULL) {
-    if (empty($keys)) {
-      $keys = ['scripts', 'styles'];
-    }
-
-    // Prepare arrays
-    $assets = [
-      $keys[0] => [],
-      $keys[1] => [],
-    ];
-
-    // Add all core scripts
-    foreach (\H5PCore::$scripts as $script) {
-      $assets[$keys[0]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$script}";
-    }
-
-    // and styles
-    foreach (\H5PCore::$styles as $style) {
-      $assets[$keys[1]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$style}";
-    }
-
-    return $assets;
-  }
-
-    /**
    * Implements getPlatformInfo
    */
   public function getPlatformInfo()
@@ -357,7 +327,7 @@ class H5PSymfony implements \H5PFrameworkInterface {
 
     // Format results
     foreach($results as $library) {
-      $contentCount[$library['machineName']." ".$library['majorVersion'].".".$library['minorVersion']] = $library['count'];
+      $contentCount[$library['machineName']." ".$library['majorVersion'].".".$library['minorVersion']] = $library[1];
     }
 
     return $contentCount;
@@ -507,19 +477,10 @@ class H5PSymfony implements \H5PFrameworkInterface {
   }
 
     public function lockDependencyStorage() {
-//    if (db_driver() === 'mysql') {
-//      // Only works for mysql, other DBs will have to use transactions.
-//
-//      // db_transaction often deadlocks, we do it more brutally...
-//      db_query('LOCK TABLES {h5p_libraries_libraries} write, {h5p_libraries} as hl read');
-//    }
-  }
+    }
 
     public function unlockDependencyStorage() {
-//    if (db_driver() === 'mysql') {
-//      db_query('UNLOCK TABLES');
-//    }
-  }
+    }
 
     /**
    * Implements deleteLibraryDependencies

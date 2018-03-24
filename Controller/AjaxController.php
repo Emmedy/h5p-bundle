@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/ajax")
+ * @Route("/h5p/ajax")
  */
 class AjaxController extends Controller
 {

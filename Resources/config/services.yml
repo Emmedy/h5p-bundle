@@ -42,4 +42,4 @@ services:
 
     emmedy_h5p.integration:
         class: Emmedy\H5PBundle\Core\H5PIntegration
-        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router']
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@templating.helper.assets']
