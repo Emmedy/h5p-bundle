@@ -431,8 +431,8 @@ class Library
         $this->hasIcon = $hasIcon;
     }
 
-    public function isDivEmbeddable()
+    public function isFrame()
     {
-        return (strpos($this->embedTypes, 'iframe') === false);
+        return (strpos($this->embedTypes, 'iframe') !== false);
     }
 }

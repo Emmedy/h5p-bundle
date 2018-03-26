@@ -34,7 +34,7 @@ class H5PController extends Controller
 
         $files = $this->get('emmedy_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('emmedy_h5p.options')->getRelativeH5PPath());
 
-        if (!$content->getLibrary()->isDivEmbeddable()) {
+        if ($content->getLibrary()->isFrame()) {
             $jsFilePaths = array_map(function($asset){ return $asset->path; }, $files['scripts']);
             $cssFilePaths = array_map(function($asset){ return $asset->path; }, $files['styles']);
             $coreAssets = $this->get('emmedy_h5p.integration')->getCoreAssets();
@@ -45,7 +45,7 @@ class H5PController extends Controller
             $h5pIntegration['contents'][$contentIdStr]['styles'] = $cssFilePaths;
         }
 
-        return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isDivEmbeddable' => $content->getLibrary()->isDivEmbeddable(), 'h5pIntegration' => $h5pIntegration]);
+        return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isFrame' => $content->getLibrary()->isFrame(), 'h5pIntegration' => $h5pIntegration, 'files' => $files]);
     }
 
     /**
