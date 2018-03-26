@@ -243,33 +243,8 @@ class EditorStorage implements \H5peditorStorage
    * @param \H5peditorFile $file
    * @param int $content_id
    */
-  public static function markFileForCleanup($file, $content_id = null) {
-    // Determine URI
-    $file_type = $file->getType();
-    $file_name = $file->getName();
-    $interface = H5PSymfony::getInstance('interface');
-    $h5p_path = $interface->getOption('default_path', 'h5p');
-    $uri = "public://{$h5p_path}/";
-
-    if ($content_id) {
-      $uri .= "content/{$content_id}/{$file_type}s/{$file_name}";
-    }
-    else {
-      $uri .= "editor/{$file_type}s/{$file_name}";
-    }
-
-    // Keep track of temporary files so they can be cleaned up later by Drupal
-    $file_data = array(
-      'uid' => \Drupal::currentUser()->id(),
-      'filename' => $file->getName(),
-      'uri' => $uri,
-      'filemime' => $file->type,
-      'filesize' => $file->size,
-      'status' => 0,
-      'timestamp' => \Drupal::time()->getRequestTime(),
-    );
-    $file_managed = File::create($file_data);
-    $file_managed->save();
+  public static function markFileForCleanup($file, $content_id = null)
+  {
   }
 
     /**

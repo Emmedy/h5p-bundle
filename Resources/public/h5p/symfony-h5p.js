@@ -6,7 +6,7 @@
             ns.basePath = H5PIntegration.editor.libraryPath;
             ns.fileIcon = H5PIntegration.editor.fileIcon;
             ns.ajaxPath = H5PIntegration.editor.ajaxPath;
-            ns.filesPath = H5PIntegration.editor.filesPath;
+            ns.filesPath = H5PIntegration.editor.filesPath + '/editor';
             ns.apiVersion = H5PIntegration.editor.apiVersion;
             // Semantics describing what copyright information can be stored for media.
             ns.copyrightSemantics = H5PIntegration.editor.copyrightSemantics;

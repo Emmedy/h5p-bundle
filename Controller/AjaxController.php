@@ -4,6 +4,7 @@ namespace Emmedy\H5PBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -67,6 +68,19 @@ class AjaxController extends Controller
         $editor->ajax->action(\H5PEditorEndpoints::SINGLE_LIBRARY, $request->get('machineName'),
             $request->get('majorVersion'), $request->get('minorVersion'), $language, $this->get('emmedy_h5p.options')->getOption('storage_path')
         );
+        exit();
+    }
+
+    /**
+     * Callback for file uploads.
+     *
+     * @param string $token Security token
+     * @param int $content_id Content id
+     * @Route("/files/")
+     */
+    function filesCallback(Request $request) {
+        $editor = $this->get('emmedy_h5p.editor');
+        $editor->ajax->action(\H5PEditorEndpoints::FILES, $request->get('token', 1), $request->get('id'));
         exit();
     }
 

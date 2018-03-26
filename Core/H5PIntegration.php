@@ -151,7 +151,9 @@ class H5PIntegration
         ];
         if (is_object($this->tokenStorage->getToken()->getUser())) {
             $contentUserData = $this->entityManager->getRepository('EmmedyH5PBundle:ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()]);
-            $content_user_data[$contentUserData->getSubContentId()][$contentUserData->getDataId()] = $contentUserData->getData();
+            if ($contentUserData) {
+                $content_user_data[$contentUserData->getSubContentId()][$contentUserData->getDataId()] = $contentUserData->getData();
+            }
         }
 
         $filteredParameters = $this->getFilteredParameters($content);
@@ -203,7 +205,7 @@ class H5PIntegration
     public function getEditorIntegrationSettings(\H5PContentValidator $contentValidator)
     {
         $settings = [
-            'filesPath' => $this->getH5PAssetUrl(),
+            'filesPath' => $this->options->getRelativeH5PPath(),
             'fileIcon' => [
                 'path' => $this->getH5PAssetUrl() . "/h5p-editor/images/binary-file.png",
                 'width' => 50,

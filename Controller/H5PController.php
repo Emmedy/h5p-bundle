@@ -82,10 +82,11 @@ class H5PController extends Controller
         $form = $this->createForm(H5pType::class, $formData);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $data = $form->getData();
-            $contentId = $this->storeLibraryData($data['library'], $data['parameters'], $content->getId());
 
-            return $this->redirectToRoute('emmedy_h5p_h5p_edit', ['content' => $contentId]);
+            $data = $form->getData();
+            $contentId = $this->storeLibraryData($data['library'], $data['parameters'], $content);
+
+            return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
 
         $h5pIntegration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
@@ -97,20 +98,47 @@ class H5PController extends Controller
         return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration]);
     }
 
-    private function storeLibraryData($library, $parameters, $contentId)
+    private function storeLibraryData($library, $parameters, Content $content = null)
     {
         $libraryData = Utilities::getLibraryProperties($library);
         $libraryData['libraryId'] = $this->getDoctrine()->getRepository('EmmedyH5PBundle:Library')->findIdBy($libraryData['machineName'], $libraryData['majorVersion'], $libraryData['minorVersion']);
 
-        $content = [
+        $contentData = [
             'library' => $libraryData,
             'params' => $parameters,
             'disable' => 0
             ];
-        if ($contentId) {
-            $content['id'] = $contentId;
+        if ($content) {
+            $contentData['id'] = $content->getId();
         }
+        $contentId = $this->get('emmedy_h5p.core')->saveContent($contentData);
+        $this->updateLibraryFiles($contentId, $contentData, $content);
 
-        return $this->get('emmedy_h5p.core')->saveContent($content);
+        return $contentId;
+    }
+
+    private function updateLibraryFiles($contentId, $contentData, Content $oldContent = null)
+    {
+        if ($oldContent) {
+            $oldLibrary = [
+                'name' => $oldContent->getLibrary()->getMachineName(),
+                'machineName' => $oldContent->getLibrary()->getMachineName(),
+                'majorVersion' => $oldContent->getLibrary()->getMajorVersion(),
+                'minorVersion' => $oldContent->getLibrary()->getMinorVersion()
+            ];
+            $oldParameters = json_decode($oldContent->getParameters());
+        } else {
+            $oldLibrary = null;
+            $oldParameters = null;
+        }
+        // Keep new files, delete files from old parameters
+        $editor = $this->get('emmedy_h5p.editor');
+        $editor->processParameters(
+            $contentId,
+            $contentData['library'],
+            json_decode($contentData['params']),
+            $oldLibrary,
+            $oldParameters
+        );
     }
 }

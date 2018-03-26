@@ -3,6 +3,7 @@
 <head>
     <title>Symfony H5P</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% block stylesheets %}{% endblock %}
 </head>
 <body>
 <div class="container">
@@ -20,6 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('emmedy_h5p_h5p_new') }}">New</a>
                 </li>
+                {% block navbar_elements %}{% endblock %}
             </ul>
         </div>
     </nav>
