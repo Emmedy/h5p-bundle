@@ -439,9 +439,11 @@ class H5PSymfony implements \H5PFrameworkInterface {
     }
 
     $languages = $this->manager->getRepository('EmmedyH5PBundle:LibrariesLanguages')->findBy(['library' => $library]);
-      foreach ($languages as $language) {
+    foreach ($languages as $language) {
           $this->manager->remove($language);
     }
+    $this->manager->flush();
+
     if (isset($libraryData['language'])) {
       foreach ($libraryData['language'] as $languageCode => $languageJson) {
           $language = new LibrariesLanguages();
