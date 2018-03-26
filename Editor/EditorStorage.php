@@ -75,9 +75,7 @@ class EditorStorage implements \H5peditorStorage
    */
   public function getLanguage($machineName, $majorVersion, $minorVersion, $languageCode)
   {
-      $lang = $this->entityManager->getRepository('EmmedyH5PBundle:LibrariesLanguages')->findForLibrary($machineName, $majorVersion, $minorVersion, $languageCode);
-
-      return $lang ? $lang->getLanguageJson() : null;
+      return $this->entityManager->getRepository('EmmedyH5PBundle:LibrariesLanguages')->findForLibrary($machineName, $majorVersion, $minorVersion, $languageCode);
   }
 
   /**

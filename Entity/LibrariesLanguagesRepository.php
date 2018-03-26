@@ -23,9 +23,10 @@ class LibrariesLanguagesRepository extends EntityRepository
             ->setParameters(['majorVersion' => $majorVersion, 'machineName' => $machineName, 'minorVersion' => $minorVersion, 'languageCode' => $languageCode]);
 
         try {
-            $qb->getQuery()->getSingleResult();
+            $result = $qb->getQuery()->getSingleResult();
         } catch (NoResultException $e) {
             return null;
         }
+        return $result['languageJson'] ? $result['languageJson'] : null;
     }
 }

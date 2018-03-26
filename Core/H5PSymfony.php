@@ -201,7 +201,9 @@ class H5PSymfony implements \H5PFrameworkInterface {
    * Implements t
    */
   public function t($message, $replacements = []) {
-//    return t($message, $replacements);
+        foreach ($replacements as $search => $replace) {
+            $message = str_replace($search, $replace, $message);
+        }
       return $message;
   }
 

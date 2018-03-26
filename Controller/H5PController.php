@@ -95,7 +95,7 @@ class H5PController extends Controller
             $h5pIntegration['editor']['contentId'] = $content->getId();
         }
 
-        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration]);
+        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->get('emmedy_h5p.integration')->getTranslationFilePath()]);
     }
 
     private function storeLibraryData($library, $parameters, Content $content = null)

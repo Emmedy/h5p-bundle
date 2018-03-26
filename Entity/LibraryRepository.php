@@ -54,6 +54,7 @@ EOT;
          hl4.machine_name AS machine_name,
          hl4.major_version,
          hl4.minor_version,
+         hl4.title,
          hl4.patch_version,
          hl4.restricted,
          hl4.has_icon

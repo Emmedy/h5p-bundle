@@ -282,7 +282,7 @@ class H5PIntegration
      *
      * @return string Path to translation file for editor
      */
-    private function getTranslationFilePath() {
+    public function getTranslationFilePath() {
         $language = $this->requestStack->getCurrentRequest()->getLocale();
 
         $h5pAssetUrl = $this->getH5PAssetUrl();
@@ -291,7 +291,7 @@ class H5PIntegration
         $chosenLanguage = "{$languageFolder}/{$language}.js";
         $cacheBuster = $this->getCacheBuster();
 
-        return (file_exists($chosenLanguage) ? $chosenLanguage : $defaultLanguage) . $cacheBuster;
+        return (file_exists($this->options->getAbsoluteWebPath() . $chosenLanguage) ? $chosenLanguage : $defaultLanguage) . $cacheBuster;
     }
 
     private function getH5PAssetUrl()

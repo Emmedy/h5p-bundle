@@ -62,11 +62,9 @@ class AjaxController extends Controller
      * @param int $minor_version Minor version of library
      */
     private function libraryCallback(Request $request) {
-        $language = 'en';
-
         $editor = $this->get('emmedy_h5p.editor');
         $editor->ajax->action(\H5PEditorEndpoints::SINGLE_LIBRARY, $request->get('machineName'),
-            $request->get('majorVersion'), $request->get('minorVersion'), $language, $this->get('emmedy_h5p.options')->getOption('storage_path')
+            $request->get('majorVersion'), $request->get('minorVersion'), $request->getLocale(), $this->get('emmedy_h5p.options')->getOption('storage_path')
         );
         exit();
     }
