@@ -12,6 +12,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    const H5P_VERSION = '0.1'; // version of Symfony H5P bundle
+
     /**
      * {@inheritdoc}
      */

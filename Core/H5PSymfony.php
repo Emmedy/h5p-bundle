@@ -3,6 +3,7 @@
 namespace Emmedy\H5PBundle\Core;
 
 use Doctrine\ORM\EntityManager;
+use Emmedy\H5PBundle\DependencyInjection\Configuration;
 use Emmedy\H5PBundle\Editor\EditorStorage;
 use Emmedy\H5PBundle\Entity\Content;
 use Emmedy\H5PBundle\Entity\ContentLibraries;
@@ -16,6 +17,7 @@ use GuzzleHttp\Client;
 use H5PPermission;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -99,9 +101,9 @@ class H5PSymfony implements \H5PFrameworkInterface {
   public function getPlatformInfo()
   {
     return [
-      'name' => 'drupal',
-      'version' => '8.4.2',
-      'h5pVersion' => '8.x-1.0-rc5',
+      'name' => 'symfony',
+      'version' => Kernel::VERSION,
+      'h5pVersion' => Configuration::H5P_VERSION,
     ];
   }
 
