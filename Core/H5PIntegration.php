@@ -76,13 +76,13 @@ class H5PIntegration
         $user = $this->tokenStorage->getToken()->getUser();
 
         // Load configuration settings
-        $h5p_save_content_state = $this->options->getOption('save_content_state', false);
-        $h5p_save_content_frequency = $this->options->getOption('save_content_frequency', 30);
-        $h5p_hub_is_enabled = $this->options->getOption('hub_is_enabled', true);
+        $saveContentState = $this->options->getOption('save_content_state', false);
+        $saveContentFrequency = $this->options->getOption('save_content_frequency', 30);
+        $hubIsEnabled = $this->options->getOption('hub_is_enabled', true);
 
         // Create AJAX URLs
-        $set_finished_url = "";//Url::fromUri('internal:/h5p-ajax/set-finished.json', ['query' => ['token' => \H5PCore::createToken('result')]])->toString(TRUE)->getGeneratedUrl();
-        $content_user_data_url = "";//Url::fromUri('internal:/h5p-ajax/content-user-data/:contentId/:dataType/:subContentId', ['query' => ['token' => \H5PCore::createToken('contentuserdata')]])->toString(TRUE)->getGeneratedUrl();
+        $setFinishedUrl = $this->router->generate('emmedy_h5p_interaction_setfinished', ['token' => \H5PCore::createToken('result')]);
+        $contentUserDataUrl = $this->router->generate('emmedy_h5p_interaction_contentuserdata', ['contentId' => ':contentId', 'dataType' => ':dataType', 'subContentId' => ':subContentId', 'token' => \H5PCore::createToken('contentuserdata')]);
 
         // Define the generic H5PIntegration settings
         $settings = array(
@@ -90,14 +90,14 @@ class H5PIntegration
             'url' => $this->options->getRelativeH5PPath(),
             'postUserStatistics' => is_object($user) ? $user->getId() : null,
             'ajax' => array(
-                'setFinished' => $set_finished_url,
-                'contentUserData' => $content_user_data_url,
+                'setFinished' => $setFinishedUrl,
+                'contentUserData' => $contentUserDataUrl,
             ),
-            'saveFreq' => $h5p_save_content_state ? $h5p_save_content_frequency : false,
+            'saveFreq' => $saveContentState ? $saveContentFrequency : false,
             'l10n' => array(
                 'H5P' => $this->core->getLocalization(),
             ),
-            'hubIsEnabled' => $h5p_hub_is_enabled,
+            'hubIsEnabled' => $hubIsEnabled,
             'siteUrl' => $this->requestStack->getMasterRequest()->getUri()
         );
 
