@@ -92,11 +92,7 @@ class H5PController extends Controller
 
             return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
-
         $h5pIntegration['editor'] = $this->get('emmedy_h5p.integration')->getEditorIntegrationSettings($content->getId());
-        if ($content) {
-
-        }
 
         return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->get('emmedy_h5p.integration')->getTranslationFilePath()]);
     }
