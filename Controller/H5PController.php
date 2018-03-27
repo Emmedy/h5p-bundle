@@ -35,8 +35,12 @@ class H5PController extends Controller
         $files = $this->get('emmedy_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('emmedy_h5p.options')->getRelativeH5PPath());
 
         if ($content->getLibrary()->isFrame()) {
-            $jsFilePaths = array_map(function($asset){ return $asset->path; }, $files['scripts']);
-            $cssFilePaths = array_map(function($asset){ return $asset->path; }, $files['styles']);
+            $jsFilePaths = array_map(function ($asset) {
+                return $asset->path;
+            }, $files['scripts']);
+            $cssFilePaths = array_map(function ($asset) {
+                return $asset->path;
+            }, $files['styles']);
             $coreAssets = $this->get('emmedy_h5p.integration')->getCoreAssets();
 
             $h5pIntegration['core']['scripts'] = $coreAssets['scripts'];
@@ -107,7 +111,7 @@ class H5PController extends Controller
             'library' => $libraryData,
             'params' => $parameters,
             'disable' => 0
-            ];
+        ];
         if ($content) {
             $contentData['id'] = $content->getId();
         }

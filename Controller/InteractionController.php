@@ -30,7 +30,4 @@ class InteractionController extends Controller
     {
 
     }
-
-
-
 }

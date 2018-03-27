@@ -22,11 +22,11 @@ class EmmedyH5PExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
         $definition = $container->getDefinition("emmedy_h5p.core");
-        $definition->replaceArgument(1, $container->getParameter('kernel.root_dir').$container->getParameter('web_dir').'/'.$config["storage_path"]);
+        $definition->replaceArgument(1, $container->getParameter('kernel.root_dir') . $container->getParameter('web_dir') . '/' . $config["storage_path"]);
         $definition->replaceArgument(2, '/');
 
         $definition = $container->getDefinition("emmedy_h5p.options");

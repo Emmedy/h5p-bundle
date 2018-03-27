@@ -65,7 +65,8 @@ class H5PIntegration
     /**
      * Prepares the generic H5PIntegration settings
      */
-    public function getGenericH5PIntegrationSettings() {
+    public function getGenericH5PIntegrationSettings()
+    {
         static $settings;
 
         if (!empty($settings)) {
@@ -117,7 +118,8 @@ class H5PIntegration
      * @param array [$keys] Optional keys, first for JS second for CSS.
      * @return array
      */
-    public function getCoreAssets($keys = NULL) {
+    public function getCoreAssets($keys = NULL)
+    {
         if (empty($keys)) {
             $keys = ['scripts', 'styles'];
         }
@@ -176,7 +178,8 @@ class H5PIntegration
         );
     }
 
-    public function getFilteredParameters(Content $content) {
+    public function getFilteredParameters(Content $content)
+    {
         $contentData = [
             'title' => 'Interactive Content',
             'id' => $content->getId(),
@@ -194,9 +197,10 @@ class H5PIntegration
         return $this->core->filterParameters($contentData);
     }
 
-    protected function getExportUrl(Content $content) {
+    protected function getExportUrl(Content $content)
+    {
         if ($this->options->getOption('export', true)) {
-            return $this->options->getRelativeH5PPath()."/exports/interactive-content-" . $content->getId() . '.h5p';
+            return $this->options->getRelativeH5PPath() . "/exports/interactive-content-" . $content->getId() . '.h5p';
         } else {
             return '';
         }
@@ -212,10 +216,10 @@ class H5PIntegration
                 'height' => 50,
             ],
             'ajaxPath' => $this->router->getContext()->getBaseUrl() . "/h5p/ajax/",
-            'libraryPath'        => $this->getH5PAssetUrl() . "/h5p-editor/",
+            'libraryPath' => $this->getH5PAssetUrl() . "/h5p-editor/",
             'copyrightSemantics' => $contentValidator->getCopyrightSemantics(),
-            'assets'             => $this->getEditorAssets(),
-            'apiVersion'         => \H5PCore::$coreApi,
+            'assets' => $this->getEditorAssets(),
+            'apiVersion' => \H5PCore::$coreApi,
         ];
         return $settings;
     }
@@ -225,9 +229,10 @@ class H5PIntegration
      *
      * @return array Js and css for showing the editor
      */
-    private function getEditorAssets() {
+    private function getEditorAssets()
+    {
         $h5pAssetUrl = $this->getH5PAssetUrl();
-        $corePath   = "{$h5pAssetUrl}/h5p-core/";
+        $corePath = "{$h5pAssetUrl}/h5p-core/";
         $editorPath = "{$h5pAssetUrl}/h5p-editor/";
 
         $css = array_merge(
@@ -252,8 +257,9 @@ class H5PIntegration
      *
      * @return array Extracted assets from the source collection
      */
-    private function getAssets($collection, $prefix, $exceptions = NULL) {
-        $assets      = [];
+    private function getAssets($collection, $prefix, $exceptions = NULL)
+    {
+        $assets = [];
         $cacheBuster = $this->getCacheBuster();
 
         foreach ($collection as $item) {
@@ -271,8 +277,9 @@ class H5PIntegration
      *
      * @return string A cache buster that may be applied to resources
      */
-    private function getCacheBuster() {
-        $cache_buster = \H5PCore::$coreApi['majorVersion'].'.'.\H5PCore::$coreApi['minorVersion'];
+    private function getCacheBuster()
+    {
+        $cache_buster = \H5PCore::$coreApi['majorVersion'] . '.' . \H5PCore::$coreApi['minorVersion'];
         return $cache_buster ? "?={$cache_buster}" : '';
     }
 
@@ -282,7 +289,8 @@ class H5PIntegration
      *
      * @return string Path to translation file for editor
      */
-    public function getTranslationFilePath() {
+    public function getTranslationFilePath()
+    {
         $language = $this->requestStack->getCurrentRequest()->getLocale();
 
         $h5pAssetUrl = $this->getH5PAssetUrl();

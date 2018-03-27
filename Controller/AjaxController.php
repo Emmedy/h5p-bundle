@@ -47,7 +47,8 @@ class AjaxController extends Controller
      *
      * @Route("/library-install/")
      */
-    public function libraryInstallCallback(Request $request) {
+    public function libraryInstallCallback(Request $request)
+    {
         $editor = $this->get('emmedy_h5p.editor');
         $editor->ajax->action(\H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('token', 1), $request->get('id'));
         exit();
@@ -60,7 +61,8 @@ class AjaxController extends Controller
      * @param int $major_version Major version of library
      * @param int $minor_version Minor version of library
      */
-    private function libraryCallback(Request $request) {
+    private function libraryCallback(Request $request)
+    {
         $editor = $this->get('emmedy_h5p.editor');
         $editor->ajax->action(\H5PEditorEndpoints::SINGLE_LIBRARY, $request->get('machineName'),
             $request->get('majorVersion'), $request->get('minorVersion'), $request->getLocale(), $this->get('emmedy_h5p.options')->getOption('storage_path')
@@ -75,7 +77,8 @@ class AjaxController extends Controller
      * @param int $content_id Content id
      * @Route("/files/")
      */
-    function filesCallback(Request $request) {
+    function filesCallback(Request $request)
+    {
         $editor = $this->get('emmedy_h5p.editor');
         $editor->ajax->action(\H5PEditorEndpoints::FILES, $request->get('token', 1), $request->get('id'));
         exit();
