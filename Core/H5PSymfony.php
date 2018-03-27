@@ -881,27 +881,17 @@ class H5PSymfony implements \H5PFrameworkInterface
      */
     public function hasPermission($permission, $content_id = NULL)
     {
+        if (!$this->options->getOption('use_permission')) return true;
 
         switch ($permission) {
             case \H5PPermission::DOWNLOAD_H5P:
-                $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($content_id);
-                return $content_id !== NULL && (
-                        $this->authorizationChecker->isGranted('ROLE_H5P_DOWNLOAD_ALL') ||
-                        ($this->authorizationChecker->isGranted('update', $content) && $this->authorizationChecker->isGranted('ROLE_H5P_DOWNLOAD'))
-                    );
+                return $content_id !== NULL && $this->authorizationChecker->isGranted('ROLE_H5P_DOWNLOAD_ALL');
             case \H5PPermission::EMBED_H5P:
-                $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($content_id);
-                return $content_id !== NULL && (
-                        $this->authorizationChecker->isGranted('ROLE_H5P_EMBED_ALL') ||
-                        ($this->authorizationChecker->isGranted('update', $content) && $this->authorizationChecker->isGranted('ROLE_H5P_EMBED'))
-                    );
-
+                return $content_id !== NULL && $this->authorizationChecker->isGranted('ROLE_H5P_EMBED_ALL');
             case \H5PPermission::CREATE_RESTRICTED:
                 return $this->authorizationChecker->isGranted('ROLE_H5P_CREATE_RESTRICTED_CONTENT_TYPES');
-
             case \H5PPermission::UPDATE_LIBRARIES:
                 return $this->authorizationChecker->isGranted('ROLE_H5P_UPDATE_LIBRARIES');
-
             case \H5PPermission::INSTALL_RECOMMENDED:
                 return $this->authorizationChecker->isGranted('ROLE_H5P_INSTALL_RECOMMENDED_LIBRARIES');
         }
