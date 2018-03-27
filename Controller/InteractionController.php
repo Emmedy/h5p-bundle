@@ -22,7 +22,7 @@ class InteractionController extends Controller
     }
 
     /**
-     * Access callback for the setFinished feature
+     * Handles insert, updating and deleting content user data through AJAX.
      *
      * @Route("/content-user-data/{contentId}/{dataType}/{subContentId}")
      */

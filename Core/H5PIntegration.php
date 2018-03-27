@@ -40,6 +40,10 @@ class H5PIntegration
      * @var AssetsHelper
      */
     private $assetsHelper;
+    /**
+     * @var \H5PContentValidator
+     */
+    private $contentValidator;
 
     /**
      * H5PContent constructor.
@@ -50,8 +54,9 @@ class H5PIntegration
      * @param RouterInterface $router
      * @param RequestStack $requestStack
      * @param AssetsHelper $assetsHelper
+     * @param \H5PContentValidator $contentValidator
      */
-    public function __construct(\H5PCore $core, H5POptions $options, TokenStorageInterface $tokenStorage, EntityManager $entityManager, RouterInterface $router, RequestStack $requestStack, AssetsHelper $assetsHelper)
+    public function __construct(\H5PCore $core, H5POptions $options, TokenStorageInterface $tokenStorage, EntityManager $entityManager, RouterInterface $router, RequestStack $requestStack, AssetsHelper $assetsHelper, \H5PContentValidator $contentValidator)
     {
         $this->core = $core;
         $this->options = $options;
@@ -60,6 +65,7 @@ class H5PIntegration
         $this->router = $router;
         $this->requestStack = $requestStack;
         $this->assetsHelper = $assetsHelper;
+        $this->contentValidator = $contentValidator;
     }
 
     /**
@@ -206,9 +212,9 @@ class H5PIntegration
         }
     }
 
-    public function getEditorIntegrationSettings(\H5PContentValidator $contentValidator)
+    public function getEditorIntegrationSettings($contentId = null)
     {
-        $settings = [
+        $editorSettings = [
             'filesPath' => $this->options->getRelativeH5PPath(),
             'fileIcon' => [
                 'path' => $this->getH5PAssetUrl() . "/h5p-editor/images/binary-file.png",
@@ -217,10 +223,16 @@ class H5PIntegration
             ],
             'ajaxPath' => $this->router->getContext()->getBaseUrl() . "/h5p/ajax/",
             'libraryPath' => $this->getH5PAssetUrl() . "/h5p-editor/",
-            'copyrightSemantics' => $contentValidator->getCopyrightSemantics(),
+            'copyrightSemantics' => $this->contentValidator->getCopyrightSemantics(),
             'assets' => $this->getEditorAssets(),
             'apiVersion' => \H5PCore::$coreApi,
         ];
+        if ($contentId) {
+            $editorSettings['contentId'] = $contentId;
+        }
+        $settings = $this->getGenericH5PIntegrationSettings();
+        $settings['editor'] = $editorSettings;
+
         return $settings;
     }
 

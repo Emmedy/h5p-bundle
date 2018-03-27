@@ -81,68 +81,23 @@ class H5PController extends Controller
         $formData = null;
         if ($content) {
             $formData['parameters'] = $content->getParameters();
-            $formData['library'] = $content->getLibrary()->getMachineName() . " " . $content->getLibrary()->getMajorVersion() . "." . $content->getLibrary()->getMinorVersion();
+            $formData['library'] = (string)$content->getLibrary();
         }
         $form = $this->createForm(H5pType::class, $formData);
         $form->handleRequest($request);
         if ($form->isValid()) {
 
             $data = $form->getData();
-            $contentId = $this->storeLibraryData($data['library'], $data['parameters'], $content);
+            $contentId = $this->get('emmedy_h5p.library_storage')->storeLibraryData($data['library'], $data['parameters'], $content);
 
             return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
 
-        $h5pIntegration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
-        $h5pIntegration['editor'] = $this->get('emmedy_h5p.integration')->getEditorIntegrationSettings($this->get('emmedy_h5p.contentvalidator'));
+        $h5pIntegration['editor'] = $this->get('emmedy_h5p.integration')->getEditorIntegrationSettings($content->getId());
         if ($content) {
-            $h5pIntegration['editor']['contentId'] = $content->getId();
+
         }
 
         return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->get('emmedy_h5p.integration')->getTranslationFilePath()]);
-    }
-
-    private function storeLibraryData($library, $parameters, Content $content = null)
-    {
-        $libraryData = Utilities::getLibraryProperties($library);
-        $libraryData['libraryId'] = $this->getDoctrine()->getRepository('EmmedyH5PBundle:Library')->findIdBy($libraryData['machineName'], $libraryData['majorVersion'], $libraryData['minorVersion']);
-
-        $contentData = [
-            'library' => $libraryData,
-            'params' => $parameters,
-            'disable' => 0
-        ];
-        if ($content) {
-            $contentData['id'] = $content->getId();
-        }
-        $contentId = $this->get('emmedy_h5p.core')->saveContent($contentData);
-        $this->updateLibraryFiles($contentId, $contentData, $content);
-
-        return $contentId;
-    }
-
-    private function updateLibraryFiles($contentId, $contentData, Content $oldContent = null)
-    {
-        if ($oldContent) {
-            $oldLibrary = [
-                'name' => $oldContent->getLibrary()->getMachineName(),
-                'machineName' => $oldContent->getLibrary()->getMachineName(),
-                'majorVersion' => $oldContent->getLibrary()->getMajorVersion(),
-                'minorVersion' => $oldContent->getLibrary()->getMinorVersion()
-            ];
-            $oldParameters = json_decode($oldContent->getParameters());
-        } else {
-            $oldLibrary = null;
-            $oldParameters = null;
-        }
-        // Keep new files, delete files from old parameters
-        $editor = $this->get('emmedy_h5p.editor');
-        $editor->processParameters(
-            $contentId,
-            $contentData['library'],
-            json_decode($contentData['params']),
-            $oldLibrary,
-            $oldParameters
-        );
     }
 }
