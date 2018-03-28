@@ -96,4 +96,17 @@ class H5PController extends Controller
 
         return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->get('emmedy_h5p.integration')->getTranslationFilePath()]);
     }
+
+    /**
+     * @Route("h5p/delete/{contentId}")
+     */
+    public function deleteAction($contentId)
+    {
+        $this->get('emmedy_h5p.storage')->deletePackage([
+            'id' => $contentId,
+            'slug' => 'interactive-content'
+        ]);
+
+        return $this->redirectToRoute('emmedy_h5p_h5p_list');
+    }
 }

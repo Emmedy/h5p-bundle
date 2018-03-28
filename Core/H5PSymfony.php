@@ -637,16 +637,8 @@ class H5PSymfony implements \H5PFrameworkInterface
      */
     public function deleteContentData($contentId)
     {
-        // Delete library usage
-        $this->deleteLibraryUsage($contentId);
-
-        // Remove content points
-        $points = $this->manager->getRepository('EmmedyH5PBundle:Points')->findBy(['content' => $contentId]);
-        $this->manager->remove($points);
-
-        // Remove content user data
-        $contentUserData = $this->manager->getRepository('EmmedyH5PBundle:ContentUserData')->findBy(['content' => $contentId]);
-        $this->manager->remove($contentUserData);
+        $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($contentId);
+        $this->manager->remove($content);
         $this->manager->flush();
     }
 
@@ -655,7 +647,6 @@ class H5PSymfony implements \H5PFrameworkInterface
      */
     public function deleteLibraryUsage($contentId)
     {
-
         $contentLibraries = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->findBy(['content' => $contentId]);
         foreach ($contentLibraries as $contentLibrary) {
             $this->manager->remove($contentLibrary);
