@@ -39,6 +39,19 @@ class LibraryStorage
         $libraryData = Utilities::getLibraryProperties($library);
         $libraryData['libraryId'] = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findIdBy($libraryData['machineName'], $libraryData['majorVersion'], $libraryData['minorVersion']);
 
+        if ($content) {
+            $oldLibrary = [
+                'name' => $content->getLibrary()->getMachineName(),
+                'machineName' => $content->getLibrary()->getMachineName(),
+                'majorVersion' => $content->getLibrary()->getMajorVersion(),
+                'minorVersion' => $content->getLibrary()->getMinorVersion()
+            ];
+            $oldParameters = json_decode($content->getParameters());
+        } else {
+            $oldLibrary = null;
+            $oldParameters = null;
+        }
+
         $contentData = [
             'library' => $libraryData,
             'params' => $parameters,
@@ -48,25 +61,13 @@ class LibraryStorage
             $contentData['id'] = $content->getId();
         }
         $contentId = $this->core->saveContent($contentData);
-        $this->updateLibraryFiles($contentId, $contentData, $content);
+        $this->updateLibraryFiles($contentId, $contentData, $oldLibrary, $oldParameters);
 
         return $contentId;
     }
 
-    private function updateLibraryFiles($contentId, $contentData, Content $oldContent = null)
+    private function updateLibraryFiles($contentId, $contentData, $oldLibrary, $oldParameters)
     {
-        if ($oldContent) {
-            $oldLibrary = [
-                'name' => $oldContent->getLibrary()->getMachineName(),
-                'machineName' => $oldContent->getLibrary()->getMachineName(),
-                'majorVersion' => $oldContent->getLibrary()->getMajorVersion(),
-                'minorVersion' => $oldContent->getLibrary()->getMinorVersion()
-            ];
-            $oldParameters = json_decode($oldContent->getParameters());
-        } else {
-            $oldLibrary = null;
-            $oldParameters = null;
-        }
         // Keep new files, delete files from old parameters
         $this->editor->processParameters(
             $contentId,
