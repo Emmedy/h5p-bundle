@@ -289,7 +289,7 @@ class H5PIntegration
      *
      * @return string A cache buster that may be applied to resources
      */
-    private function getCacheBuster()
+    public function getCacheBuster()
     {
         $cache_buster = \H5PCore::$coreApi['majorVersion'] . '.' . \H5PCore::$coreApi['minorVersion'];
         return $cache_buster ? "?={$cache_buster}" : '';

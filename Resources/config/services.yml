@@ -47,3 +47,9 @@ services:
     emmedy_h5p.library_storage:
         class: Emmedy\H5PBundle\Editor\LibraryStorage
         arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor', '@doctrine.orm.entity_manager']
+
+    emmedy_h5p.twig.h5p_extension:
+        class: Emmedy\H5PBundle\Twig\H5PExtension
+        arguments: ['@emmedy_h5p.integration']
+        tags:
+            - { name: twig.extension }
