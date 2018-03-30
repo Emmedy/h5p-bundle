@@ -1,0 +1,3 @@
+emmedy_h5p.test:
+    resource: "@EmmedyH5PBundle/Controller/H5PController.php"
+    type:     annotation
