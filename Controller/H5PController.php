@@ -10,10 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * @Route("/h5p/")
+ */
 class H5PController extends Controller
 {
     /**
-     * @Route("h5p/list")
+     * @Route("list")
      */
     public function listAction()
     {
@@ -22,7 +25,7 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("h5p/show/{content}")
+     * @Route("show/{content}")
      */
     public function showAction(Content $content)
     {
@@ -53,7 +56,7 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("h5p/embed/{content}")
+     * @Route("embed/{content}")
      */
     public function embedAction(Request $request, Content $content)
     {
@@ -61,7 +64,7 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("h5p/new")
+     * @Route("new")
      */
     public function newAction(Request $request)
     {
@@ -69,7 +72,7 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("h5p/edit/{content}")
+     * @Route("edit/{content}")
      */
     public function editAction(Request $request, Content $content)
     {
@@ -98,7 +101,7 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("h5p/delete/{contentId}")
+     * @Route("delete/{contentId}")
      */
     public function deleteAction($contentId)
     {
