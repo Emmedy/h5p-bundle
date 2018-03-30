@@ -3,7 +3,6 @@
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Emmedy\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
@@ -12,11 +11,9 @@ use Emmedy\UserBundle\Entity\User;
 class Points
 {
     /**
-     * @var User
+     * @var integer
      *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Emmedy\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
 
@@ -58,7 +55,7 @@ class Points
     private $maxPoints;
 
     /**
-     * @return User
+     * @return integer
      */
     public function getUser()
     {
@@ -66,7 +63,7 @@ class Points
     }
 
     /**
-     * @param User $user
+     * @param integer $user
      */
     public function setUser($user)
     {
@@ -90,7 +87,7 @@ class Points
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getStarted()
     {
@@ -98,7 +95,7 @@ class Points
     }
 
     /**
-     * @param int $started
+     * @param integer $started
      */
     public function setStarted($started)
     {
@@ -106,7 +103,7 @@ class Points
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getFinished()
     {
@@ -114,7 +111,7 @@ class Points
     }
 
     /**
-     * @param int $finished
+     * @param integer $finished
      */
     public function setFinished($finished)
     {
@@ -122,7 +119,7 @@ class Points
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getPoints()
     {
@@ -130,7 +127,7 @@ class Points
     }
 
     /**
-     * @param int $points
+     * @param integer $points
      */
     public function setPoints($points)
     {
@@ -138,7 +135,7 @@ class Points
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getMaxPoints()
     {
@@ -146,7 +143,7 @@ class Points
     }
 
     /**
-     * @param int $maxPoints
+     * @param integer $maxPoints
      */
     public function setMaxPoints($maxPoints)
     {

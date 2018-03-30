@@ -3,7 +3,6 @@
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Emmedy\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="EventRepository")
@@ -12,7 +11,7 @@ use Emmedy\UserBundle\Entity\User;
 class Event
 {
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,10 +20,9 @@ class Event
     private $id;
 
     /**
-     * @var User
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Emmedy\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
 
@@ -79,7 +77,7 @@ class Event
     private $libraryVersion;
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -87,7 +85,7 @@ class Event
     }
 
     /**
-     * @param int $id
+     * @param integer $id
      */
     public function setId($id)
     {
@@ -95,7 +93,7 @@ class Event
     }
 
     /**
-     * @return User
+     * @return integer
      */
     public function getUser()
     {
@@ -103,7 +101,7 @@ class Event
     }
 
     /**
-     * @param User $user
+     * @param integer $user
      */
     public function setUser($user)
     {
@@ -111,7 +109,7 @@ class Event
     }
 
     /**
-     * @return int
+     * @return integer
      */
     public function getCreatedAt()
     {
@@ -119,7 +117,7 @@ class Event
     }
 
     /**
-     * @param int $createdAt
+     * @param integer $createdAt
      */
     public function setCreatedAt($createdAt)
     {

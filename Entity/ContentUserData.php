@@ -3,7 +3,6 @@
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Emmedy\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
@@ -12,11 +11,10 @@ use Emmedy\UserBundle\Entity\User;
 class ContentUserData
 {
     /**
-     * @var User
+     * @var integer
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Emmedy\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
 
@@ -74,7 +72,7 @@ class ContentUserData
     private $deleteOnContentChange;
 
     /**
-     * @return User
+     * @return integer
      */
     public function getUser()
     {
@@ -82,7 +80,7 @@ class ContentUserData
     }
 
     /**
-     * @param User $user
+     * @param integer $user
      */
     public function setUser($user)
     {

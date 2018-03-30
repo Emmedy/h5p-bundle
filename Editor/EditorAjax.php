@@ -72,7 +72,7 @@ class EditorAjax implements \H5PEditorAjaxInterface
 
         $user = $this->tokenStorage->getToken()->getUser();
         if (is_object($user)) {
-            $events = $this->manager->getRepository('EmmedyH5PBundle:Event')->findRecentlyUsedLibraries($user);
+            $events = $this->manager->getRepository('EmmedyH5PBundle:Event')->findRecentlyUsedLibraries($user->getId());
             foreach ($events as $event) {
                 $recentlyUsed[] = $event['libraryName'];
             }
