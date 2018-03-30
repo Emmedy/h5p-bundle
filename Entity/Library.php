@@ -370,7 +370,7 @@ class Library
     /**
      * @return string
      */
-    public function getSemantics(): string
+    public function getSemantics()
     {
         return $this->semantics;
     }
