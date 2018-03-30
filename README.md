@@ -58,7 +58,7 @@ For all configurations see [Configuration.php](DependencyInjection/Configuration
 Usage
 -------------
 
-In your browser go to `http://localhost/<projectname>/h5p/list`
+First add a virtual host that points to you project. Then in your browser go to `http://<your virtualhost>/h5p/list`
 
 Todo
 -------------
