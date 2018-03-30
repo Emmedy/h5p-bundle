@@ -49,10 +49,11 @@ Configuration
 Configure the bundle in `config.yml`. (Watch for the underscore between h5 and p)
 ``` yml
 emmedy_h5_p:
-    use_permission: true # This is false by default to let the demo work immediately.
-    copyright: false # Remove the copyright from the bottom.
+    use_permission: true # This is false by default to let the demo work out of the box.
+    storage_dir: h5p # Location to store all H5P libraries and files
+    web_dir: web # Location of the public web directory
 ```
-For all configurations see [Configuration.php](Configuration.php)
+For all configurations see [Configuration.php](DependencyInjection/Configuration.php)
 
 Usage
 -------------
