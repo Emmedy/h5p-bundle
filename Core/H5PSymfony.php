@@ -619,17 +619,15 @@ class H5PSymfony implements \H5PFrameworkInterface
      */
     public function copyLibraryUsage($contentId, $copyFromId, $contentMainId = NULL)
     {
-        $contentLibrariesFrom = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->find($copyFromId);
-        $contentLibrariesTo = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->find($contentId);
+        $contentLibrariesFrom = $this->manager->getRepository('EmmedyH5PBundle:ContentLibraries')->findBy(['content' => $copyFromId]);
+        $contentTo = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($contentId);
 
-        $contentLibrariesTo->setLibrary($contentLibrariesFrom->getLibrary());
-        $contentLibrariesTo->setDependencyType($contentLibrariesFrom->getDependencyType());
-        $contentLibrariesTo->setContent($contentLibrariesFrom->getContent());
-        $contentLibrariesTo->setDropCss($contentLibrariesFrom->isDropCss());
-        $contentLibrariesTo->setWeight($contentLibrariesFrom->getWeight());
-
-        $this->manager->persist($contentLibrariesTo);
-        $this->manager->flush($contentLibrariesTo);
+        foreach ($contentLibrariesFrom as $contentLibrary) {
+            $contentLibraryTo = clone $contentLibrary;
+            $contentLibraryTo->setContent($contentTo);
+            $this->manager->persist($contentLibraryTo);
+        }
+        $this->manager->flush();
     }
 
     /**
@@ -638,8 +636,10 @@ class H5PSymfony implements \H5PFrameworkInterface
     public function deleteContentData($contentId)
     {
         $content = $this->manager->getRepository('EmmedyH5PBundle:Content')->find($contentId);
-        $this->manager->remove($content);
-        $this->manager->flush();
+        if ($content) {
+            $this->manager->remove($content);
+            $this->manager->flush();
+        }
     }
 
     /**

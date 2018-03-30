@@ -28,7 +28,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('web_path')->defaultValue("/web")->end()
                 ->booleanNode('hub_is_enabled')->defaultTrue()->end()
                 ->booleanNode('send_usage_statistics')->defaultTrue()->end()
-                ->integerNode('fatched_library_metadata_on')->defaultValue(0)->end()
                 ->booleanNode('save_content_state')->defaultFalse()->end()
                 ->integerNode('save_content_fequency')->defaultValue(30)->end()
                 ->booleanNode('hub_is_enabled')->defaultTrue()->end()

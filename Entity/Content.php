@@ -48,6 +48,11 @@ class Content
      */
     private $disabledFeatures;
 
+    public function __clone()
+    {
+        $this->id = null;
+    }
+
     /**
      * @return int
      */
