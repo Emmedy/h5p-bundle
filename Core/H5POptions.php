@@ -98,17 +98,17 @@ class H5POptions
 
     public function getRelativeH5PPath()
     {
-        return "/" . $this->getOption('storage_path');
+        return "/" . $this->getOption('storage_dir');
     }
 
     public function getAbsoluteH5PPath()
     {
-        return $this->getAbsoluteWebPath() . '/' . $this->getOption('storage_path');
+        return $this->getAbsoluteWebPath() . '/' . $this->getOption('storage_dir');
     }
 
     public function getAbsoluteWebPath()
     {
-        return $this->kernelRootDir . '/..' . $this->getOption('web_path');
+        return $this->kernelRootDir . '/../' . $this->getOption('web_dir');
     }
 
     public function getLibraryFileUrl($libraryFolderName, $fileName)

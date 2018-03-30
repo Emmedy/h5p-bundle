@@ -26,7 +26,7 @@ class EmmedyH5PExtension extends Extension
         $loader->load('services.yml');
 
         $definition = $container->getDefinition("emmedy_h5p.core");
-        $definition->replaceArgument(1, $container->getParameter('kernel.root_dir') . $container->getParameter('web_dir') . '/' . $config["storage_path"]);
+        $definition->replaceArgument(1, $container->getParameter('kernel.root_dir') . '/../' . $config['web_dir'] . '/' . $config["storage_dir"]);
         $definition->replaceArgument(2, '/');
 
         $definition = $container->getDefinition("emmedy_h5p.options");
