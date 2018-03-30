@@ -1,0 +1,24 @@
+{
+  "name": "emmedy/h5p-bundle",
+  "type": "symfony-bundle",
+  "description": "H5P Bundle for Symfony",
+  "keywords": ["h5p", "symfony", "interactive", "content", "php"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nieck Moorman",
+      "email": "nieck@emmedy.com",
+      "homepage": "https://emmedy.com",
+      "role": "developer"
+    }
+  ],
+  "require": {
+    "symfony/framework-bundle": "~2.7|~3.0",
+    "doctrine/orm": "~2.4",
+    "h5p/h5p-core": "^1.17",
+    "h5p/h5p-editor": "^1.17"
+  },
+  "autoload": {
+    "psr-4": { "Emmedy\\H5PBundle\\": "" }
+  }
+}
