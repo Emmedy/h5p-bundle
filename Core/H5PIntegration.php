@@ -166,7 +166,7 @@ class H5PIntegration
 
         $filteredParameters = $this->getFilteredParameters($content);
 
-        $embedUrl = $this->router->generate('emmedy_h5p_h5p_embed', ['content' => $content->getId()]);
+        $embedUrl = $this->router->generate('emmedy_h5p_interaction_embed', ['content' => $content->getId()]);
         $resizerUrl = $this->getH5PAssetUrl() . '/h5p-core/js/h5p-resizer.js';
         $displayOptions = $this->core->getDisplayOptionsForView($content->getDisabledFeatures(), $content->getId());
 

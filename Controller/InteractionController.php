@@ -2,7 +2,9 @@
 
 namespace Emmedy\H5PBundle\Controller;
 
+use Emmedy\H5PBundle\Entity\Content;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,7 +20,7 @@ class InteractionController extends Controller
      */
     public function setFinished(Request $request, $token)
     {
-
+        return new JsonResponse();
     }
 
     /**
@@ -28,6 +30,14 @@ class InteractionController extends Controller
      */
     public function contentUserData(Request $request, $contentId, $dataType, $subContentId)
     {
+        return new JsonResponse();
+    }
 
+    /**
+     * @Route("/embed/{content}")
+     */
+    public function embedAction(Request $request, Content $content)
+    {
+        return new JsonResponse();
     }
 }

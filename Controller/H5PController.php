@@ -56,14 +56,6 @@ class H5PController extends Controller
     }
 
     /**
-     * @Route("embed/{content}")
-     */
-    public function embedAction(Request $request, Content $content)
-    {
-
-    }
-
-    /**
      * @Route("new")
      */
     public function newAction(Request $request)
