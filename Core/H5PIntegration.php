@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Emmedy\H5PBundle\Entity\Content;
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -166,7 +167,7 @@ class H5PIntegration
 
         $filteredParameters = $this->getFilteredParameters($content);
 
-        $embedUrl = $this->router->generate('emmedy_h5p_interaction_embed', ['content' => $content->getId()]);
+        $embedUrl = $this->router->generate('emmedy_h5p_interaction_embed', ['content' => $content->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $resizerUrl = $this->getH5PAssetUrl() . '/h5p-core/js/h5p-resizer.js';
         $displayOptions = $this->core->getDisplayOptionsForView($content->getDisabledFeatures(), $content->getId());
 
