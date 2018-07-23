@@ -2,7 +2,7 @@ services:
 
     emmedy_h5p.options:
         class: Emmedy\H5PBundle\Core\H5POptions
-        arguments: [~, '%kernel.root_dir%', '@doctrine.orm.entity_manager']
+        arguments: [~, '%kernel.project_dir%', '@doctrine.orm.entity_manager']
 
     emmedy_h5p.editor_storage:
         class: Emmedy\H5PBundle\Editor\EditorStorage
