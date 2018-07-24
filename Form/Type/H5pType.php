@@ -15,6 +15,6 @@ class H5pType extends AbstractType
         $builder
             ->add('library', HiddenType::class)
             ->add('parameters', HiddenType::class)
-            ->add('save', SubmitType::class, array('label' => 'Opslaan'));
+            ->add('save', SubmitType::class, array('label' => 'Save'));
     }
 }

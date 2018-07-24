@@ -2,7 +2,7 @@ services:
 
     emmedy_h5p.options:
         class: Emmedy\H5PBundle\Core\H5POptions
-        arguments: [~, '%kernel.root_dir%', '@doctrine.orm.entity_manager']
+        arguments: [~, '%kernel.project_dir%', '@doctrine.orm.entity_manager']
 
     emmedy_h5p.editor_storage:
         class: Emmedy\H5PBundle\Editor\EditorStorage
@@ -42,7 +42,7 @@ services:
 
     emmedy_h5p.integration:
         class: Emmedy\H5PBundle\Core\H5PIntegration
-        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@templating.helper.assets', '@emmedy_h5p.contentvalidator']
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@assets.packages', '@emmedy_h5p.contentvalidator']
 
     emmedy_h5p.library_storage:
         class: Emmedy\H5PBundle\Editor\LibraryStorage

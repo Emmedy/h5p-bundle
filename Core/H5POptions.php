@@ -19,7 +19,7 @@ class H5POptions
 
     private $h5pPath;
     private $folderPath;
-    private $kernelRootDir;
+    private $projectRootDir;
     /**
      * @var EntityManager
      */
@@ -28,13 +28,13 @@ class H5POptions
     /**
      * H5POptions constructor.
      * @param array $config
-     * @param $kernelRootDir
+     * @param $projectRootDir
      * @param EntityManager $manager
      */
-    public function __construct(array $config, $kernelRootDir, EntityManager $manager)
+    public function __construct(array $config, $projectRootDir, EntityManager $manager)
     {
         $this->config = $config;
-        $this->kernelRootDir = $kernelRootDir;
+        $this->projectRootDir = $projectRootDir;
         $this->manager = $manager;
     }
 
@@ -108,7 +108,7 @@ class H5POptions
 
     public function getAbsoluteWebPath()
     {
-        return $this->kernelRootDir . '/../' . $this->getOption('web_dir');
+        return $this->projectRootDir . '/' . $this->getOption('web_dir');
     }
 
     public function getLibraryFileUrl($libraryFolderName, $fileName)

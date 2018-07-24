@@ -23,7 +23,7 @@ class IncludeAssetsCommand extends ContainerAwareCommand
 
     private function includeAssets()
     {
-        $fromDir = $this->getContainer()->getParameter('kernel.root_dir')."/../vendor/h5p/";
+        $fromDir = $this->getContainer()->getParameter('kernel.project_dir')."/vendor/h5p/";
         $toDir = $this->getContainer()->get("file_locator")->locate("@EmmedyH5PBundle/Resources/public/h5p/");
 
         $coreSubDir = "h5p-core/";
