@@ -63,7 +63,14 @@ EOT;
       ON hl3.machine_name = hl4.machine_name
      AND hl3.major_version = hl4.major_version
      AND hl3.minor_version = hl4.minor_version
-GROUP BY hl4.machine_name, hl4.major_version, hl4.minor_version
+GROUP BY hl4.machine_name, 
+         hl4.major_version, 
+         hl4.minor_version, 
+         hl4.id, 
+         hl4.title,
+         hl4.patch_version,
+         hl4.restricted,
+         hl4.has_icon
 EOT;
 
         $em = $this->getEntityManager();
