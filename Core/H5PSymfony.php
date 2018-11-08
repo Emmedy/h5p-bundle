@@ -301,7 +301,7 @@ class H5PSymfony implements \H5PFrameworkInterface
      */
     public function mayUpdateLibraries()
     {
-        return $this->authorizationChecker->isGranted('ROLE_UPDATE_H5P_LIBRARIES');
+        return $this->hasPermission(\H5PPermission::UPDATE_LIBRARIES);
     }
 
     /**
@@ -866,7 +866,7 @@ class H5PSymfony implements \H5PFrameworkInterface
     /**
      * Implements hasPermission
      *
-     * @param H5PPermission $permission
+     * @param int $permission
      * @param int $content_id
      * @return bool
      */
