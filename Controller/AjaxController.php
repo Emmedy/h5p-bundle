@@ -55,6 +55,23 @@ class AjaxController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
+     * @Route("/library-upload/")
+     */
+    public function libraryUploadCallback(Request $request)
+    {
+        $editor = $this->get('emmedy_h5p.editor');
+
+        $token = $request->get('token');
+        $filePath = $request->files->get('h5p')->getPathname();
+        $contentId = $request->get('contentId');
+
+        $editor->ajax->action(\H5PEditorEndpoints::LIBRARY_UPLOAD, $token, $filePath, $contentId);
+        exit();
+    }
+
+    /**
      * Callback that returns data for a given library
      *
      * @param string $machine_name Machine name of library
