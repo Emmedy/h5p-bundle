@@ -96,7 +96,7 @@ class H5PIntegration
         $settings = array(
             'baseUrl' => "/",
             'url' => $this->options->getRelativeH5PPath(),
-            'postUserStatistics' => is_object($user) ? $user->getId() : null,
+            'postUserStatistics' => is_object($user),
             'ajax' => array(
                 'setFinished' => $setFinishedUrl,
                 'contentUserData' => $contentUserDataUrl,
