@@ -53,3 +53,7 @@ services:
         arguments: ['@emmedy_h5p.integration']
         tags:
             - { name: twig.extension }
+
+    emmedy_h5p.result_storage:
+        class: Emmedy\H5PBundle\Service\ResultService
+        arguments: ['@service_container']

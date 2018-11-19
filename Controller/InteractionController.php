@@ -3,6 +3,7 @@
 namespace Emmedy\H5PBundle\Controller;
 
 use Emmedy\H5PBundle\Entity\Content;
+use Emmedy\H5PBundle\Service\ResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,20 @@ class InteractionController extends Controller
      */
     public function setFinished(Request $request, $token)
     {
-        return new JsonResponse();
+        if (!\H5PCore::validToken('result', $token)) {
+            \H5PCore::ajaxError('Invalid security token');
+        }
+
+        /** @var ResultService $rs */
+        $rs = $this->get('emmedy_h5p.result_storage');
+
+        $result = $rs->handleRequest($request, $this->getUser()->getId());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($result);
+        $em->flush();
+
+        return new JsonResponse(['success' => true]);
     }
 
     /**
