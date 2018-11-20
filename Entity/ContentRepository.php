@@ -49,4 +49,28 @@ class ContentRepository extends EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @param $userId
+     * @param Content $content
+     * @return ContentResult|null
+     */
+    public function findUserResult($userId, Content $content)
+    {
+        $contentResultRepo = $this->getEntityManager()->getRepository('EmmedyH5PBundle:ContentResult');
+
+        $response = $contentResultRepo->createQueryBuilder('cr')
+            ->where('cr.userId = :userId')
+            ->andWhere('cr.content = :content')
+            ->setParameter('userId', $userId)
+            ->setParameter('content', $content)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        if (empty($response)) {
+            return null;
+        }
+
+        return $response[0];
+    }
 }
