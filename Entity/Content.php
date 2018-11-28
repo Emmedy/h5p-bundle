@@ -41,6 +41,11 @@ class Content
      */
     private $filteredParameters;
 
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
     /**
      * @var int
      *
