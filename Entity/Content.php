@@ -41,6 +41,13 @@ class Content
      */
     private $filteredParameters;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $descrtiption;
+
     public function __toString()
     {
         return (string) $this->id;
@@ -120,6 +127,22 @@ class Content
     public function setFilteredParameters($filteredParameters)
     {
         $this->filteredParameters = $filteredParameters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescrtiption()
+    {
+        return $this->descrtiption;
+    }
+
+    /**
+     * @param string $descrtiption
+     */
+    public function setDescrtiption($descrtiption)
+    {
+        $this->descrtiption = $descrtiption;
     }
 
     /**
