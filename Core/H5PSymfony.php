@@ -3,6 +3,7 @@
 namespace Emmedy\H5PBundle\Core;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr;
 use Emmedy\H5PBundle\DependencyInjection\Configuration;
 use Emmedy\H5PBundle\Editor\EditorStorage;
 use Emmedy\H5PBundle\Entity\Content;
@@ -940,5 +941,50 @@ class H5PSymfony implements \H5PFrameworkInterface
         $q = $dbPlatform->getTruncateTableSql($cmd->getTableName());
         $connection->executeUpdate($q);
         $connection->query('SET FOREIGN_KEY_CHECKS=1');
+    }
+
+    /**
+     * Load addon libraries
+     *
+     * @return array
+     */
+    public function loadAddons()
+    {
+        $q = $this->manager
+            ->createQueryBuilder()
+            ->select([
+                'l1.id as libraryId',
+                'l1.machineName as machineName',
+                'l1.majorVersion as majorVersion',
+                'l1.minorVersion as minorVersion',
+                'l1.patchVersion as patchVersion',
+//                'l1.add_to as addTo',
+                'l1.preloadedJs as preloadedJs',
+                'l1.preloadedCss as preloadedCss',
+            ])
+            ->from('EmmedyH5PBundle:Library', 'l1')
+            ->leftJoin(
+                'EmmedyH5PBundle:Library',
+                'l2',
+                'ON',
+                'l1.machineName = l2.machineName AND (l1.majorVersion < l2.majorVersion OR (l1.majorVersion = l2.majorVersion AND l1.minorVersion < l2.minorVersion))'
+            )
+            ->getQuery();
+
+        dump($q);
+
+        return $q->execute();
+    }
+
+    /**
+     * Load config for libraries
+     *
+     * @param array $libraries
+     * @return array
+     */
+    public function getLibraryConfig($libraries = NULL)
+    {
+        // Same as wordpress do but i don't know what is H5P_LIBRARY_CONFIG
+        return defined('H5P_LIBRARY_CONFIG') ? H5P_LIBRARY_CONFIG : NULL;
     }
 }
