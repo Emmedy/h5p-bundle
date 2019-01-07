@@ -962,7 +962,7 @@ class H5PSymfony implements \H5PFrameworkInterface
                 'l1.majorVersion as majorVersion',
                 'l1.minorVersion as minorVersion',
                 'l1.patchVersion as patchVersion',
-//                'l1.add_to as addTo',
+                'l1.addTo as addTo',
                 'l1.preloadedJs as preloadedJs',
                 'l1.preloadedCss as preloadedCss',
             ])
@@ -970,12 +970,19 @@ class H5PSymfony implements \H5PFrameworkInterface
             ->leftJoin(
                 'EmmedyH5PBundle:Library',
                 'l2',
-                'ON',
-                'l1.machineName = l2.machineName AND (l1.majorVersion < l2.majorVersion OR (l1.majorVersion = l2.majorVersion AND l1.minorVersion < l2.minorVersion))'
+                Expr\Join::WITH,
+                'l1.machineName = l2.machineName'
+            )
+            ->where(
+                new Expr\Orx([
+                    'l1.majorVersion < l2.majorVersion',
+                    new Expr\Andx([
+                        'l1.majorVersion = l2.majorVersion',
+                        'l1.minorVersion < l2.minorVersion'
+                    ])
+                ])
             )
             ->getQuery();
-
-        dump($q);
 
         return $q->execute();
     }
