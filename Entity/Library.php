@@ -126,6 +126,20 @@ class Library
     private $hasIcon = false;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="metadata_settings", type="text", nullable=true)
+     */
+    private $metadataSettings;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="add_to", type="text", nullable=true)
+     */
+    private $addTo;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Emmedy\H5PBundle\Entity\ContentLibraries", mappedBy="library")
@@ -434,5 +448,37 @@ class Library
     public function isFrame()
     {
         return (strpos($this->embedTypes, 'iframe') !== false);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetadataSettings()
+    {
+        return $this->metadataSettings;
+    }
+
+    /**
+     * @param string $metadataSettings
+     */
+    public function setMetadataSettings($metadataSettings)
+    {
+        $this->metadataSettings = $metadataSettings;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddTo()
+    {
+        return $this->addTo;
+    }
+
+    /**
+     * @param string $addTo
+     */
+    public function setAddTo($addTo)
+    {
+        $this->addTo = $addTo;
     }
 }

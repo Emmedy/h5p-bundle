@@ -431,6 +431,8 @@ class H5PSymfony implements \H5PFrameworkInterface
             $library->setDropLibraryCss($dropLibraryCss);
             $library->setSemantics($libraryData['semantics']);
             $library->setHasIcon($libraryData['hasIcon']);
+            $library->setMetadataSettings($libraryData['metadataSettings']);
+            $library->setAddTo(isset($libraryData['addTo']) ? json_encode($libraryData['addTo']) : NULL);
 
             $this->manager->persist($library);
             $this->manager->flush();
@@ -454,6 +456,8 @@ class H5PSymfony implements \H5PFrameworkInterface
             $library->setDropLibraryCss($dropLibraryCss);
             $library->setSemantics($libraryData['semantics']);
             $library->setHasIcon($libraryData['hasIcon']);
+            $library->setMetadataSettings($libraryData['metadataSettings']);
+            $library->setAddTo(isset($libraryData['addTo']) ? json_encode($libraryData['addTo']) : NULL);
 
             $this->manager->persist($library);
             $this->manager->flush();
