@@ -971,17 +971,21 @@ class H5PSymfony implements \H5PFrameworkInterface
                 'EmmedyH5PBundle:Library',
                 'l2',
                 Expr\Join::WITH,
-                'l1.machineName = l2.machineName'
-            )
-            ->where(
-                new Expr\Orx([
-                    'l1.majorVersion < l2.majorVersion',
-                    new Expr\Andx([
-                        'l1.majorVersion = l2.majorVersion',
-                        'l1.minorVersion < l2.minorVersion'
+                new Expr\Andx([
+                    'l1.machineName = l2.machineName',
+                    new Expr\Orx([
+                        'l1.majorVersion > l2.majorVersion',
+                        new Expr\Andx([
+                            'l1.majorVersion = l2.majorVersion',
+                            'l1.minorVersion > l2.minorVersion'
+                        ])
                     ])
                 ])
             )
+            ->where(new Expr\Andx([
+                'l1.addTo IS NOT NULL',
+                'l2.machineName IS NULL'
+            ]))
             ->getQuery();
 
         return $q->execute();
