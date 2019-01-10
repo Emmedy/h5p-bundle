@@ -5,6 +5,7 @@ namespace Emmedy\H5PBundle\Editor;
 
 use Doctrine\ORM\EntityManager;
 use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Entity\Library;
 use Emmedy\H5PBundle\Event\H5PEvents;
 use Emmedy\H5PBundle\Event\LibraryFileEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -114,6 +115,9 @@ class EditorStorage implements \H5peditorStorage
         $librariesResult = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findAllRunnableWithSemantics();
 
         foreach ($librariesResult as $library) {
+            //Decode metadata settings
+            $library->metadataSettings = json_decode($library->metadataSettings);
+
             // Make sure we only display the newest version of a library.
             foreach ($libraries as $existingLibrary) {
                 if ($library->machineName === $existingLibrary->machineName) {
@@ -143,12 +147,14 @@ class EditorStorage implements \H5peditorStorage
     {
         $librariesWithDetails = [];
         foreach ($libraries as $library) {
+            /** @var Library $details */
             $details = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findHasSemantics($library->name, $library->majorVersion, $library->minorVersion);
             if ($details) {
-                $library->tutorialUrl = $details->tutorialUrl;
-                $library->title = $details->title;
-                $library->runnable = $details->runnable;
-                $library->restricted = $canCreateRestricted ? false : ($details->restricted === '1');
+                $library->tutorialUrl = $details->getTutorialUrl();
+                $library->title = $details->getTitle();
+                $library->runnable = $details->isRunnable();
+                $library->restricted = $canCreateRestricted ? false : ($details->isRestricted() === '1');
+                $library->metadataSettings = json_decode($details->getMetadataSettings());
                 $librariesWithDetails[] = $library;
             }
         }

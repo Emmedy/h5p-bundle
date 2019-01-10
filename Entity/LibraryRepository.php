@@ -88,7 +88,7 @@ EOT;
     public function findHasSemantics($machineName, $majorVersion, $minorVersion)
     {
         $qb = $this->createQueryBuilder('l')
-            ->select('l.title, l.runnable, l.restricted, l.tutorialUrl')
+            ->select('l')
             ->where('l.machineName = :machineName and l.majorVersion = :majorVersion and l.minorVersion = :minorVersion and l.semantics is not null')
             ->setParameters(['machineName' => $machineName, 'majorVersion' => $majorVersion, 'minorVersion' => $minorVersion]);
 
@@ -103,8 +103,8 @@ EOT;
     public function findAllRunnableWithSemantics()
     {
         $qb = $this->createQueryBuilder('l')
-            ->select('l.machineName as name, l.title, l.majorVersion, l.minorVersion, l.restricted, l.tutorialUrl')
-            ->where('l.runnable = true and l.semantics is not null')
+            ->select('l.machineName as name, l.title, l.majorVersion, l.minorVersion, l.restricted, l.tutorialUrl, l.metadataSettings')
+            ->where('l.runnable = 1 and l.semantics is not null')
             ->orderBy('l.title');
 
         $libraries = $qb->getQuery()->getResult();
