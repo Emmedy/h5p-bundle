@@ -188,6 +188,8 @@ class H5PIntegration
 
     public function getFilteredParameters(Content $content)
     {
+        $params = $content->getParameters();
+
         $contentData = [
             'title' => 'Interactive Content',
             'id' => $content->getId(),
@@ -197,10 +199,13 @@ class H5PIntegration
                 'majorVersion' => $content->getLibrary()->getMajorVersion(),
                 'minorVersion' => $content->getLibrary()->getMinorVersion(),
             ],
-            'params' => $content->getParameters(),
+            'params' => $params,
             'filtered' => $content->getFilteredParameters(),
             'embedType' => 'div',
+            'metadata' => $content->getLibrary()->getMetadataSettings()
         ];
+
+        if (!empty($contentData['filtered'] && $contentData['filtered'] == '{}')) $contentData['filtered'] = null;
 
         return $this->core->filterParameters($contentData);
     }

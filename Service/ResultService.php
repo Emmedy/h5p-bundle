@@ -48,8 +48,6 @@ class ResultService
             $result->setContent($contentRepo->find($contentId));
         }
 
-        dump($request);
-
         $result->setMaxScore($request->get('maxScore') ?? $result->getMaxScore());
         $result->setFinished($request->get('finished') ?? $result->getFinished());
         $result->setOpened($request->get('opened') ?? $result->getOpened());
