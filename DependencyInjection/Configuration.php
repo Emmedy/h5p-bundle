@@ -46,6 +46,11 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('content_type_cache_updated_at')->defaultValue(0)->end()
                 ->booleanNode('enable_lrs_content_types')->defaultFalse()->end()
                 ->booleanNode('use_permission')->defaultFalse()->end()
+                ->scalarNode('entity_manager')
+                    ->info('Name of the entity manager that you wish to use for managing clients and tokens.')
+                    ->cannotBeEmpty()
+                    ->defaultValue('default')
+                ->end()
             ->end();
 
         return $treeBuilder;
