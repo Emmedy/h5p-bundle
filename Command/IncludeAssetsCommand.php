@@ -6,6 +6,7 @@ namespace Emmedy\H5PBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class IncludeAssetsCommand extends ContainerAwareCommand
 {
@@ -23,22 +24,23 @@ class IncludeAssetsCommand extends ContainerAwareCommand
 
     private function includeAssets()
     {
-        $fromDir = "/vendor/h5p/";
-        $toDir = str_replace($this->getContainer()->getParameter('kernel.project_dir'), '', $this->getContainer()->get("file_locator")->locate("@EmmedyH5PBundle/Resources/public/h5p/"));
+        $fromDir = $this->getContainer()->getParameter('kernel.project_dir')."/vendor/h5p/";
+        $toDir = $this->getContainer()->get("file_locator")->locate("@EmmedyH5PBundle/Resources/public/h5p/");
 
         $coreSubDir = "h5p-core/";
         $coreDirs = ["fonts", "images", "js", "styles"];
-        $this->createSymLinks($fromDir, $toDir, $coreSubDir, $coreDirs);
+        $this->copy($fromDir, $toDir, $coreSubDir, $coreDirs);
 
         $editorSubDir = "h5p-editor/";
         $editorDirs = ["ckeditor", "images", "language", "libs", "scripts", "styles"];
-        $this->createSymLinks($fromDir, $toDir, $editorSubDir, $editorDirs);
+        $this->copy($fromDir, $toDir, $editorSubDir, $editorDirs);
     }
 
-    private function createSymLinks($fromDir, $toDir, $subDir, $subDirs)
+    private function copy($fromDir, $toDir, $subDir, $subDirs)
     {
+        $filesystem = new Filesystem();
         foreach ($subDirs as $dir) {
-            symlink($fromDir . $subDir . $dir, $toDir . $subDir . $dir);
+            $filesystem->mirror($fromDir . $subDir . $dir, $toDir . $subDir . $dir);
         }
     }
 }
