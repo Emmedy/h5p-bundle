@@ -81,7 +81,7 @@ class H5PIntegration
             return $settings; // Only needs to be generated the first time
         }
         // Load current user
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken() ? $this->tokenStorage->getToken()->getUser() : null;
         // Load configuration settings
         $saveContentState = $this->options->getOption('save_content_state', false);
         $saveContentFrequency = $this->options->getOption('save_content_frequency', 30);
