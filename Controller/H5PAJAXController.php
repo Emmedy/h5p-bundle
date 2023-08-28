@@ -1,10 +1,10 @@
 <?php
 
-namespace Studit\H5PBundle\Controller;
+namespace Emmedy\H5PBundle\Controller;
 
 use Exception;
-use Studit\H5PBundle\Core\H5POptions;
-use Studit\H5PBundle\Event\H5PEvents;
+use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Event\H5PEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,7 +140,7 @@ class H5PAJAXController extends AbstractController
             $request->get('majorVersion'),
             $request->get('minorVersion'),
             $locale,
-            $this->get('studit_h5p.options')->getOption('storage_dir'),
+            $this->get('emmedy_h5p.options')->getOption('storage_dir'),
             '',
             $locale
         );

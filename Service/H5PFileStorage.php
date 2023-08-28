@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Studit\H5PBundle\Service;
+namespace Emmedy\H5PBundle\Service;
 
-use Studit\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Core\H5POptions;
 
 class H5PFileStorage extends \H5PDefaultStorage
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Entity;
+namespace Emmedy\H5PBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -47,7 +47,7 @@ class Event
     /**
      * @var Content
      *
-     * @ORM\ManyToOne(targetEntity="\Studit\H5PBundle\Entity\Content")
+     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Content")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $content;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Studit\H5PBundle\Command;
+namespace Emmedy\H5PBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,7 +31,7 @@ class H5pBundleCleanUpFilesCommand extends Command
     {
         $location = $input->getArgument('location');
         if (!$location) {
-            $location = $this->get('studit_h5p.options')->getAbsoluteH5PPath() . '/editor';
+            $location = $this->get('emmedy_h5p.options')->getAbsoluteH5PPath() . '/editor';
         }
         \H5PCore::deleteFileTree($location);
     }

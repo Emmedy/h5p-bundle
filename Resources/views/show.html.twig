@@ -1,7 +1,7 @@
-{% extends '@StuditH5P/layout.html.twig' %}
+{% extends '@EmmedyH5P/layout.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/studith5p/h5p/h5p-core/styles/h5p.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/emmedyh5p/h5p/h5p-core/styles/h5p.css') }}" />
     {% if not isFrame %}
         {% for style in files.styles %}
             <link rel="stylesheet" href="{{ asset(style.path ~ style.version) }}" />
@@ -11,7 +11,7 @@
 
 {% block navbar_elements %}
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('studit_h5p_h5p_edit', { 'content': contentId }) }}">Edit</a>
+        <a class="nav-link" href="{{ path('emmedy_h5p_h5p_edit', { 'content': contentId }) }}">Edit</a>
     </li>
 {% endblock %}
 
@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ include('@StuditH5P/javascripts.html.twig') }}
+    {{ include('@EmmedyH5P/javascripts.html.twig') }}
     {% if not isFrame %}
         {% for script in files.scripts %}
             <script src="{{ asset(script.path ~ script.version) }}"></script>

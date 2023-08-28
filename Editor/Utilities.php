@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Studit\H5PBundle\Editor;
+namespace Emmedy\H5PBundle\Editor;
 
 use Doctrine\ORM\EntityManager;
-use Studit\H5PBundle\Core\H5PSymfony;
+use Emmedy\H5PBundle\Core\H5PSymfony;
 
 class Utilities
 {

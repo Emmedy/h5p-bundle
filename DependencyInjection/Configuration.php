@@ -1,6 +1,6 @@
 <?php
 
-namespace Studit\H5PBundle\DependencyInjection;
+namespace Emmedy\H5PBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -17,13 +17,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('studit_h5_p');
+        $treeBuilder = new TreeBuilder('emmedy_h5_p');
 
         if (method_exists($treeBuilder, 'getRootNode')) {
             $rootNode = $treeBuilder->getRootNode();
         } else {
             // BC layer for symfony/config 4.1 and older
-            $rootNode = $treeBuilder->root('studit_h5_p');
+            $rootNode = $treeBuilder->root('emmedy_h5_p');
         }
         $rootNode
             ->children()

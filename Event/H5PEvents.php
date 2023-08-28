@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Studit\H5PBundle\Event;
+namespace Emmedy\H5PBundle\Event;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use Studit\H5PBundle\Entity\Counters;
-use Studit\H5PBundle\Entity\Event;
+use Emmedy\H5PBundle\Entity\Counters;
+use Emmedy\H5PBundle\Entity\Event;
 
 class H5PEvents extends \H5PEventBase
 {
@@ -72,7 +72,7 @@ class H5PEvents extends \H5PEventBase
         /**
          * @var Counters $current_num
         */
-        /*$current_num = $this->em->getRepository("Studit\H5PBundle\Entity\Counters")->findOneBy(['type' => $type, 'libraryName' => $this->library_name, 'libraryVersion' => $this->library_version]);
+        /*$current_num = $this->em->getRepository("Emmedy\H5PBundle\Entity\Counters")->findOneBy(['type' => $type, 'libraryName' => $this->library_name, 'libraryVersion' => $this->library_version]);
         if(!$current_num){
             $current_num = new Counters();
             $current_num->setNum(1);

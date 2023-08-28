@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Studit\H5PBundle\Core;
+namespace Emmedy\H5PBundle\Core;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Studit\H5PBundle\Entity\Content;
+use Emmedy\H5PBundle\Entity\Content;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -87,8 +87,8 @@ class H5PIntegration
         $saveContentFrequency = $this->options->getOption('save_content_frequency', 30);
         $hubIsEnabled = $this->options->getOption('hub_is_enabled', true);
         // Create AJAX URLs
-        $setFinishedUrl = $this->router->generate('studit_h5p_h5pinteraction_setfinished', ['token' => \H5PCore::createToken('result')]);
-        $contentUserDataUrl = $this->router->generate('studit_h5p_h5pinteraction_contentuserdata', ['contentId' => ':contentId', 'dataType' => ':dataType', 'subContentId' => ':subContentId', 'token' => \H5PCore::createToken('contentuserdata')]);
+        $setFinishedUrl = $this->router->generate('emmedy_h5p_h5pinteraction_setfinished', ['token' => \H5PCore::createToken('result')]);
+        $contentUserDataUrl = $this->router->generate('emmedy_h5p_h5pinteraction_contentuserdata', ['contentId' => ':contentId', 'dataType' => ':dataType', 'subContentId' => ':subContentId', 'token' => \H5PCore::createToken('contentuserdata')]);
         // Define the generic H5PIntegration settings
         $settings = array(
             'baseUrl' => "/",
@@ -148,13 +148,13 @@ class H5PIntegration
             ]
         ];
         if (is_object($this->tokenStorage->getToken()->getUser())) {
-            $contentUserData = $this->entityManager->getRepository('Studit\H5PBundle\Entity\ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()->getId()]);
+            $contentUserData = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()->getId()]);
             if ($contentUserData) {
                 $content_user_data[$contentUserData->getSubContentId()][$contentUserData->getDataId()] = $contentUserData->getData();
             }
         }
         $filteredParameters = $this->getFilteredParameters($content);
-        $embedUrl = $this->router->generate('studit_h5p_h5pinteraction_embed', ['content' => $content->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $embedUrl = $this->router->generate('emmedy_h5p_h5pinteraction_embed', ['content' => $content->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $resizerUrl = $this->getH5PAssetUrl() . '/h5p-core/js/h5p-resizer.js';
         $displayOptions = $this->core->getDisplayOptionsForView($content->getDisabledFeatures(), $content->getId());
         return array(

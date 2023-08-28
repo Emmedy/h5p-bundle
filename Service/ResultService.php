@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Studit\H5PBundle\Service;
+namespace Emmedy\H5PBundle\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use Studit\H5PBundle\Entity\ContentResult;
+use Emmedy\H5PBundle\Entity\ContentResult;
 use Symfony\Component\HttpFoundation\Request;
 
 class ResultService
@@ -35,8 +35,8 @@ class ResultService
             \H5PCore::ajaxError('Invalid content');
         }
         // TODO: Fire 'h5p_alter_user_result' event here.
-        $contentRepo = $this->em->getRepository('Studit\H5PBundle\Entity\Content');
-        $contentResultRepo = $this->em->getRepository('Studit\H5PBundle\Entity\ContentResult');
+        $contentRepo = $this->em->getRepository('Emmedy\H5PBundle\Entity\Content');
+        $contentResultRepo = $this->em->getRepository('Emmedy\H5PBundle\Entity\ContentResult');
         $result = $contentResultRepo->findOneBy(['userId' => $userId, 'content' => $contentId]);
         if (!$result) {
             $result = new ContentResult($userId);
@@ -59,7 +59,7 @@ class ResultService
      */
     public function removeData($contentId, $dataType, $user, $subContentId)
     {
-        $ContentUserData = $this->em->getRepository('Studit\H5PBundle\Entity\ContentUserData')
+        $ContentUserData = $this->em->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')
             ->findBy(
                 [
                     'subContentId' => $subContentId,

@@ -1,4 +1,4 @@
-{% extends '@StuditH5P/layout.html.twig' %}
+{% extends '@EmmedyH5P/layout.html.twig' %}
 
 {% block content %}
         <table class="table">
@@ -14,7 +14,7 @@
                 <tr>
                     <td>{{ content.library }}</td>
                     <td>{{ content.id }}</td>
-                    <td><a href="{{ path('studit_h5p_h5p_edit', {'content': content.id}) }}"><span class="oi oi-pencil"></span>edit</a> | <a href="{{ path('studit_h5p_h5p_show', {'content': content.id}) }}">show</a> | <a href="{{ path('studit_h5p_h5p_delete', {'contentId': content.id}) }}">delete</a></td>
+                    <td><a href="{{ path('emmedy_h5p_h5p_edit', {'content': content.id}) }}"><span class="oi oi-pencil"></span>edit</a> | <a href="{{ path('emmedy_h5p_h5p_show', {'content': content.id}) }}">show</a> | <a href="{{ path('emmedy_h5p_h5p_delete', {'contentId': content.id}) }}">delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

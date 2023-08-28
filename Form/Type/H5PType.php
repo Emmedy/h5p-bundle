@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Form\Type;
+namespace Emmedy\H5PBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

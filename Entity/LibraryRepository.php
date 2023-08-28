@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Entity;
+namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Entity;
+namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -113,7 +113,7 @@ class Library
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Studit\H5PBundle\Entity\ContentLibraries", mappedBy="library")
+     * @ORM\OneToMany(targetEntity="Emmedy\H5PBundle\Entity\ContentLibraries", mappedBy="library")
      */
     private $contentLibraries;
     /**

@@ -1,4 +1,4 @@
-{% extends '@StuditH5P/layout.html.twig' %}
+{% extends '@EmmedyH5P/layout.html.twig' %}
 
 {% block content %}
     {{ form_start(form) }}
@@ -11,6 +11,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ include('@StuditH5P/edit_javascripts.html.twig') }}
-    <script src="{{ asset('bundles/studith5p/h5p/symfony-h5p.js') }}"></script>
+    {{ include('@EmmedyH5P/edit_javascripts.html.twig') }}
+    <script src="{{ asset('bundles/emmedyh5p/h5p/symfony-h5p.js') }}"></script>
 {% endblock %}

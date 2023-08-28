@@ -1,7 +1,7 @@
-studit_h5p.ajax:
-  resource: "@StuditH5PBundle/Controller/H5PAJAXController.php"
+emmedy_h5p.ajax:
+  resource: "@EmmedyH5PBundle/Controller/H5PAJAXController.php"
   type:     annotation
 
-studit_h5p.interaction:
-  resource: "@StuditH5PBundle/Controller/H5PInteractionController.php"
+emmedy_h5p.interaction:
+  resource: "@EmmedyH5PBundle/Controller/H5PInteractionController.php"
   type:     annotation

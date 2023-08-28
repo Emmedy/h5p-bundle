@@ -10,14 +10,14 @@ Installation
 
 Install with composer
 ``` bash
-composer require jorisdugue/h5p-bundle
+composer require emmedy/h5p-bundle
 ```
 
 Enable the bundle in `AppKernel.php`
 ```php
 return [
 // ...
-    \Studit\H5PBundle\StuditH5PBundle::class => ['all' => true]
+    \Emmedy\H5PBundle\EmmedyH5PBundle::class => ['all' => true]
 ]
 ```
 **Warning for Windows** : You need launch the cmd in administrator
@@ -44,16 +44,16 @@ php bin/console make:migrations
 
 Enable the routing in `routes.yaml`
 ```yaml
-studit_h5p.demo:
-    resource: "@StuditH5PBundle/Resources/config/routing_demo.yml"
+emmedy_h5p.demo:
+    resource: "@EmmedyH5PBundle/Resources/config/routing_demo.yml"
     prefix:   /
 
-studit_h5p:
-    resource: "@StuditH5PBundle/Resources/config/routes.yaml"
+emmedy_h5p:
+    resource: "@EmmedyH5PBundle/Resources/config/routes.yaml"
     prefix:   /
 ```
 
-studit_h5p.demo is optional. It can be used as an example how to use H5P within Symfony and test if this bundle is working properly.
+emmedy_h5p.demo is optional. It can be used as an example how to use H5P within Symfony and test if this bundle is working properly.
 
 Configuration
 -------------
@@ -62,7 +62,7 @@ For SF4:
 Configure the bundle in `services.yaml`. (Watch for the underscore between h5 and p)
 ```yaml
 parameters:
-    studit_h5_p:
+    emmedy_h5_p:
         use_permission: true # This is false by default to let the demo work out of the box.
         storage_dir: / # Location to store all H5P libraries and files
         web_dir: public # Location of the public web directory
@@ -73,7 +73,7 @@ parameters:
 For Symfony 5:
 Configure the bundle in `packages > h5pBundle.yml`.
 ```yaml
-studit_h5_p:
+emmedy_h5_p:
     use_permission: true # This is false by default to let the demo work out of the box.
     storage_dir: / # Location to store all H5P libraries and files
     web_dir: public # Location of the public web directory

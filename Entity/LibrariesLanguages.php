@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Entity;
+namespace Emmedy\H5PBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +16,7 @@ class LibrariesLanguages
      * @var Library
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Studit\H5PBundle\Entity\Library")
+     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
      * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $library;

@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Studit\H5PBundle\Editor;
+namespace Emmedy\H5PBundle\Editor;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use H5peditorFile;
-use Studit\H5PBundle\Core\H5POptions;
-use Studit\H5PBundle\Core\H5PSymfony;
-use Studit\H5PBundle\Entity\Library;
-use Studit\H5PBundle\Event\H5PEvents;
-use Studit\H5PBundle\Event\LibraryFileEvent;
+use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Core\H5PSymfony;
+use Emmedy\H5PBundle\Entity\Library;
+use Emmedy\H5PBundle\Event\H5PEvents;
+use Emmedy\H5PBundle\Event\LibraryFileEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -79,7 +79,7 @@ class EditorStorage implements \H5peditorStorage
      */
     public function getLanguage($machineName, $majorVersion, $minorVersion, $language)
     {
-        return $this->entityManager->getRepository('Studit\H5PBundle\Entity\LibrariesLanguages')->findForLibrary($machineName, $majorVersion, $minorVersion, $language);
+        return $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\LibrariesLanguages')->findForLibrary($machineName, $majorVersion, $minorVersion, $language);
     }
 
     /**
@@ -97,7 +97,7 @@ class EditorStorage implements \H5peditorStorage
      */
     public function getAvailableLanguages($machineName, $majorVersion, $minorVersion)
     {
-        return $this->entityManager->getRepository('Studit\H5PBundle\Entity\LibrariesLanguages')->findForLibraryAllLanguages($machineName, $majorVersion, $minorVersion);
+        return $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\LibrariesLanguages')->findForLibraryAllLanguages($machineName, $majorVersion, $minorVersion);
     }
 
     /**
@@ -131,7 +131,7 @@ class EditorStorage implements \H5peditorStorage
             return $this->getLibrariesWithDetails($libraries, $canCreateRestricted);
         }
         $libraries = [];
-        $librariesResult = $this->entityManager->getRepository('Studit\H5PBundle\Entity\Library')->findAllRunnableWithSemantics();
+        $librariesResult = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\Library')->findAllRunnableWithSemantics();
         foreach ($librariesResult as $library) {
             //Decode metadata setting
             $library->metadataSettings = json_decode($library->metadataSettings);
@@ -165,7 +165,7 @@ class EditorStorage implements \H5peditorStorage
         $librariesWithDetails = [];
         foreach ($libraries as $library) {
             /** @var Library $details */
-            $details = $this->entityManager->getRepository('Studit\H5PBundle\Entity\Library')->findHasSemantics($library->name, $library->majorVersion, $library->minorVersion);
+            $details = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\Library')->findHasSemantics($library->name, $library->majorVersion, $library->minorVersion);
             if ($details) {
                 $library->tutorialUrl = $details->getTutorialUrl();
                 $library->title = $details->getTitle();

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Event;
+namespace Emmedy\H5PBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

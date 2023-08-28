@@ -4,124 +4,124 @@ services:
         #autowire: true
         #autoconfigure: true
 
-    studit_h5p.options:
-        class: Studit\H5PBundle\Core\H5POptions
+    emmedy_h5p.options:
+        class: Emmedy\H5PBundle\Core\H5POptions
         arguments: [~, '%kernel.project_dir%', '@doctrine.orm.entity_manager']
-    Studit\H5PBundle\Core\H5POptions: '@studit_h5p.options'
+    Emmedy\H5PBundle\Core\H5POptions: '@emmedy_h5p.options'
 
-    studit_h5p.editor_storage:
-        class: Studit\H5PBundle\Editor\EditorStorage
-        arguments: ['@studit_h5p.options', '@filesystem', '@security.authorization_checker', '@doctrine.orm.entity_manager', '@event_dispatcher']
-    H5peditorStorage: '@studit_h5p.editor_storage'
+    emmedy_h5p.editor_storage:
+        class: Emmedy\H5PBundle\Editor\EditorStorage
+        arguments: ['@emmedy_h5p.options', '@filesystem', '@security.authorization_checker', '@doctrine.orm.entity_manager', '@event_dispatcher']
+    H5peditorStorage: '@emmedy_h5p.editor_storage'
 
-    studit_h5p.interface:
-        class: Studit\H5PBundle\Core\H5PSymfony
-        arguments: ['@studit_h5p.options', '@studit_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@?session', '@?request_stack', '@security.authorization_checker', '@event_dispatcher', '@router.default']
-    Studit\H5PBundle\Core\H5PSymfony: '@studit_h5p.interface'
+    emmedy_h5p.interface:
+        class: Emmedy\H5PBundle\Core\H5PSymfony
+        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@?session', '@?request_stack', '@security.authorization_checker', '@event_dispatcher', '@router.default']
+    Emmedy\H5PBundle\Core\H5PSymfony: '@emmedy_h5p.interface'
 
-    studit_h5p.filestorage:
-        class: Studit\H5PBundle\Service\H5PFileStorage
-        arguments: ['@studit_h5p.options']
-    Studit\H5PBundle\Service\H5PFileStorage: '@studit_h5p.filestorage'
+    emmedy_h5p.filestorage:
+        class: Emmedy\H5PBundle\Service\H5PFileStorage
+        arguments: ['@emmedy_h5p.options']
+    Emmedy\H5PBundle\Service\H5PFileStorage: '@emmedy_h5p.filestorage'
 
-    studit_h5p.core:
+    emmedy_h5p.core:
         class: H5PCore
-        arguments: ['@studit_h5p.interface', '@studit_h5p.filestorage', ~, 'en' , true]
-    H5PCore: '@studit_h5p.core'
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.filestorage', ~, 'en' , true]
+    H5PCore: '@emmedy_h5p.core'
 
-    studit_h5p.editor_ajax:
-        class: Studit\H5PBundle\Editor\EditorAjax
+    emmedy_h5p.editor_ajax:
+        class: Emmedy\H5PBundle\Editor\EditorAjax
         arguments: ['@doctrine.orm.entity_manager', '@security.token_storage']
-    Studit\H5PBundle\Editor\EditorAjax: '@studit_h5p.editor_ajax'
+    Emmedy\H5PBundle\Editor\EditorAjax: '@emmedy_h5p.editor_ajax'
 
-    studit_h5p.editor:
+    emmedy_h5p.editor:
         class: H5peditor
-        arguments: ['@studit_h5p.core', '@studit_h5p.editor_storage', '@studit_h5p.editor_ajax']
-    H5peditor: '@studit_h5p.editor'
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor_storage', '@emmedy_h5p.editor_ajax']
+    H5peditor: '@emmedy_h5p.editor'
 
-    studit_h5p.validator:
+    emmedy_h5p.validator:
         class: H5PValidator
-        arguments: ['@studit_h5p.interface', '@studit_h5p.core']
-    H5PValidator: '@studit_h5p.validator'
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PValidator: '@emmedy_h5p.validator'
 
-    studit_h5p.storage:
+    emmedy_h5p.storage:
         class: H5PStorage
-        arguments: ['@studit_h5p.interface', '@studit_h5p.core']
-    H5PStorage: '@studit_h5p.storage'
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PStorage: '@emmedy_h5p.storage'
 
-    studit_h5p.contentvalidator:
+    emmedy_h5p.contentvalidator:
         class: H5PContentValidator
-        arguments: ['@studit_h5p.interface', '@studit_h5p.core']
-    H5PContentValidator: '@studit_h5p.contentvalidator'
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PContentValidator: '@emmedy_h5p.contentvalidator'
 
-    studit_h5p.export:
+    emmedy_h5p.export:
         class: H5PExport
-        arguments: ['@studit_h5p.interface', '@studit_h5p.core']
-    H5PExport: '@studit_h5p.export'
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PExport: '@emmedy_h5p.export'
 
-    studit_h5p.integration:
-        class: Studit\H5PBundle\Core\H5PIntegration
-        arguments: ['@studit_h5p.core', '@studit_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@assets.packages', '@studit_h5p.contentvalidator']
-    Studit\H5PBundle\Core\H5PIntegration: '@studit_h5p.integration'
+    emmedy_h5p.integration:
+        class: Emmedy\H5PBundle\Core\H5PIntegration
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@assets.packages', '@emmedy_h5p.contentvalidator']
+    Emmedy\H5PBundle\Core\H5PIntegration: '@emmedy_h5p.integration'
 
-    studit_h5p.library_storage:
-        class: Studit\H5PBundle\Editor\LibraryStorage
-        arguments: ['@studit_h5p.core', '@studit_h5p.editor', '@doctrine.orm.entity_manager']
-    Studit\H5PBundle\Editor\LibraryStorage: '@studit_h5p.library_storage'
+    emmedy_h5p.library_storage:
+        class: Emmedy\H5PBundle\Editor\LibraryStorage
+        arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor', '@doctrine.orm.entity_manager']
+    Emmedy\H5PBundle\Editor\LibraryStorage: '@emmedy_h5p.library_storage'
 
-    studit_h5p.twig.h5p_extension:
-        class: Studit\H5PBundle\Twig\H5PExtension
-        arguments: ['@studit_h5p.integration']
+    emmedy_h5p.twig.h5p_extension:
+        class: Emmedy\H5PBundle\Twig\H5PExtension
+        arguments: ['@emmedy_h5p.integration']
         tags:
             - { name: twig.extension }
-    Studit\H5PBundle\Twig\H5PExtension: '@studit_h5p.twig.h5p_extension'
+    Emmedy\H5PBundle\Twig\H5PExtension: '@emmedy_h5p.twig.h5p_extension'
 
-    studit_h5p.result_storage:
-        class: Studit\H5PBundle\Service\ResultService
+    emmedy_h5p.result_storage:
+        class: Emmedy\H5PBundle\Service\ResultService
         arguments: ['@doctrine.orm.entity_manager']
-    Studit\H5PBundle\Service\ResultService: '@studit_h5p.result_storage'
+    Emmedy\H5PBundle\Service\ResultService: '@emmedy_h5p.result_storage'
 
-    Studit\H5PBundle\Command\H5pBundleIncludeAssetsCommand:
+    Emmedy\H5PBundle\Command\H5pBundleIncludeAssetsCommand:
         autowire: true
         tags:
             - { name: 'console.command', command: 'h5p-bundle:IncludeAssetsCommand' }
-    Studit\H5PBundle\Command\H5pBundleCleanUpFilesCommand:
+    Emmedy\H5PBundle\Command\H5pBundleCleanUpFilesCommand:
         tags:
             - { name: 'console.command', command: 'h5p-bundle:cleanup-files'}
 
-    Studit\H5PBundle\Controller\H5PController:
+    Emmedy\H5PBundle\Controller\H5PController:
         autowire: true
         autoconfigure: true
         tags: [ 'controller.service_arguments']
-    Studit\H5PBundle\Controller\H5PInteractionController:
+    Emmedy\H5PBundle\Controller\H5PInteractionController:
         autowire: true
         autoconfigure: true
         tags: [ 'controller.service_arguments']
-    Studit\H5PBundle\Controller\H5PAJAXController:
+    Emmedy\H5PBundle\Controller\H5PAJAXController:
         autowire: true
         autoconfigure: true
         tags: [ 'controller.service_arguments']
 
-    Studit\H5PBundle\Entity\EventRepository:
+    Emmedy\H5PBundle\Entity\EventRepository:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    Studit\H5PBundle\Entity\LibraryRepository:
+    Emmedy\H5PBundle\Entity\LibraryRepository:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    Studit\H5PBundle\Entity\LibrariesLanguagesRepository:
+    Emmedy\H5PBundle\Entity\LibrariesLanguagesRepository:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    Studit\H5PBundle\Entity\LibraryLibrariesRepository:
+    Emmedy\H5PBundle\Entity\LibraryLibrariesRepository:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    Studit\H5PBundle\Entity\ContentRepository:
+    Emmedy\H5PBundle\Entity\ContentRepository:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    Studit\H5PBundle\Entity\OptionRepository:
+    Emmedy\H5PBundle\Entity\OptionRepository:
         autowire: true
         tags: ['doctrine.repository_service']

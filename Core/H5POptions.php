@@ -1,11 +1,11 @@
 <?php
 
-namespace Studit\H5PBundle\Core;
+namespace Emmedy\H5PBundle\Core;
 
 
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\ORM\EntityManagerInterface;
-use Studit\H5PBundle\Entity\Option;
+use Emmedy\H5PBundle\Entity\Option;
 
 class H5POptions
 {
@@ -61,7 +61,7 @@ class H5POptions
 
         if (!isset($this->storedConfig[$name]) || $this->storedConfig[$name] !== $value) {
             $this->storedConfig[$name] = $value;
-            $option = $this->manager->getRepository('Studit\H5PBundle\Entity\Option')->find($name);
+            $option = $this->manager->getRepository('Emmedy\H5PBundle\Entity\Option')->find($name);
             if (!$option) {
                 $option = new Option($name);
             }
@@ -75,7 +75,7 @@ class H5POptions
     {
         if ($this->storedConfig === null) {
             $this->storedConfig = [];
-            $options = $this->manager->getRepository('Studit\H5PBundle\Entity\Option')->findAll();
+            $options = $this->manager->getRepository('Emmedy\H5PBundle\Entity\Option')->findAll();
             foreach ($options as $option) {
                 $this->storedConfig[$option->getName()] = $option->getValue();
             }
@@ -134,7 +134,7 @@ class H5POptions
 
     public function getH5PAssetPath()
     {
-        return '/bundles/studith5p/h5p';
+        return '/bundles/emmedyh5p/h5p';
     }
 
 }

@@ -1,5 +1,5 @@
 {
-  "name": "jorisdugue/h5p-bundle",
+  "name": "emmedy/h5p-bundle",
   "type": "symfony-bundle",
   "description": "H5P Bundle for Symfony 4 and Symfony 5",
   "keywords": [
@@ -21,7 +21,7 @@
     },
     {
       "name": "Joris Dugué",
-      "email": "joris@studit.fr",
+      "email": "joris@emmedy.fr",
       "role": "developer",
       "homepage": "https://joris.dugue.ml"
     }
@@ -41,7 +41,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Studit\\H5PBundle\\": ""
+      "Emmedy\\H5PBundle\\": ""
     }
   }
 }

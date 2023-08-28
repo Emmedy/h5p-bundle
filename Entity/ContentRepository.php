@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Studit\H5PBundle\Entity;
+namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -55,7 +55,7 @@ class ContentRepository extends ServiceEntityRepository
      */
     public function findUserResult($userId, Content $content)
     {
-        $contentResultRepo = $this->getEntityManager()->getRepository('Studit\H5PBundle\Entity\ContentResult');
+        $contentResultRepo = $this->getEntityManager()->getRepository('Emmedy\H5PBundle\Entity\ContentResult');
         $response = $contentResultRepo->createQueryBuilder('cr')
             ->where('cr.userId = :userId')
             ->andWhere('cr.content = :content')

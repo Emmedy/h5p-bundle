@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Studit\H5PBundle\Controller;
+namespace Emmedy\H5PBundle\Controller;
 
 
 use Exception;
-use Studit\H5PBundle\Entity\Content;
-use Studit\H5PBundle\Entity\ContentUserData;
-use Studit\H5PBundle\Service\ResultService;
+use Emmedy\H5PBundle\Entity\Content;
+use Emmedy\H5PBundle\Entity\ContentUserData;
+use Emmedy\H5PBundle\Service\ResultService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ class H5PInteractionController extends AbstractController{
             \H5PCore::ajaxError('Invalid security token');
         }
         /* @var ResultService $rs */
-        $rs = $this->get('studit_h5p.result_storage');
+        $rs = $this->get('emmedy_h5p.result_storage');
         $result = $rs->handleRequestFinished($request, $this->getUser()->getId());
         $em = $this->getDoctrine()->getManager();
         $em->persist($result);
@@ -70,7 +70,7 @@ class H5PInteractionController extends AbstractController{
             if ($data === '0'){
                 //remove data here
                 /* @var ResultService $rs */
-                $rs = $this->get('studit_h5p.result_storage');
+                $rs = $this->get('emmedy_h5p.result_storage');
                 $rs->removeData($contentId, $dataType, $user, $subContentId);
             }else{
                 // Wash values to ensure 0 or 1.
@@ -80,7 +80,7 @@ class H5PInteractionController extends AbstractController{
                 /**
                  * @var ContentUserData $update
                  */
-                $update = $em->getRepository("Studit\H5PBundle\Entity\ContentUserData")->findOneBy(
+                $update = $em->getRepository("Emmedy\H5PBundle\Entity\ContentUserData")->findOneBy(
                     [
                         'subContentId' => $subContentId,
                         'mainContent' => $contentId,
@@ -104,7 +104,7 @@ class H5PInteractionController extends AbstractController{
                     /**
                      * @var $content Content
                      */
-                    $content = $em->getRepository('Studit\H5PBundle\Entity\Content')->findOneBy(['id' => $contentId]);
+                    $content = $em->getRepository('Emmedy\H5PBundle\Entity\Content')->findOneBy(['id' => $contentId]);
                     $contentUserData->setMainContent($content);
                     $em->persist($contentUserData);
                     $em->flush();
@@ -121,7 +121,7 @@ class H5PInteractionController extends AbstractController{
 
             return new JsonResponse(['success' => true]);
         }else{
-            $data = $em->getRepository("Studit\H5PBundle\Entity\ContentUserData")->findOneBy(
+            $data = $em->getRepository("Emmedy\H5PBundle\Entity\ContentUserData")->findOneBy(
                 [
                     'subContentId' => $subContentId,
                     'mainContent' => $contentId,
@@ -160,12 +160,12 @@ class H5PInteractionController extends AbstractController{
             return new Response($response['#markup']);
         }
         // Grab the core integration settings
-        $integration = $this->get('studit_h5p.integration')->getGenericH5PIntegrationSettings();
+        $integration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
         $content_id_string = 'cid-' . $content->getId();
         // Add content specific settings
-        $integration['contents'][$content_id_string] = $this->get('studit_h5p.integration')->getH5PContentIntegrationSettings($content);
-        $preloaded_dependencies = $this->get('studit_h5p.core')->loadContentDependencies($content->getId(), 'preloaded');
-        $files = $this->get('studit_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('studit_h5p.options')->getRelativeH5PPath());
+        $integration['contents'][$content_id_string] = $this->get('emmedy_h5p.integration')->getH5PContentIntegrationSettings($content);
+        $preloaded_dependencies = $this->get('emmedy_h5p.core')->loadContentDependencies($content->getId(), 'preloaded');
+        $files = $this->get('emmedy_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('emmedy_h5p.options')->getRelativeH5PPath());
         // Load public files
         $jsFilePaths = array_map(function ($asset) {
             return $asset->path;
@@ -174,7 +174,7 @@ class H5PInteractionController extends AbstractController{
             return $asset->path;
         }, $files['styles']);
         // Load core assets
-        $coreAssets = $this->get('studit_h5p.integration')->getCoreAssets();
+        $coreAssets = $this->get('emmedy_h5p.integration')->getCoreAssets();
         // Merge assets
         $scripts = array_merge($coreAssets['scripts'], $jsFilePaths);
         $styles = array_merge($cssFilePaths, $coreAssets['styles']);

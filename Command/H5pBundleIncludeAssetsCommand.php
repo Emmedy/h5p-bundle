@@ -1,6 +1,6 @@
 <?php
 
-namespace Studit\H5PBundle\Command;
+namespace Emmedy\H5PBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,11 +43,11 @@ class H5pBundleIncludeAssetsCommand extends Command
 
         $fromDir = $this->appKernel->getProjectDir()."/vendor/h5p/";
         //call service
-        //$toDir = $this->appKernel->getProjectDir().'/vendor/studit/h5p-bundle/public/h5p/';
-        $toDir = $this->appKernel->getProjectDir().'/public/bundles/studith5p/h5p/';
+        //$toDir = $this->appKernel->getProjectDir().'/vendor/emmedy/h5p-bundle/public/h5p/';
+        $toDir = $this->appKernel->getProjectDir().'/public/bundles/emmedyh5p/h5p/';
 
         //$toDir = new FileLocator($fromDir);
-        // $test = $fileLocator->locate('@StuditH5PBundle');
+        // $test = $fileLocator->locate('@EmmedyH5PBundle');
 
         //$toDir = $fileLocator->locate();
 

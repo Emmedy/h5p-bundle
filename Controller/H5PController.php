@@ -1,18 +1,18 @@
 <?php
 
 
-namespace Studit\H5PBundle\Controller;
+namespace Emmedy\H5PBundle\Controller;
 
-use Studit\H5PBundle\Core\H5POptions;
-use Studit\H5PBundle\Editor\LibraryStorage;
-use Studit\H5PBundle\Entity\Content;
+use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Editor\LibraryStorage;
+use Emmedy\H5PBundle\Entity\Content;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Studit\H5PBundle\Core\H5PIntegration;
-use Studit\H5PBundle\Form\Type\H5PType;
+use Emmedy\H5PBundle\Core\H5PIntegration;
+use Emmedy\H5PBundle\Form\Type\H5PType;
 
 /**
  * @Route("/h5p/")
@@ -37,8 +37,8 @@ class H5PController extends AbstractController
      */
     public function listAction()
     {
-        $contents = $this->getDoctrine()->getRepository('Studit\H5PBundle\Entity\Content')->findAll();
-        return $this->render('@StuditH5P/list.html.twig', ['contents' => $contents]);
+        $contents = $this->getDoctrine()->getRepository('Emmedy\H5PBundle\Entity\Content')->findAll();
+        return $this->render('@EmmedyH5P/list.html.twig', ['contents' => $contents]);
     }
     /**
      * Show content of H5P created by user
@@ -66,7 +66,7 @@ class H5PController extends AbstractController
             $h5pIntegration['contents'][$contentIdStr]['scripts'] = $jsFilePaths;
             $h5pIntegration['contents'][$contentIdStr]['styles'] = $cssFilePaths;
         }
-        return $this->render('@StuditH5P/show.html.twig', ['contentId' => $content->getId(), 'isFrame' => $content->getLibrary()->isFrame(), 'h5pIntegration' => $h5pIntegration, 'files' => $files]);
+        return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isFrame' => $content->getLibrary()->isFrame(), 'h5pIntegration' => $h5pIntegration, 'files' => $files]);
     }
 
     /**
@@ -102,10 +102,10 @@ class H5PController extends AbstractController
             $data = $form->getData();
             //create h5p content
             $contentId = $this->libraryStorage->storeLibraryData($data['library'], $data['parameters'], $content);
-            return $this->redirectToRoute('studit_h5p_h5p_show', ['content' => $contentId]);
+            return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
         $h5pIntegration = $this->h5PIntegrations->getEditorIntegrationSettings($content ? $content->getId() : null);
-        return $this->render('@StuditH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->h5PIntegrations->getTranslationFilePath()]);
+        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->h5PIntegrations->getTranslationFilePath()]);
     }
     /**
      * @Route("delete/{contentId}")
@@ -118,6 +118,6 @@ class H5PController extends AbstractController
             'id' => $contentId,
             'slug' => 'interactive-content'
         ]);
-        return $this->redirectToRoute('studit_h5p_h5p_list');
+        return $this->redirectToRoute('emmedy_h5p_h5p_list');
     }
 }
