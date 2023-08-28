@@ -15,13 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class H5PAJAXController extends AbstractController
 {
-    protected $h5peditor;
-    protected $serviceh5poptions;
+    protected \H5peditor $h5peditor;
+    protected H5POptions $h5POptions;
 
     public function __construct(\H5peditor $h5peditor, H5POptions $h5poption)
     {
         $this->h5peditor = $h5peditor;
-        $this->serviceh5poptions = $h5poption;
+        $this->h5POptions = $h5poption;
     }
 
     /**
@@ -140,7 +140,7 @@ class H5PAJAXController extends AbstractController
             $request->get('majorVersion'),
             $request->get('minorVersion'),
             $locale,
-            $this->get('emmedy_h5p.options')->getOption('storage_dir'),
+            $this->h5POptions->getOption('storage_dir'),
             '',
             $locale
         );
