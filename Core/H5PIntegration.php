@@ -147,8 +147,9 @@ class H5PIntegration
                 'state' => '{}',
             ]
         ];
-        if (is_object($this->tokenStorage->getToken()->getUser())) {
-            $contentUserData = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()->getId()]);
+        $user = $this->tokenStorage->getToken() ? $this->tokenStorage->getToken()->getUser() : null;
+        if (is_object($user)) {
+            $contentUserData = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $user->getId()]);
             if ($contentUserData) {
                 $content_user_data[$contentUserData->getSubContentId()][$contentUserData->getDataId()] = $contentUserData->getData();
             }
