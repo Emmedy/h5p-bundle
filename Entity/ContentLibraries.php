@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +19,6 @@ class ContentLibraries
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $content;
-
     /**
      * @var Library
      *
@@ -27,7 +27,6 @@ class ContentLibraries
      * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $library;
-
     /**
      * @var int
      *
@@ -35,21 +34,18 @@ class ContentLibraries
      * @ORM\Column(name="dependency_type", type="string", length=31)
      */
     private $dependencyType;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="drop_css", type="string", length=1)
      */
     private $dropCss;
-
     /**
      * @var int
      *
      * @ORM\Column(name="weight", type="integer")
      */
     private $weight;
-
     /**
      * @return Content
      */
@@ -57,7 +53,6 @@ class ContentLibraries
     {
         return $this->content;
     }
-
     /**
      * @param Content $content
      */
@@ -65,7 +60,6 @@ class ContentLibraries
     {
         $this->content = $content;
     }
-
     /**
      * @return Library
      */
@@ -73,7 +67,6 @@ class ContentLibraries
     {
         return $this->library;
     }
-
     /**
      * @param Library $library
      */
@@ -81,7 +74,6 @@ class ContentLibraries
     {
         $this->library = $library;
     }
-
     /**
      * @return int
      */
@@ -89,7 +81,6 @@ class ContentLibraries
     {
         return $this->dependencyType;
     }
-
     /**
      * @param int $dependencyType
      */
@@ -97,7 +88,6 @@ class ContentLibraries
     {
         $this->dependencyType = $dependencyType;
     }
-
     /**
      * @return bool
      */
@@ -105,7 +95,6 @@ class ContentLibraries
     {
         return $this->dropCss;
     }
-
     /**
      * @param bool $dropCss
      */
@@ -113,7 +102,6 @@ class ContentLibraries
     {
         $this->dropCss = $dropCss;
     }
-
     /**
      * @return int
      */
@@ -121,7 +109,6 @@ class ContentLibraries
     {
         return $this->weight;
     }
-
     /**
      * @param int $weight
      */
@@ -129,5 +116,4 @@ class ContentLibraries
     {
         $this->weight = $weight;
     }
-
 }

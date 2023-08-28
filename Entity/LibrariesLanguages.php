@@ -1,6 +1,8 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,7 +20,6 @@ class LibrariesLanguages
      * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $library;
-
     /**
      * @var string
      *
@@ -26,14 +27,12 @@ class LibrariesLanguages
      * @ORM\Column(name="language_code", type="string", length=31)
      */
     private $languageCode;
-
     /**
      * @var string
      *
      * @ORM\Column(name="language_json", type="text")
      */
     private $languageJson;
-
     /**
      * @return Library
      */
@@ -41,7 +40,6 @@ class LibrariesLanguages
     {
         return $this->library;
     }
-
     /**
      * @param Library $library
      */
@@ -49,7 +47,6 @@ class LibrariesLanguages
     {
         $this->library = $library;
     }
-
     /**
      * @return string
      */
@@ -57,7 +54,6 @@ class LibrariesLanguages
     {
         return $this->languageCode;
     }
-
     /**
      * @param string $languageCode
      */
@@ -65,7 +61,6 @@ class LibrariesLanguages
     {
         $this->languageCode = $languageCode;
     }
-
     /**
      * @return string
      */
@@ -73,7 +68,6 @@ class LibrariesLanguages
     {
         return $this->languageJson;
     }
-
     /**
      * @param string $languageJson
      */
@@ -81,5 +75,4 @@ class LibrariesLanguages
     {
         $this->languageJson = $languageJson;
     }
-
 }

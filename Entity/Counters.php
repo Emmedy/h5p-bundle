@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,6 @@ class Counters
      * @ORM\Column(name="type", type="string", length=63)
      */
     private $type;
-
     /**
      * @var string
      *
@@ -25,7 +25,6 @@ class Counters
      * @ORM\Column(name="library_name", type="string", length=127)
      */
     private $libraryName;
-
     /**
      * @var string
      *
@@ -33,14 +32,12 @@ class Counters
      * @ORM\Column(name="library_version", type="string", length=31)
      */
     private $libraryVersion;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="num", type="integer")
      */
     private $num;
-
     /**
      * @return string
      */
@@ -48,7 +45,6 @@ class Counters
     {
         return $this->type;
     }
-
     /**
      * @param string $type
      */
@@ -56,7 +52,6 @@ class Counters
     {
         $this->type = $type;
     }
-
     /**
      * @return string
      */
@@ -64,7 +59,6 @@ class Counters
     {
         return $this->libraryName;
     }
-
     /**
      * @param string $libraryName
      */
@@ -72,7 +66,6 @@ class Counters
     {
         $this->libraryName = $libraryName;
     }
-
     /**
      * @return string
      */
@@ -80,7 +73,6 @@ class Counters
     {
         return $this->libraryVersion;
     }
-
     /**
      * @param string $libraryVersion
      */
@@ -88,7 +80,6 @@ class Counters
     {
         $this->libraryVersion = $libraryVersion;
     }
-
     /**
      * @return int
      */
@@ -96,7 +87,6 @@ class Counters
     {
         return $this->num;
     }
-
     /**
      * @param int $num
      */

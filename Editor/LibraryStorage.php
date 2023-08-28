@@ -1,9 +1,11 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Editor;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Emmedy\H5PBundle\Entity\Content;
 
 class LibraryStorage
@@ -25,9 +27,9 @@ class LibraryStorage
      * LibraryStorage constructor.
      * @param \H5PCore $core
      * @param \H5peditor $editor
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(\H5PCore $core, \H5peditor $editor, EntityManager $entityManager)
+    public function __construct(\H5PCore $core, \H5peditor $editor, EntityManagerInterface $entityManager)
     {
         $this->core = $core;
         $this->editor = $editor;
@@ -37,8 +39,7 @@ class LibraryStorage
     public function storeLibraryData($library, $parameters, Content $content = null)
     {
         $libraryData = Utilities::getLibraryProperties($library);
-        $libraryData['libraryId'] = $this->entityManager->getRepository('EmmedyH5PBundle:Library')->findIdBy($libraryData['machineName'], $libraryData['majorVersion'], $libraryData['minorVersion']);
-
+        $libraryData['libraryId'] = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\Library')->findIdBy($libraryData['machineName'], $libraryData['majorVersion'], $libraryData['minorVersion']);
         if ($content) {
             $oldLibrary = [
                 'name' => $content->getLibrary()->getMachineName(),
@@ -51,7 +52,6 @@ class LibraryStorage
             $oldLibrary = null;
             $oldParameters = null;
         }
-
         $contentData = [
             'library' => $libraryData,
             'params' => $parameters,
@@ -61,18 +61,20 @@ class LibraryStorage
             $contentData['id'] = $content->getId();
         }
         $contentId = $this->core->saveContent($contentData);
-        $this->updateLibraryFiles($contentId, $contentData, $oldLibrary, $oldParameters);
-
+        //add id to data
+        if (!$content){
+            $contentData['id'] = $contentId;
+        }
+        $this->updateLibraryFiles($contentId, $contentData, $oldLibrary, $oldParameters->params ?? null);
         return $contentId;
     }
-
     private function updateLibraryFiles($contentId, $contentData, $oldLibrary, $oldParameters)
     {
         // Keep new files, delete files from old parameters
         $this->editor->processParameters(
             $contentId,
             $contentData['library'],
-            json_decode($contentData['params']),
+            json_decode($contentData['params'])->params,
             $oldLibrary,
             $oldParameters
         );

@@ -1,15 +1,18 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Core;
 
-
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Emmedy\H5PBundle\Entity\Content;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+
 
 class H5PIntegration
 {
@@ -51,13 +54,13 @@ class H5PIntegration
      * @param \H5PCore $core
      * @param H5POptions $options
      * @param TokenStorageInterface $tokenStorage
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param RouterInterface $router
      * @param RequestStack $requestStack
      * @param Packages $packages
      * @param \H5PContentValidator $contentValidator
      */
-    public function __construct(\H5PCore $core, H5POptions $options, TokenStorageInterface $tokenStorage, EntityManager $entityManager, RouterInterface $router, RequestStack $requestStack, Packages $packages, \H5PContentValidator $contentValidator)
+    public function __construct(\H5PCore $core, H5POptions $options, TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager, RouterInterface $router, RequestStack $requestStack, Packages $packages, \H5PContentValidator $contentValidator)
     {
         $this->core = $core;
         $this->options = $options;
@@ -68,35 +71,29 @@ class H5PIntegration
         $this->assetsPaths = $packages;
         $this->contentValidator = $contentValidator;
     }
-
     /**
      * Prepares the generic H5PIntegration settings
      */
     public function getGenericH5PIntegrationSettings()
     {
         static $settings;
-
         if (!empty($settings)) {
             return $settings; // Only needs to be generated the first time
         }
-
         // Load current user
         $user = $this->tokenStorage->getToken()->getUser();
-
         // Load configuration settings
         $saveContentState = $this->options->getOption('save_content_state', false);
         $saveContentFrequency = $this->options->getOption('save_content_frequency', 30);
         $hubIsEnabled = $this->options->getOption('hub_is_enabled', true);
-
         // Create AJAX URLs
-        $setFinishedUrl = $this->router->generate('emmedy_h5p_interaction_setfinished', ['token' => \H5PCore::createToken('result')]);
-        $contentUserDataUrl = $this->router->generate('emmedy_h5p_interaction_contentuserdata', ['contentId' => ':contentId', 'dataType' => ':dataType', 'subContentId' => ':subContentId', 'token' => \H5PCore::createToken('contentuserdata')]);
-
+        $setFinishedUrl = $this->router->generate('emmedy_h5p_h5pinteraction_setfinished', ['token' => \H5PCore::createToken('result')]);
+        $contentUserDataUrl = $this->router->generate('emmedy_h5p_h5pinteraction_contentuserdata', ['contentId' => ':contentId', 'dataType' => ':dataType', 'subContentId' => ':subContentId', 'token' => \H5PCore::createToken('contentuserdata')]);
         // Define the generic H5PIntegration settings
         $settings = array(
             'baseUrl' => "/",
             'url' => $this->options->getRelativeH5PPath(),
-            'postUserStatistics' => is_object($user) ? $user->getId() : null,
+            'postUserStatistics' => is_object($user),
             'ajax' => array(
                 'setFinished' => $setFinishedUrl,
                 'contentUserData' => $contentUserDataUrl,
@@ -106,19 +103,17 @@ class H5PIntegration
                 'H5P' => $this->core->getLocalization(),
             ),
             'hubIsEnabled' => $hubIsEnabled,
-            'siteUrl' => $this->requestStack->getMasterRequest()->getUri()
+            'siteUrl' => $this->requestStack->getMainRequest()->getUri(),
+            'librairyConfig' => $this->core->h5pF->getLibraryConfig()
         );
-
         if (is_object($user)) {
             $settings['user'] = [
                 'name' => $user->getUsername(),
                 'mail' => $user->getEmail(),
             ];
         }
-
         return $settings;
     }
-
     /**
      * Get a list with prepared asset links that is used when JS loads components.
      *
@@ -130,27 +125,21 @@ class H5PIntegration
         if (empty($keys)) {
             $keys = ['scripts', 'styles'];
         }
-
         // Prepare arrays
         $assets = [
             $keys[0] => [],
             $keys[1] => [],
         ];
-
         // Add all core scripts
         foreach (\H5PCore::$scripts as $script) {
             $assets[$keys[0]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$script}";
         }
-
         // and styles
         foreach (\H5PCore::$styles as $style) {
             $assets[$keys[1]][] = "{$this->options->getH5PAssetPath()}/h5p-core/{$style}";
         }
-
         return $assets;
     }
-
-
     public function getH5PContentIntegrationSettings(Content $content)
     {
         $content_user_data = [
@@ -159,18 +148,15 @@ class H5PIntegration
             ]
         ];
         if (is_object($this->tokenStorage->getToken()->getUser())) {
-            $contentUserData = $this->entityManager->getRepository('EmmedyH5PBundle:ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()->getId()]);
+            $contentUserData = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')->findOneBy(['mainContent' => $content, 'user' => $this->tokenStorage->getToken()->getUser()->getId()]);
             if ($contentUserData) {
                 $content_user_data[$contentUserData->getSubContentId()][$contentUserData->getDataId()] = $contentUserData->getData();
             }
         }
-
         $filteredParameters = $this->getFilteredParameters($content);
-
-        $embedUrl = $this->router->generate('emmedy_h5p_interaction_embed', ['content' => $content->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $embedUrl = $this->router->generate('emmedy_h5p_h5pinteraction_embed', ['content' => $content->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $resizerUrl = $this->getH5PAssetUrl() . '/h5p-core/js/h5p-resizer.js';
         $displayOptions = $this->core->getDisplayOptionsForView($content->getDisabledFeatures(), $content->getId());
-
         return array(
             'library' => (string)$content->getLibrary(),
             'jsonContent' => $filteredParameters,
@@ -184,9 +170,9 @@ class H5PIntegration
             'displayOptions' => $displayOptions,
         );
     }
-
     public function getFilteredParameters(Content $content)
     {
+        $params = json_decode($content->getParameters());
         $contentData = [
             'title' => 'Interactive Content',
             'id' => $content->getId(),
@@ -196,14 +182,14 @@ class H5PIntegration
                 'majorVersion' => $content->getLibrary()->getMajorVersion(),
                 'minorVersion' => $content->getLibrary()->getMinorVersion(),
             ],
-            'params' => $content->getParameters(),
+            'params' => json_encode($params->params),
             'filtered' => $content->getFilteredParameters(),
             'embedType' => 'div',
         ];
+        if (!empty($contentData['filtered'] && $contentData['filtered'] == '{}')) $contentData['filtered'] = null;
 
         return $this->core->filterParameters($contentData);
     }
-
     protected function getExportUrl(Content $content)
     {
         if ($this->options->getOption('export', true)) {
@@ -212,7 +198,6 @@ class H5PIntegration
             return '';
         }
     }
-
     public function getEditorIntegrationSettings($contentId = null)
     {
         $editorSettings = [
@@ -225,6 +210,7 @@ class H5PIntegration
             'ajaxPath' => $this->router->getContext()->getBaseUrl() . "/h5p/ajax/",
             'libraryPath' => $this->getH5PAssetUrl() . "/h5p-editor/",
             'copyrightSemantics' => $this->contentValidator->getCopyrightSemantics(),
+            'metadataSemantics' => $this->contentValidator->getMetadataSemantics(),
             'assets' => $this->getEditorAssets(),
             'apiVersion' => \H5PCore::$coreApi,
         ];
@@ -233,10 +219,8 @@ class H5PIntegration
         }
         $settings = $this->getGenericH5PIntegrationSettings();
         $settings['editor'] = $editorSettings;
-
         return $settings;
     }
-
     /**
      * Get assets needed to display editor. These are fetched from core.
      *
@@ -247,7 +231,6 @@ class H5PIntegration
         $h5pAssetUrl = $this->getH5PAssetUrl();
         $corePath = "{$h5pAssetUrl}/h5p-core/";
         $editorPath = "{$h5pAssetUrl}/h5p-editor/";
-
         $css = array_merge(
             $this->getAssets(\H5PCore::$styles, $corePath),
             $this->getAssets(\H5PEditor::$styles, $editorPath)
@@ -257,10 +240,8 @@ class H5PIntegration
             $this->getAssets(\H5PEditor::$scripts, $editorPath, ['scripts/h5peditor-editor.js'])
         );
         $js[] = $this->getTranslationFilePath();
-
         return ['css' => $css, 'js' => $js];
     }
-
     /**
      * Extracts assets from a collection of assets
      *
@@ -274,7 +255,6 @@ class H5PIntegration
     {
         $assets = [];
         $cacheBuster = $this->getCacheBuster();
-
         foreach ($collection as $item) {
             // Skip exceptions
             if ($exceptions && in_array($item, $exceptions)) {
@@ -284,7 +264,6 @@ class H5PIntegration
         }
         return $assets;
     }
-
     /**
      * Get cache buster
      *
@@ -295,7 +274,6 @@ class H5PIntegration
         $cache_buster = \H5PCore::$coreApi['majorVersion'] . '.' . \H5PCore::$coreApi['minorVersion'];
         return $cache_buster ? "?={$cache_buster}" : '';
     }
-
     /**
      * Translation file path for the editor. Defaults to English if chosen
      * language is not available.
@@ -305,18 +283,26 @@ class H5PIntegration
     public function getTranslationFilePath()
     {
         $language = $this->requestStack->getCurrentRequest()->getLocale();
-
         $h5pAssetUrl = $this->getH5PAssetUrl();
         $languageFolder = "{$h5pAssetUrl}/h5p-editor/language";
-        $defaultLanguage = "{$languageFolder}/en.js";
+        //check default language exist if exist load the file
+        //if folder not exist load english in default
+        $defaultLanguage = file_exists ("{$languageFolder}/{$language}.js") ? "{$languageFolder}/{$language}.js": "{$languageFolder}/en.js";
         $chosenLanguage = "{$languageFolder}/{$language}.js";
         $cacheBuster = $this->getCacheBuster();
-
         return (file_exists($this->options->getAbsoluteWebPath() . $chosenLanguage) ? $chosenLanguage : $defaultLanguage) . $cacheBuster;
     }
-
     private function getH5PAssetUrl()
     {
         return $this->assetsPaths->getUrl($this->options->getH5PAssetPath());
+    }
+    
+    /**
+     * Access to direct access to the configuration to save time
+     * @return H5POptions
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

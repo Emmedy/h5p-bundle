@@ -1,9 +1,10 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Event;
 
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class LibrarySemanticsEvent extends Event
 {
@@ -11,7 +12,6 @@ class LibrarySemanticsEvent extends Event
     private $name;
     private $majorVersion;
     private $minorVersion;
-
     /**
      * LibrarySemanticsEvent constructor.
      * @param $semantics
@@ -26,7 +26,6 @@ class LibrarySemanticsEvent extends Event
         $this->majorVersion = $majorVersion;
         $this->minorVersion = $minorVersion;
     }
-
     /**
      * @return mixed
      */
@@ -34,7 +33,6 @@ class LibrarySemanticsEvent extends Event
     {
         return $this->semantics;
     }
-
     /**
      * @return mixed
      */
@@ -42,7 +40,6 @@ class LibrarySemanticsEvent extends Event
     {
         return $this->name;
     }
-
     /**
      * @return mixed
      */
@@ -50,7 +47,6 @@ class LibrarySemanticsEvent extends Event
     {
         return $this->majorVersion;
     }
-
     /**
      * @return mixed
      */
@@ -58,6 +54,5 @@ class LibrarySemanticsEvent extends Event
     {
         return $this->minorVersion;
     }
-
 
 }

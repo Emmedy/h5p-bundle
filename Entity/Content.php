@@ -18,7 +18,6 @@ class Content
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var Library
      *
@@ -26,33 +25,28 @@ class Content
      * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $library;
-
     /**
      * @var string
      *
      * @ORM\Column(name="parameters", type="text", nullable=true)
      */
     private $parameters;
-
     /**
      * @var string
      *
      * @ORM\Column(name="filtered_parameters", type="text", nullable=true)
      */
     private $filteredParameters;
-
     /**
      * @var int
      *
      * @ORM\Column(name="disabled_features", type="integer", nullable=true)
      */
     private $disabledFeatures;
-
     public function __clone()
     {
         $this->id = null;
     }
-
     /**
      * @return int
      */
@@ -60,7 +54,6 @@ class Content
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -68,7 +61,6 @@ class Content
     {
         $this->id = $id;
     }
-
     /**
      * @return Library
      */
@@ -76,7 +68,6 @@ class Content
     {
         return $this->library;
     }
-
     /**
      * @param Library $library
      */
@@ -84,7 +75,6 @@ class Content
     {
         $this->library = $library;
     }
-
     /**
      * @return string
      */
@@ -92,7 +82,6 @@ class Content
     {
         return $this->parameters;
     }
-
     /**
      * @param string $parameters
      */
@@ -100,7 +89,6 @@ class Content
     {
         $this->parameters = $parameters;
     }
-
     /**
      * @return string
      */
@@ -108,7 +96,6 @@ class Content
     {
         return $this->filteredParameters;
     }
-
     /**
      * @param string $filteredParameters
      */
@@ -116,7 +103,6 @@ class Content
     {
         $this->filteredParameters = $filteredParameters;
     }
-
     /**
      * @return int
      */
@@ -124,7 +110,6 @@ class Content
     {
         return $this->disabledFeatures;
     }
-
     /**
      * @param int $disabledFeatures
      */
