@@ -67,7 +67,7 @@ class EditorAjax implements \H5PEditorAjaxInterface
     public function getAuthorsRecentlyUsedLibraries()
     {
         $recentlyUsed = [];
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken() ? $this->tokenStorage->getToken()->getUser() : null;
         if (is_object($user)) {
             $events = $this->manager->getRepository('Emmedy\H5PBundle\Entity\Event')->findRecentlyUsedLibraries($user->getId());
             foreach ($events as $event) {
