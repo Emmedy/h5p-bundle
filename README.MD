@@ -1,8 +1,6 @@
 # H5PBundle
 Bundle to integrate H5P into Symfony. This bundle is a port of the H5P Drupal module. For more info about H5P see [H5P.org](https://h5p.org)
 
-For Symfony 3.X => [H5PBundle for Symfony 2.X and 3.X](https://github.com/Emmedy/h5p-bundle)
-
 This bundle was tested on Symfony 4.X and Symfony 5.X
 
 Installation
