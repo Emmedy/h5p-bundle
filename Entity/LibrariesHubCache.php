@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -18,168 +19,144 @@ class LibrariesHubCache
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="machine_name", type="string", length=127)
      */
     private $machineName;
-
     /**
      * @var int
      *
      * @ORM\Column(name="major_version", type="integer")
      */
     private $majorVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="minor_version", type="integer")
      */
     private $minorVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="patch_version", type="integer")
      */
     private $patchVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="h5p_major_version", type="integer", nullable=true)
      */
     private $h5pMajorVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="h5p_minor_version", type="integer", nullable=true)
      */
     private $h5pMinorVersion;
-
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
-
     /**
      * @var string
      *
      * @ORM\Column(name="summary", type="text")
      */
     private $summary;
-
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
     private $description;
-
     /**
      * @var string
      *
      * @ORM\Column(name="icon", type="text")
      */
     private $icon;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="created_at", type="integer")
      */
     private $createdAt;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="updated_at", type="integer")
      */
     private $updatedAt;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_recommended", type="boolean", options={"default": 1})
      */
     private $isRecommended = true;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="popularity", type="integer")
      */
     private $popularity = false;
-
     /**
      * @var string
      *
      * @ORM\Column(name="screenshots", type="text", nullable=true)
      */
     private $screenshots;
-
     /**
      * @var string
      *
      * @ORM\Column(name="license", type="text", nullable=true)
      */
     private $license;
-
     /**
      * @var string
      *
      * @ORM\Column(name="example", type="text")
      */
     private $example;
-
     /**
      * @var string
      *
      * @ORM\Column(name="tutorial", type="text", nullable=true)
      */
     private $tutorial;
-
     /**
      * @var string
      *
      * @ORM\Column(name="keywords", type="text", nullable=true)
      */
     private $keywords;
-
     /**
      * @var string
      *
      * @ORM\Column(name="categories", type="text", nullable=true)
      */
     private $categories;
-
     /**
      * @var string
      *
      * @ORM\Column(name="owner", type="text", nullable=true)
      */
     private $owner;
-
     public function __get($name)
     {
         $name = \H5PCore::snakeToCamel([$name => 1]);
         $name = array_keys($name)[0];
         return $this->$name;
     }
-
     public function __isset($name)
     {
         $name = \H5PCore::snakeToCamel([$name => 1]);
         $name = array_keys($name)[0];
         return isset($this->$name);
     }
-
     /**
      * @return int
      */
@@ -187,7 +164,6 @@ class LibrariesHubCache
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -195,7 +171,6 @@ class LibrariesHubCache
     {
         $this->id = $id;
     }
-
     /**
      * @return string
      */
@@ -203,7 +178,6 @@ class LibrariesHubCache
     {
         return $this->machineName;
     }
-
     /**
      * @param string $machineName
      */
@@ -211,7 +185,6 @@ class LibrariesHubCache
     {
         $this->machineName = $machineName;
     }
-
     /**
      * @return int
      */
@@ -219,7 +192,6 @@ class LibrariesHubCache
     {
         return $this->majorVersion;
     }
-
     /**
      * @param int $majorVersion
      */
@@ -227,7 +199,6 @@ class LibrariesHubCache
     {
         $this->majorVersion = $majorVersion;
     }
-
     /**
      * @return int
      */
@@ -235,7 +206,6 @@ class LibrariesHubCache
     {
         return $this->minorVersion;
     }
-
     /**
      * @param int $minorVersion
      */
@@ -243,7 +213,6 @@ class LibrariesHubCache
     {
         $this->minorVersion = $minorVersion;
     }
-
     /**
      * @return int
      */
@@ -251,7 +220,6 @@ class LibrariesHubCache
     {
         return $this->patchVersion;
     }
-
     /**
      * @param int $patchVersion
      */
@@ -259,7 +227,6 @@ class LibrariesHubCache
     {
         $this->patchVersion = $patchVersion;
     }
-
     /**
      * @return int
      */
@@ -267,7 +234,6 @@ class LibrariesHubCache
     {
         return $this->h5pMajorVersion;
     }
-
     /**
      * @param int $h5pMajorVersion
      */
@@ -275,7 +241,6 @@ class LibrariesHubCache
     {
         $this->h5pMajorVersion = $h5pMajorVersion;
     }
-
     /**
      * @return int
      */
@@ -283,7 +248,6 @@ class LibrariesHubCache
     {
         return $this->h5pMinorVersion;
     }
-
     /**
      * @param int $h5pMinorVersion
      */
@@ -291,7 +255,6 @@ class LibrariesHubCache
     {
         $this->h5pMinorVersion = $h5pMinorVersion;
     }
-
     /**
      * @return string
      */
@@ -299,7 +262,6 @@ class LibrariesHubCache
     {
         return $this->title;
     }
-
     /**
      * @param string $title
      */
@@ -307,7 +269,6 @@ class LibrariesHubCache
     {
         $this->title = $title;
     }
-
     /**
      * @return string
      */
@@ -315,7 +276,6 @@ class LibrariesHubCache
     {
         return $this->summary;
     }
-
     /**
      * @param string $summary
      */
@@ -323,7 +283,6 @@ class LibrariesHubCache
     {
         $this->summary = $summary;
     }
-
     /**
      * @return string
      */
@@ -331,7 +290,6 @@ class LibrariesHubCache
     {
         return $this->description;
     }
-
     /**
      * @param string $description
      */
@@ -339,7 +297,6 @@ class LibrariesHubCache
     {
         $this->description = $description;
     }
-
     /**
      * @return string
      */
@@ -347,7 +304,6 @@ class LibrariesHubCache
     {
         return $this->icon;
     }
-
     /**
      * @param string $icon
      */
@@ -355,7 +311,6 @@ class LibrariesHubCache
     {
         $this->icon = $icon;
     }
-
     /**
      * @return int
      */
@@ -363,7 +318,6 @@ class LibrariesHubCache
     {
         return $this->createdAt;
     }
-
     /**
      * @param int $createdAt
      */
@@ -371,7 +325,6 @@ class LibrariesHubCache
     {
         $this->createdAt = $createdAt;
     }
-
     /**
      * @return int
      */
@@ -379,7 +332,6 @@ class LibrariesHubCache
     {
         return $this->updatedAt;
     }
-
     /**
      * @param int $updatedAt
      */
@@ -387,7 +339,6 @@ class LibrariesHubCache
     {
         $this->updatedAt = $updatedAt;
     }
-
     /**
      * @return bool
      */
@@ -395,7 +346,6 @@ class LibrariesHubCache
     {
         return $this->isRecommended;
     }
-
     /**
      * @param bool $isRecommended
      */
@@ -403,7 +353,6 @@ class LibrariesHubCache
     {
         $this->isRecommended = $isRecommended;
     }
-
     /**
      * @return int
      */
@@ -411,7 +360,6 @@ class LibrariesHubCache
     {
         return $this->popularity;
     }
-
     /**
      * @param int $popularity
      */
@@ -419,7 +367,6 @@ class LibrariesHubCache
     {
         $this->popularity = $popularity;
     }
-
     /**
      * @return string
      */
@@ -427,7 +374,6 @@ class LibrariesHubCache
     {
         return $this->screenshots;
     }
-
     /**
      * @param string $screenshots
      */
@@ -435,7 +381,6 @@ class LibrariesHubCache
     {
         $this->screenshots = $screenshots;
     }
-
     /**
      * @return string
      */
@@ -443,7 +388,6 @@ class LibrariesHubCache
     {
         return $this->license;
     }
-
     /**
      * @param string $license
      */
@@ -451,7 +395,6 @@ class LibrariesHubCache
     {
         $this->license = $license;
     }
-
     /**
      * @return string
      */
@@ -459,7 +402,6 @@ class LibrariesHubCache
     {
         return $this->example;
     }
-
     /**
      * @param string $example
      */
@@ -467,7 +409,6 @@ class LibrariesHubCache
     {
         $this->example = $example;
     }
-
     /**
      * @return string
      */
@@ -475,7 +416,6 @@ class LibrariesHubCache
     {
         return $this->tutorial;
     }
-
     /**
      * @param string $tutorial
      */
@@ -483,7 +423,6 @@ class LibrariesHubCache
     {
         $this->tutorial = $tutorial;
     }
-
     /**
      * @return string
      */
@@ -491,7 +430,6 @@ class LibrariesHubCache
     {
         return $this->keywords;
     }
-
     /**
      * @param string $keywords
      */
@@ -499,7 +437,6 @@ class LibrariesHubCache
     {
         $this->keywords = $keywords;
     }
-
     /**
      * @return string
      */
@@ -507,7 +444,6 @@ class LibrariesHubCache
     {
         return $this->categories;
     }
-
     /**
      * @param string $categories
      */
@@ -515,7 +451,6 @@ class LibrariesHubCache
     {
         $this->categories = $categories;
     }
-
     /**
      * @return string
      */
@@ -523,7 +458,6 @@ class LibrariesHubCache
     {
         return $this->owner;
     }
-
     /**
      * @param string $owner
      */
@@ -531,6 +465,4 @@ class LibrariesHubCache
     {
         $this->owner = $owner;
     }
-
-
 }

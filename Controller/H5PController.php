@@ -1,42 +1,58 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Controller;
 
-
-use Emmedy\H5PBundle\Editor\Utilities;
+use Emmedy\H5PBundle\Core\H5POptions;
+use Emmedy\H5PBundle\Editor\LibraryStorage;
 use Emmedy\H5PBundle\Entity\Content;
-use Emmedy\H5PBundle\Form\Type\H5pType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Emmedy\H5PBundle\Core\H5PIntegration;
+use Emmedy\H5PBundle\Form\Type\H5PType;
 
 /**
  * @Route("/h5p/")
  */
-class H5PController extends Controller
+class H5PController extends AbstractController
 {
+
+    protected $h5PIntegrations;
+    protected $libraryStorage;
+
+    public function __construct(
+        H5PIntegration $h5PIntegration,
+        LibraryStorage $libraryStorage
+    ) {
+        $this->h5PIntegrations = $h5PIntegration;
+        $this->libraryStorage = $libraryStorage;
+    }
+
     /**
+     * List of all H5P content
      * @Route("list")
      */
     public function listAction()
     {
-        $contents = $this->getDoctrine()->getRepository('EmmedyH5PBundle:Content')->findAll();
+        $contents = $this->getDoctrine()->getRepository('Emmedy\H5PBundle\Entity\Content')->findAll();
         return $this->render('@EmmedyH5P/list.html.twig', ['contents' => $contents]);
     }
-
     /**
+     * Show content of H5P created by user
      * @Route("show/{content}")
+     * @param Content $content
+     * @return Response
      */
-    public function showAction(Content $content)
+    public function showAction(Content $content, \H5PCore $h5PCore, H5POptions $h5POptions)
     {
-        $h5pIntegration = $this->get('emmedy_h5p.integration')->getGenericH5PIntegrationSettings();
+        $h5pIntegration = $this->h5PIntegrations->getGenericH5PIntegrationSettings();
         $contentIdStr = 'cid-' . $content->getId();
-        $h5pIntegration['contents'][$contentIdStr] = $this->get('emmedy_h5p.integration')->getH5PContentIntegrationSettings($content);
-
-        $preloaded_dependencies = $this->get('emmedy_h5p.core')->loadContentDependencies($content->getId(), 'preloaded');
-
-        $files = $this->get('emmedy_h5p.core')->getDependenciesFiles($preloaded_dependencies, $this->get('emmedy_h5p.options')->getRelativeH5PPath());
-
+        $h5pIntegration['contents'][$contentIdStr] = $this->h5PIntegrations->getH5PContentIntegrationSettings($content);
+        $preloaded_dependencies = $h5PCore->loadContentDependencies($content->getId(), 'preloaded');
+        $files = $h5PCore->getDependenciesFiles($preloaded_dependencies, $h5POptions->getRelativeH5PPath());
         if ($content->getLibrary()->isFrame()) {
             $jsFilePaths = array_map(function ($asset) {
                 return $asset->path;
@@ -44,33 +60,34 @@ class H5PController extends Controller
             $cssFilePaths = array_map(function ($asset) {
                 return $asset->path;
             }, $files['styles']);
-            $coreAssets = $this->get('emmedy_h5p.integration')->getCoreAssets();
-
+            $coreAssets = $this->h5PIntegrations->getCoreAssets();
             $h5pIntegration['core']['scripts'] = $coreAssets['scripts'];
             $h5pIntegration['core']['styles'] = $coreAssets['styles'];
             $h5pIntegration['contents'][$contentIdStr]['scripts'] = $jsFilePaths;
             $h5pIntegration['contents'][$contentIdStr]['styles'] = $cssFilePaths;
         }
-
         return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isFrame' => $content->getLibrary()->isFrame(), 'h5pIntegration' => $h5pIntegration, 'files' => $files]);
     }
 
     /**
      * @Route("new")
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
     {
-        return $this->handleRequest($request);
+        return $this->handleRequest($request );
     }
-
     /**
      * @Route("edit/{content}")
+     * @param Request $request
+     * @param Content $content
+     * @return
      */
     public function editAction(Request $request, Content $content)
     {
         return $this->handleRequest($request, $content);
     }
-
     private function handleRequest(Request $request, Content $content = null)
     {
         $formData = null;
@@ -80,28 +97,27 @@ class H5PController extends Controller
         }
         $form = $this->createForm(H5pType::class, $formData);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            //get data
             $data = $form->getData();
-            $contentId = $this->get('emmedy_h5p.library_storage')->storeLibraryData($data['library'], $data['parameters'], $content);
-
+            //create h5p content
+            $contentId = $this->libraryStorage->storeLibraryData($data['library'], $data['parameters'], $content);
             return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
-        $h5pIntegration = $this->get('emmedy_h5p.integration')->getEditorIntegrationSettings($content ? $content->getId() : null);
-
-        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->get('emmedy_h5p.integration')->getTranslationFilePath()]);
+        $h5pIntegration = $this->h5PIntegrations->getEditorIntegrationSettings($content ? $content->getId() : null);
+        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->h5PIntegrations->getTranslationFilePath()]);
     }
-
     /**
      * @Route("delete/{contentId}")
+     * @param integer $contentId
+     * @return RedirectResponse
      */
-    public function deleteAction($contentId)
+    public function deleteAction($contentId, \H5PStorage $h5PStorage)
     {
-        $this->get('emmedy_h5p.storage')->deletePackage([
+        $h5PStorage->deletePackage([
             'id' => $contentId,
             'slug' => 'interactive-content'
         ]);
-
         return $this->redirectToRoute('emmedy_h5p_h5p_list');
     }
 }

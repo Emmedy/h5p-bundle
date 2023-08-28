@@ -1,11 +1,11 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Twig;
 
-
 use Emmedy\H5PBundle\Core\H5PIntegration;
-
-class H5PExtension extends \Twig_Extension
+use Twig\TwigFilter;
+class H5PExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var H5PIntegration
@@ -24,7 +24,7 @@ class H5PExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('h5pCacheBuster', array($this, 'getH5PCacheBuster')),
+            new TwigFilter('h5pCacheBuster', array($this, 'getH5PCacheBuster')),
         );
     }
 
@@ -42,4 +42,5 @@ class H5PExtension extends \Twig_Extension
     {
         return 'h5p_extension';
     }
+
 }

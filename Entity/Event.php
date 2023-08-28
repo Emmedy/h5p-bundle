@@ -1,6 +1,8 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,35 +20,30 @@ class Event
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="created_at", type="integer")
      */
     private $createdAt;
-
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=63)
      */
     private $type;
-
     /**
      * @var string
      *
      * @ORM\Column(name="sub_type", type="string", length=63)
      */
     private $subType;
-
     /**
      * @var Content
      *
@@ -54,28 +51,24 @@ class Event
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $content;
-
     /**
      * @var string
      *
      * @ORM\Column(name="content_title", type="string", length=255)
      */
     private $contentTitle;
-
     /**
      * @var string
      *
      * @ORM\Column(name="library_name", type="string", length=127)
      */
     private $libraryName;
-
     /**
      * @var string
      *
      * @ORM\Column(name="library_version", type="string", length=31)
      */
     private $libraryVersion;
-
     /**
      * @return integer
      */
@@ -83,7 +76,6 @@ class Event
     {
         return $this->id;
     }
-
     /**
      * @param integer $id
      */
@@ -91,7 +83,6 @@ class Event
     {
         $this->id = $id;
     }
-
     /**
      * @return integer
      */
@@ -99,7 +90,6 @@ class Event
     {
         return $this->user;
     }
-
     /**
      * @param integer $user
      */
@@ -107,7 +97,6 @@ class Event
     {
         $this->user = $user;
     }
-
     /**
      * @return integer
      */
@@ -115,7 +104,6 @@ class Event
     {
         return $this->createdAt;
     }
-
     /**
      * @param integer $createdAt
      */
@@ -123,7 +111,6 @@ class Event
     {
         $this->createdAt = $createdAt;
     }
-
     /**
      * @return string
      */
@@ -131,7 +118,6 @@ class Event
     {
         return $this->type;
     }
-
     /**
      * @param string $type
      */
@@ -139,7 +125,6 @@ class Event
     {
         $this->type = $type;
     }
-
     /**
      * @return string
      */
@@ -147,7 +132,6 @@ class Event
     {
         return $this->subType;
     }
-
     /**
      * @param string $subType
      */
@@ -155,7 +139,6 @@ class Event
     {
         $this->subType = $subType;
     }
-
     /**
      * @return Content
      */
@@ -163,7 +146,6 @@ class Event
     {
         return $this->content;
     }
-
     /**
      * @param Content $content
      */
@@ -171,7 +153,6 @@ class Event
     {
         $this->content = $content;
     }
-
     /**
      * @return string
      */
@@ -179,7 +160,6 @@ class Event
     {
         return $this->contentTitle;
     }
-
     /**
      * @param string $contentTitle
      */
@@ -187,7 +167,6 @@ class Event
     {
         $this->contentTitle = $contentTitle;
     }
-
     /**
      * @return string
      */
@@ -195,7 +174,6 @@ class Event
     {
         return $this->libraryName;
     }
-
     /**
      * @param string $libraryName
      */
@@ -203,7 +181,6 @@ class Event
     {
         $this->libraryName = $libraryName;
     }
-
     /**
      * @return string
      */
@@ -211,7 +188,6 @@ class Event
     {
         return $this->libraryVersion;
     }
-
     /**
      * @param string $libraryVersion
      */

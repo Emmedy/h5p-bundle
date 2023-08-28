@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Editor;
 
 use Doctrine\ORM\EntityManager;

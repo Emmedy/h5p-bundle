@@ -2,8 +2,8 @@
 
 namespace Emmedy\H5PBundle\Editor;
 
-
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class EditorAjax implements \H5PEditorAjaxInterface
@@ -19,15 +19,14 @@ class EditorAjax implements \H5PEditorAjaxInterface
 
     /**
      * EditorAjax constructor.
-     * @param EntityManager $manager
+     * @param EntityManagerInterface $manager
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(EntityManager $manager, TokenStorageInterface $tokenStorage)
+    public function __construct(EntityManagerInterface $manager, TokenStorageInterface $tokenStorage)
     {
         $this->manager = $manager;
         $this->tokenStorage = $tokenStorage;
     }
-
 
     /**
      * Gets latest library versions that exists locally
@@ -36,8 +35,9 @@ class EditorAjax implements \H5PEditorAjaxInterface
      */
     public function getLatestLibraryVersions()
     {
-        return $this->manager->getRepository('EmmedyH5PBundle:Library')->findLatestLibraryVersions();
+        return $this->manager->getRepository('Emmedy\H5PBundle\Entity\Library')->findLatestLibraryVersions();
     }
+
 
     /**
      * Get locally stored Content Type Cache. If machine name is provided
@@ -49,15 +49,13 @@ class EditorAjax implements \H5PEditorAjaxInterface
      */
     public function getContentTypeCache($machineName = NULL)
     {
-
         // Get only the specified content type from cache
         if ($machineName !== NULL) {
-            $contentTypeCache = $this->manager->getRepository('EmmedyH5PBundle:LibrariesHubCache')->findOneBy(['machineName' => $machineName]);
+            $contentTypeCache = $this->manager->getRepository('Emmedy\H5PBundle\Entity\LibrariesHubCache')->findOneBy(['machineName' => $machineName]);
             return [$contentTypeCache];
         }
-
         // Get all cached content types
-        return $this->manager->getRepository('EmmedyH5PBundle:LibrariesHubCache')->findAll();
+        return $this->manager->getRepository('Emmedy\H5PBundle\Entity\LibrariesHubCache')->findAll();
     }
 
     /**
@@ -69,15 +67,13 @@ class EditorAjax implements \H5PEditorAjaxInterface
     public function getAuthorsRecentlyUsedLibraries()
     {
         $recentlyUsed = [];
-
         $user = $this->tokenStorage->getToken()->getUser();
         if (is_object($user)) {
-            $events = $this->manager->getRepository('EmmedyH5PBundle:Event')->findRecentlyUsedLibraries($user->getId());
+            $events = $this->manager->getRepository('Emmedy\H5PBundle\Entity\Event')->findRecentlyUsedLibraries($user->getId());
             foreach ($events as $event) {
                 $recentlyUsed[] = $event['libraryName'];
             }
         }
-
         return $recentlyUsed;
     }
 
@@ -86,11 +82,19 @@ class EditorAjax implements \H5PEditorAjaxInterface
      *
      * @param string $token The token that will be validated for.
      *
-     * @return bool True if successful validation
-     */
+     * @return bool True
+     *
+     **/
     public function validateEditorToken($token)
     {
-//    return \H5PCore::validToken('editorajax', $token);
+        //return  \H5PCore::validToken('editorajax', $token);
         return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTranslations($libraries, $language_code)
+    {
     }
 }

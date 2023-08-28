@@ -1,16 +1,15 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Event;
 
-
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class LibraryFileEvent extends Event
 {
     private $files;
     private $libraryList;
     private $mode;
-
     /**
      * LibraryFileEvent constructor.
      * @param $files
@@ -23,7 +22,6 @@ class LibraryFileEvent extends Event
         $this->libraryList = $libraryList;
         $this->mode = $mode;
     }
-
     /**
      * @return mixed
      */
@@ -31,7 +29,6 @@ class LibraryFileEvent extends Event
     {
         return $this->files;
     }
-
     /**
      * @return mixed
      */
@@ -39,7 +36,6 @@ class LibraryFileEvent extends Event
     {
         return $this->libraryList;
     }
-
     /**
      * @return mixed
      */

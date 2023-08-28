@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,6 @@ class Points
      * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
-
     /**
      * @var Content
      *
@@ -25,35 +25,30 @@ class Points
      * @ORM\JoinColumn(name="content_main_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $content;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="started", type="integer")
      */
     private $started;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="finished", type="integer")
      */
     private $finished = 0;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="points", type="integer", nullable=true)
      */
     private $points;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="max_points", type="integer", nullable=true)
      */
     private $maxPoints;
-
     /**
      * @return integer
      */
@@ -61,7 +56,6 @@ class Points
     {
         return $this->user;
     }
-
     /**
      * @param integer $user
      */
@@ -69,7 +63,6 @@ class Points
     {
         $this->user = $user;
     }
-
     /**
      * @return Content
      */
@@ -77,7 +70,6 @@ class Points
     {
         return $this->content;
     }
-
     /**
      * @param Content $content
      */
@@ -85,7 +77,6 @@ class Points
     {
         $this->content = $content;
     }
-
     /**
      * @return integer
      */
@@ -93,7 +84,6 @@ class Points
     {
         return $this->started;
     }
-
     /**
      * @param integer $started
      */
@@ -101,7 +91,6 @@ class Points
     {
         $this->started = $started;
     }
-
     /**
      * @return integer
      */
@@ -109,7 +98,6 @@ class Points
     {
         return $this->finished;
     }
-
     /**
      * @param integer $finished
      */
@@ -117,7 +105,6 @@ class Points
     {
         $this->finished = $finished;
     }
-
     /**
      * @return integer
      */
@@ -125,7 +112,6 @@ class Points
     {
         return $this->points;
     }
-
     /**
      * @param integer $points
      */
@@ -133,7 +119,6 @@ class Points
     {
         $this->points = $points;
     }
-
     /**
      * @return integer
      */
@@ -141,7 +126,6 @@ class Points
     {
         return $this->maxPoints;
     }
-
     /**
      * @param integer $maxPoints
      */
@@ -149,5 +133,4 @@ class Points
     {
         $this->maxPoints = $maxPoints;
     }
-
 }

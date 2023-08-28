@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,149 +20,140 @@ class Library
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="machine_name", type="string", length=127)
      */
     private $machineName;
-
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
-
     /**
      * @var int
      *
      * @ORM\Column(name="major_version", type="integer")
      */
     private $majorVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="minor_version", type="integer")
      */
     private $minorVersion;
-
     /**
      * @var int
      *
      * @ORM\Column(name="patch_version", type="integer")
      */
     private $patchVersion;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="runnable", type="boolean", options={"default": 1})
      */
     private $runnable = true;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="fullscreen", type="boolean", options={"default": 0})
      */
     private $fullscreen = false;
-
     /**
      * @var string
      *
      * @ORM\Column(name="embed_types", type="string", length=255)
      */
     private $embedTypes;
-
     /**
      * @var string
      *
      * @ORM\Column(name="preloaded_js", type="text", nullable=true)
      */
     private $preloadedJs;
-
     /**
      * @var string
      *
      * @ORM\Column(name="preloaded_css", type="text", nullable=true)
      */
     private $preloadedCss;
-
     /**
      * @var string
      *
      * @ORM\Column(name="drop_library_css", type="text", nullable=true)
      */
     private $dropLibraryCss;
-
     /**
      * @var string
      *
      * @ORM\Column(name="semantics", type="text")
      */
     private $semantics;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="restricted", type="boolean", options={"default": 0})
      */
     private $restricted = false;
-
     /**
      * @var string
      *
      * @ORM\Column(name="tutorial_url", type="string", length=1000, nullable=true)
      */
     private $tutorialUrl;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="has_icon", type="boolean", options={"default": 0})
      */
     private $hasIcon = false;
-
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="Emmedy\H5PBundle\Entity\ContentLibraries", mappedBy="library")
      */
     private $contentLibraries;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="metadata_settings", type="text", nullable=true)
+     */
+    private $metadataSettings;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="add_to", type="text", nullable=true)
+     */
+    private $addTo;
 
     public function __get($name)
     {
         if ($name === "name") {
             return $this->machineName;
         }
-
         $name = $this->getLocalName($name);
         return $this->$name;
     }
-
     public function __isset($name)
     {
         $name = $this->getLocalName($name);
         return isset($this->$name);
     }
-
     public function __set($name, $value)
     {
         $name = $this->getLocalName($name);
-
         $this->$name = $value;
     }
-
     private function getLocalName($name)
     {
         $name = \H5PCore::snakeToCamel([$name => 1]);
         $name = array_keys($name)[0];
         return $name;
     }
-
     /**
      * Library constructor.
      */
@@ -169,12 +161,10 @@ class Library
     {
         $this->contentLibraries = new ArrayCollection();
     }
-
     public function __toString()
     {
         return "{$this->machineName} {$this->majorVersion}.{$this->minorVersion}";
     }
-
     /**
      * @return int
      */
@@ -182,7 +172,6 @@ class Library
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -190,7 +179,6 @@ class Library
     {
         $this->id = $id;
     }
-
     /**
      * @return string
      */
@@ -198,7 +186,6 @@ class Library
     {
         return $this->machineName;
     }
-
     /**
      * @param string $machineName
      */
@@ -206,7 +193,6 @@ class Library
     {
         $this->machineName = $machineName;
     }
-
     /**
      * @return string
      */
@@ -214,7 +200,6 @@ class Library
     {
         return $this->title;
     }
-
     /**
      * @param string $title
      */
@@ -222,7 +207,6 @@ class Library
     {
         $this->title = $title;
     }
-
     /**
      * @return int
      */
@@ -230,7 +214,6 @@ class Library
     {
         return $this->majorVersion;
     }
-
     /**
      * @param int $majorVersion
      */
@@ -238,7 +221,6 @@ class Library
     {
         $this->majorVersion = $majorVersion;
     }
-
     /**
      * @return int
      */
@@ -246,7 +228,6 @@ class Library
     {
         return $this->minorVersion;
     }
-
     /**
      * @param int $minorVersion
      */
@@ -254,7 +235,6 @@ class Library
     {
         $this->minorVersion = $minorVersion;
     }
-
     /**
      * @return int
      */
@@ -262,7 +242,6 @@ class Library
     {
         return $this->patchVersion;
     }
-
     /**
      * @param int $patchVersion
      */
@@ -270,7 +249,6 @@ class Library
     {
         $this->patchVersion = $patchVersion;
     }
-
     /**
      * @return bool
      */
@@ -278,7 +256,6 @@ class Library
     {
         return $this->runnable;
     }
-
     /**
      * @param bool $runnable
      */
@@ -286,7 +263,6 @@ class Library
     {
         $this->runnable = $runnable;
     }
-
     /**
      * @return bool
      */
@@ -294,7 +270,6 @@ class Library
     {
         return $this->fullscreen;
     }
-
     /**
      * @param bool $fullscreen
      */
@@ -302,7 +277,6 @@ class Library
     {
         $this->fullscreen = $fullscreen;
     }
-
     /**
      * @return string
      */
@@ -310,7 +284,6 @@ class Library
     {
         return $this->embedTypes;
     }
-
     /**
      * @param string $embedTypes
      */
@@ -318,7 +291,6 @@ class Library
     {
         $this->embedTypes = $embedTypes;
     }
-
     /**
      * @return string
      */
@@ -326,7 +298,6 @@ class Library
     {
         return $this->preloadedJs;
     }
-
     /**
      * @param string $preloadedJs
      */
@@ -334,7 +305,6 @@ class Library
     {
         $this->preloadedJs = $preloadedJs;
     }
-
     /**
      * @return string
      */
@@ -342,7 +312,6 @@ class Library
     {
         return $this->preloadedCss;
     }
-
     /**
      * @param string $preloadedCss
      */
@@ -350,7 +319,6 @@ class Library
     {
         $this->preloadedCss = $preloadedCss;
     }
-
     /**
      * @return string
      */
@@ -358,7 +326,6 @@ class Library
     {
         return $this->dropLibraryCss;
     }
-
     /**
      * @param string $dropLibraryCss
      */
@@ -366,7 +333,6 @@ class Library
     {
         $this->dropLibraryCss = $dropLibraryCss;
     }
-
     /**
      * @return string
      */
@@ -374,7 +340,6 @@ class Library
     {
         return $this->semantics;
     }
-
     /**
      * @param string $semantics
      */
@@ -382,7 +347,6 @@ class Library
     {
         $this->semantics = $semantics;
     }
-
     /**
      * @return bool
      */
@@ -390,7 +354,6 @@ class Library
     {
         return $this->restricted;
     }
-
     /**
      * @param bool $restricted
      */
@@ -398,7 +361,6 @@ class Library
     {
         $this->restricted = $restricted;
     }
-
     /**
      * @return string
      */
@@ -406,7 +368,6 @@ class Library
     {
         return $this->tutorialUrl;
     }
-
     /**
      * @param string $tutorialUrl
      */
@@ -414,7 +375,6 @@ class Library
     {
         $this->tutorialUrl = $tutorialUrl;
     }
-
     /**
      * @return bool
      */
@@ -422,7 +382,6 @@ class Library
     {
         return $this->hasIcon;
     }
-
     /**
      * @param bool $hasIcon
      */
@@ -430,9 +389,42 @@ class Library
     {
         $this->hasIcon = $hasIcon;
     }
-
     public function isFrame()
     {
         return (strpos($this->embedTypes, 'iframe') !== false);
     }
+
+    /**
+     * @return string
+     */
+    public function getMetadataSettings()
+    {
+        return $this->metadataSettings;
+    }
+
+    /**
+     * @param string $metadataSettings
+     */
+    public function setMetadataSettings($metadataSettings)
+    {
+        $this->metadataSettings = $metadataSettings;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddTo()
+    {
+        return $this->addTo;
+    }
+
+    /**
+     * @param string $addTo
+     */
+    public function setAddTo($addTo)
+    {
+        $this->addTo = $addTo;
+    }
+
+
 }

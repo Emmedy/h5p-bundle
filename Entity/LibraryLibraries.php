@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="LibraryLibrariesRepository")
  * @ORM\Table(name="h5p_library_libraries")
  */
+
 class LibraryLibraries
 {
     /**
@@ -19,7 +21,6 @@ class LibraryLibraries
      * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $library;
-
     /**
      * @var Library
      *
@@ -28,14 +29,12 @@ class LibraryLibraries
      * @ORM\JoinColumn(name="required_library_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $requiredLibrary;
-
     /**
      * @var string
      *
      * @ORM\Column(name="dependency_type", type="string", length=31)
      */
     private $dependencyType;
-
     /**
      * @return string
      */
@@ -43,7 +42,6 @@ class LibraryLibraries
     {
         return $this->dependencyType;
     }
-
     /**
      * @param string $dependencyType
      */
@@ -51,7 +49,6 @@ class LibraryLibraries
     {
         $this->dependencyType = $dependencyType;
     }
-
     /**
      * @return Library
      */
@@ -59,7 +56,6 @@ class LibraryLibraries
     {
         return $this->requiredLibrary;
     }
-
     /**
      * @param Library $requiredLibrary
      */
@@ -67,7 +63,6 @@ class LibraryLibraries
     {
         $this->requiredLibrary = $requiredLibrary;
     }
-
     /**
      * @return Library
      */
@@ -75,7 +70,6 @@ class LibraryLibraries
     {
         return $this->library;
     }
-
     /**
      * @param Library $library
      */
@@ -83,5 +77,4 @@ class LibraryLibraries
     {
         $this->library = $library;
     }
-
 }

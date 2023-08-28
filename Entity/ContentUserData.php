@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,6 @@ class ContentUserData
      * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
-
     /**
      * @var Content
      *
@@ -26,7 +26,6 @@ class ContentUserData
      * @ORM\JoinColumn(name="content_main_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $mainContent;
-
     /**
      * @var integer
      *
@@ -34,7 +33,6 @@ class ContentUserData
      * @ORM\Column(name="sub_content_id", type="integer", length=10)
      */
     private $subContentId;
-
     /**
      * @var integer
      *
@@ -42,35 +40,30 @@ class ContentUserData
      * @ORM\Column(name="data_id", type="string", length=127)
      */
     private $dataId;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="timestamp", type="integer", length=10)
      */
     private $timestamp;
-
     /**
      * @var string
      *
      * @ORM\Column(name="data", type="text")
      */
     private $data;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="preloaded", type="boolean", nullable=true)
      */
     private $preloaded;
-
     /**
      * @var boolean
      *
      * @ORM\Column(name="delete_on_content_change", type="boolean", nullable=true)
      */
     private $deleteOnContentChange;
-
     /**
      * @return integer
      */
@@ -78,7 +71,6 @@ class ContentUserData
     {
         return $this->user;
     }
-
     /**
      * @param integer $user
      */
@@ -86,7 +78,6 @@ class ContentUserData
     {
         $this->user = $user;
     }
-
     /**
      * @return Content
      */
@@ -94,7 +85,6 @@ class ContentUserData
     {
         return $this->mainContent;
     }
-
     /**
      * @param Content $mainContent
      */
@@ -102,7 +92,6 @@ class ContentUserData
     {
         $this->mainContent = $mainContent;
     }
-
     /**
      * @return int
      */
@@ -110,7 +99,6 @@ class ContentUserData
     {
         return $this->subContentId;
     }
-
     /**
      * @param int $subContentId
      */
@@ -118,7 +106,6 @@ class ContentUserData
     {
         $this->subContentId = $subContentId;
     }
-
     /**
      * @return int
      */
@@ -126,7 +113,6 @@ class ContentUserData
     {
         return $this->dataId;
     }
-
     /**
      * @param int $dataId
      */
@@ -134,7 +120,6 @@ class ContentUserData
     {
         $this->dataId = $dataId;
     }
-
     /**
      * @return int
      */
@@ -142,7 +127,6 @@ class ContentUserData
     {
         return $this->timestamp;
     }
-
     /**
      * @param int $timestamp
      */
@@ -150,7 +134,6 @@ class ContentUserData
     {
         $this->timestamp = $timestamp;
     }
-
     /**
      * @return string
      */
@@ -158,7 +141,6 @@ class ContentUserData
     {
         return $this->data;
     }
-
     /**
      * @param string $data
      */
@@ -166,7 +148,6 @@ class ContentUserData
     {
         $this->data = $data;
     }
-
     /**
      * @return bool
      */
@@ -174,7 +155,6 @@ class ContentUserData
     {
         return $this->preloaded;
     }
-
     /**
      * @param bool $preloaded
      */
@@ -182,7 +162,6 @@ class ContentUserData
     {
         $this->preloaded = $preloaded;
     }
-
     /**
      * @return bool
      */
@@ -190,7 +169,6 @@ class ContentUserData
     {
         return $this->deleteOnContentChange;
     }
-
     /**
      * @param bool $deleteOnContentChange
      */

@@ -1,55 +1,127 @@
 services:
+    _defaults:
+        public: true
+        #autowire: true
+        #autoconfigure: true
 
     emmedy_h5p.options:
         class: Emmedy\H5PBundle\Core\H5POptions
         arguments: [~, '%kernel.project_dir%', '@doctrine.orm.entity_manager']
+    Emmedy\H5PBundle\Core\H5POptions: '@emmedy_h5p.options'
 
     emmedy_h5p.editor_storage:
         class: Emmedy\H5PBundle\Editor\EditorStorage
         arguments: ['@emmedy_h5p.options', '@filesystem', '@security.authorization_checker', '@doctrine.orm.entity_manager', '@event_dispatcher']
+    H5peditorStorage: '@emmedy_h5p.editor_storage'
 
     emmedy_h5p.interface:
         class: Emmedy\H5PBundle\Core\H5PSymfony
-        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@session.flash_bag', '@security.authorization_checker', '@event_dispatcher', '@router.default']
+        arguments: ['@emmedy_h5p.options', '@emmedy_h5p.editor_storage','@security.token_storage', '@doctrine.orm.entity_manager', '@?session', '@?request_stack', '@security.authorization_checker', '@event_dispatcher', '@router.default']
+    Emmedy\H5PBundle\Core\H5PSymfony: '@emmedy_h5p.interface'
+
+    emmedy_h5p.filestorage:
+        class: Emmedy\H5PBundle\Service\H5PFileStorage
+        arguments: ['@emmedy_h5p.options']
+    Emmedy\H5PBundle\Service\H5PFileStorage: '@emmedy_h5p.filestorage'
 
     emmedy_h5p.core:
         class: H5PCore
-        arguments: ['@emmedy_h5p.interface', ~, ~]
+        arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.filestorage', ~, 'en' , true]
+    H5PCore: '@emmedy_h5p.core'
 
     emmedy_h5p.editor_ajax:
         class: Emmedy\H5PBundle\Editor\EditorAjax
         arguments: ['@doctrine.orm.entity_manager', '@security.token_storage']
+    Emmedy\H5PBundle\Editor\EditorAjax: '@emmedy_h5p.editor_ajax'
 
     emmedy_h5p.editor:
         class: H5peditor
         arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor_storage', '@emmedy_h5p.editor_ajax']
+    H5peditor: '@emmedy_h5p.editor'
 
     emmedy_h5p.validator:
         class: H5PValidator
         arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PValidator: '@emmedy_h5p.validator'
 
     emmedy_h5p.storage:
         class: H5PStorage
         arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PStorage: '@emmedy_h5p.storage'
 
     emmedy_h5p.contentvalidator:
         class: H5PContentValidator
         arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PContentValidator: '@emmedy_h5p.contentvalidator'
 
     emmedy_h5p.export:
         class: H5PExport
         arguments: ['@emmedy_h5p.interface', '@emmedy_h5p.core']
+    H5PExport: '@emmedy_h5p.export'
 
     emmedy_h5p.integration:
         class: Emmedy\H5PBundle\Core\H5PIntegration
         arguments: ['@emmedy_h5p.core', '@emmedy_h5p.options', '@security.token_storage', '@doctrine.orm.entity_manager', '@router', '@request_stack', '@assets.packages', '@emmedy_h5p.contentvalidator']
+    Emmedy\H5PBundle\Core\H5PIntegration: '@emmedy_h5p.integration'
 
     emmedy_h5p.library_storage:
         class: Emmedy\H5PBundle\Editor\LibraryStorage
         arguments: ['@emmedy_h5p.core', '@emmedy_h5p.editor', '@doctrine.orm.entity_manager']
+    Emmedy\H5PBundle\Editor\LibraryStorage: '@emmedy_h5p.library_storage'
 
     emmedy_h5p.twig.h5p_extension:
         class: Emmedy\H5PBundle\Twig\H5PExtension
         arguments: ['@emmedy_h5p.integration']
         tags:
             - { name: twig.extension }
+    Emmedy\H5PBundle\Twig\H5PExtension: '@emmedy_h5p.twig.h5p_extension'
+
+    emmedy_h5p.result_storage:
+        class: Emmedy\H5PBundle\Service\ResultService
+        arguments: ['@doctrine.orm.entity_manager']
+    Emmedy\H5PBundle\Service\ResultService: '@emmedy_h5p.result_storage'
+
+    Emmedy\H5PBundle\Command\H5pBundleIncludeAssetsCommand:
+        autowire: true
+        tags:
+            - { name: 'console.command', command: 'h5p-bundle:IncludeAssetsCommand' }
+    Emmedy\H5PBundle\Command\H5pBundleCleanUpFilesCommand:
+        tags:
+            - { name: 'console.command', command: 'h5p-bundle:cleanup-files'}
+
+    Emmedy\H5PBundle\Controller\H5PController:
+        autowire: true
+        autoconfigure: true
+        tags: [ 'controller.service_arguments']
+    Emmedy\H5PBundle\Controller\H5PInteractionController:
+        autowire: true
+        autoconfigure: true
+        tags: [ 'controller.service_arguments']
+    Emmedy\H5PBundle\Controller\H5PAJAXController:
+        autowire: true
+        autoconfigure: true
+        tags: [ 'controller.service_arguments']
+
+    Emmedy\H5PBundle\Entity\EventRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    Emmedy\H5PBundle\Entity\LibraryRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    Emmedy\H5PBundle\Entity\LibrariesLanguagesRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    Emmedy\H5PBundle\Entity\LibraryLibrariesRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    Emmedy\H5PBundle\Entity\ContentRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    Emmedy\H5PBundle\Entity\OptionRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
