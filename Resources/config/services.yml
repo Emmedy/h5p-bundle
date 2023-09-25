@@ -85,7 +85,9 @@ services:
         autowire: true
         tags:
             - { name: 'console.command', command: 'h5p-bundle:IncludeAssetsCommand' }
+
     Emmedy\H5PBundle\Command\H5pBundleCleanUpFilesCommand:
+        autowire: true
         tags:
             - { name: 'console.command', command: 'h5p-bundle:cleanup-files'}
 
@@ -93,10 +95,12 @@ services:
         autowire: true
         autoconfigure: true
         tags: [ 'controller.service_arguments']
+
     Emmedy\H5PBundle\Controller\H5PInteractionController:
         autowire: true
         autoconfigure: true
         tags: [ 'controller.service_arguments']
+
     Emmedy\H5PBundle\Controller\H5PAJAXController:
         autowire: true
         autoconfigure: true
