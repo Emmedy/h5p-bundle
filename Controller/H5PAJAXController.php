@@ -135,7 +135,7 @@ class H5PAJAXController extends AbstractController
             $request->get('majorVersion'),
             $request->get('minorVersion'),
             $locale,
-            $this->serviceh5poptions->getOption('storage_dir'),
+            $this->h5POptions->getOption('storage_dir'),
             '',
             $locale
         );
