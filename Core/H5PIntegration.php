@@ -185,7 +185,7 @@ class H5PIntegration
                 'majorVersion' => $content->getLibrary()->getMajorVersion(),
                 'minorVersion' => $content->getLibrary()->getMinorVersion(),
             ],
-            'params' => json_encode($params->params),
+            'params' => isset($params->params) ? json_encode($params->params) : '',
             'filtered' => $content->getFilteredParameters(),
             'embedType' => 'div',
         ];
