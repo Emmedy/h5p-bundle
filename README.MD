@@ -1,7 +1,7 @@
 # H5PBundle
 Bundle to integrate H5P into Symfony. This bundle is a port of the H5P Drupal module. For more info about H5P see [H5P.org](https://h5p.org)
 
-This bundle was tested on Symfony 4.X and Symfony 5.X
+This bundle was tested on Symfony 5.X
 
 Installation
 ------------
@@ -30,7 +30,6 @@ and reexecute ...
 php bin/console h5p-bundle:IncludeAssetsCommand
 ```
   
-
 Add required tables and relations to the database
 ``` bash
 php bin/console doctrine:schema:update --force 
@@ -83,14 +82,14 @@ For all configurations see [Configuration.php](DependencyInjection/Configuration
 
 if you are using permissions here is the current list of permissions in the bundle :
 
-| Permission  | Description |
-|---|---|
-| ROLE_H5P_DOWNLOAD_ALL  |  Download the H5P packages |
-| ROLE_H5P_EMBED_ALL  | Embed/Share to everyone the H5P   |
-| ROLE_H5P_CREATE_RESTRICTED_CONTENT_TYPES  | Restrict for user the type install  |
-| ROLE_H5P_UPDATE_LIBRARIES  | Allow/Disallow the update of package H5P  |
-| ROLE_H5P_INSTALL_RECOMMENDED_LIBRARIES  | Allow/Disallow to install libraries |
-| ROLE_H5P_COPY_ALL  | Allow/Disallow to copy H5P (If you want to Download, you must install to have this role too) |
+| Permission                               | Description                                                                                  |
+|------------------------------------------|----------------------------------------------------------------------------------------------|
+| ROLE_H5P_DOWNLOAD_ALL                    | Download the H5P packages                                                                    |
+| ROLE_H5P_EMBED_ALL                       | Embed/Share to everyone the H5P                                                              |
+| ROLE_H5P_CREATE_RESTRICTED_CONTENT_TYPES | Restrict for user the type install                                                           |
+| ROLE_H5P_UPDATE_LIBRARIES                | Allow/Disallow the update of package H5P                                                     |
+| ROLE_H5P_INSTALL_RECOMMENDED_LIBRARIES   | Allow/Disallow to install libraries                                                          |
+| ROLE_H5P_COPY_ALL                        | Allow/Disallow to copy H5P (If you want to Download, you must install to have this role too) |
 
 Usage
 -------------
@@ -116,3 +115,11 @@ Changelog:
 - Fix bug with missing link img 
 - Fix Download package
 - Store usage data and points
+
+
+Developing:
+-------------
+Run the static analyzer like that:
+```sh
+php -d memory_limit=-1 vendor/bin/phpstan.phar analyze .
+```
