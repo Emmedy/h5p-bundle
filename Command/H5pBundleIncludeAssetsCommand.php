@@ -74,7 +74,6 @@ class H5pBundleIncludeAssetsCommand extends Command
     private function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
-        // Restrict the permission to 0750 not upper
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
