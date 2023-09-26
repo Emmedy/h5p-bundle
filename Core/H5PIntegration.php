@@ -160,7 +160,7 @@ class H5PIntegration extends H5PUtils
         ];
         if (is_object($this->getCurrentOrAnonymousUser())) {
             $contentUserData = $this->entityManager
-                ->getRepository('Studit\H5PBundle\Entity\ContentUserData')
+                ->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')
                 ->findOneBy([
                     'mainContent' => $content,
                     'user' => $this->getUserId($this->getCurrentOrAnonymousUser())
