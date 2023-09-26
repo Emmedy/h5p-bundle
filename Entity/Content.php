@@ -90,16 +90,16 @@ class Content
         $this->parameters = $parameters;
     }
     /**
-     * @return string
+     * @return ?string
      */
-    public function getFilteredParameters(): string
+    public function getFilteredParameters(): ?string
     {
         return $this->filteredParameters;
     }
     /**
-     * @param string $filteredParameters
+     * @param ?string $filteredParameters
      */
-    public function setFilteredParameters(string $filteredParameters)
+    public function setFilteredParameters(?string $filteredParameters)
     {
         $this->filteredParameters = $filteredParameters;
     }
