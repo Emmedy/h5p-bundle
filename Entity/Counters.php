@@ -94,5 +94,4 @@ class Counters
     {
         $this->num = $num;
     }
-
 }

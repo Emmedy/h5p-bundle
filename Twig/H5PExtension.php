@@ -5,6 +5,7 @@ namespace Emmedy\H5PBundle\Twig;
 
 use Emmedy\H5PBundle\Core\H5PIntegration;
 use Twig\TwigFilter;
+
 class H5PExtension extends \Twig\Extension\AbstractExtension
 {
     /**
@@ -42,5 +43,4 @@ class H5PExtension extends \Twig\Extension\AbstractExtension
     {
         return 'h5p_extension';
     }
-
 }
