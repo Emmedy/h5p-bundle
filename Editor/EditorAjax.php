@@ -4,6 +4,7 @@ namespace Emmedy\H5PBundle\Editor;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Emmedy\H5PBundle\Core\H5PUtils;
 use Emmedy\H5PBundle\Entity\EventRepository;
 use Emmedy\H5PBundle\Entity\LibraryRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
