@@ -75,7 +75,7 @@ class H5pBundleIncludeAssetsCommand extends Command
     {
         $dir = opendir($src);
         // Restrict the permission to 0750 not upper
-        @mkdir($dst, 0750);
+        @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file)) {
