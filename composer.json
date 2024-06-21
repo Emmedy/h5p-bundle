@@ -1,7 +1,7 @@
 {
   "name": "emmedy/h5p-bundle",
   "type": "symfony-bundle",
-  "description": "H5P Bundle for Symfony 4 and Symfony 5",
+  "description": "H5P Bundle for Symfony 4 and Symfony 5 educateme",
   "keywords": [
     "h5p",
     "symfony",
