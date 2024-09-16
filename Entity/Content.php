@@ -32,7 +32,7 @@ class Content
      */
     private $parameters;
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="filtered_parameters", type="text", nullable=true)
      */
@@ -90,14 +90,15 @@ class Content
         $this->parameters = $parameters;
     }
     /**
-     * @return ?string
+     * @return string|null
      */
     public function getFilteredParameters(): ?string
     {
         return $this->filteredParameters;
     }
+
     /**
-     * @param ?string $filteredParameters
+     * @param string|null $filteredParameters
      */
     public function setFilteredParameters(?string $filteredParameters)
     {
