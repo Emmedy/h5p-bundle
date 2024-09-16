@@ -3,7 +3,6 @@
 
 namespace Emmedy\H5PBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**

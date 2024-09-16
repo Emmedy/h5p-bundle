@@ -3,7 +3,6 @@
 
 namespace Emmedy\H5PBundle\Service;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Emmedy\H5PBundle\Entity\ContentResult;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,17 +58,16 @@ class ResultService
      */
     public function removeData($contentId, $dataType, $user, $subContentId)
     {
-        $ContentUserData = $this->em->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')
-            ->findBy(
-                [
-                    'subContentId' => $subContentId,
-                    'mainContent' => $contentId,
-                    'dataId' => $dataType,
-                    'user' => $user->getId()
-                ]
-            );
-        if (count($ContentUserData) > 0){
-            foreach ($ContentUserData as $content){
+        $ContentUserData = $this->em->getRepository('Emmedy\H5PBundle\Entity\ContentUserData')->findBy(
+            [
+                'subContentId' => $subContentId,
+                'mainContent' => $contentId,
+                'dataId' => $dataType,
+                'user' => $user->getId()
+            ]
+        );
+        if (count($ContentUserData) > 0) {
+            foreach ($ContentUserData as $content) {
                 $this->em->remove($content);
             }
             $this->em->flush();

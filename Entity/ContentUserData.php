@@ -176,5 +176,4 @@ class ContentUserData
     {
         $this->deleteOnContentChange = $deleteOnContentChange;
     }
-
 }

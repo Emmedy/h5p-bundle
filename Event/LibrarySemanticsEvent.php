@@ -3,7 +3,6 @@
 
 namespace Emmedy\H5PBundle\Event;
 
-
 use Symfony\Contracts\EventDispatcher\Event;
 
 class LibrarySemanticsEvent extends Event
@@ -54,5 +53,4 @@ class LibrarySemanticsEvent extends Event
     {
         return $this->minorVersion;
     }
-
 }

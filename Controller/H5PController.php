@@ -20,7 +20,6 @@ use Emmedy\H5PBundle\Form\Type\H5PType;
  */
 class H5PController extends AbstractController
 {
-
     protected $h5PIntegrations;
     protected $libraryStorage;
     protected $entityManager;
@@ -39,18 +38,21 @@ class H5PController extends AbstractController
      * List of all H5P content
      * @Route("list")
      */
-    public function listAction()
+    public function listAction(): Response
     {
         $contents = $this->entityManager->getRepository('Emmedy\H5PBundle\Entity\Content')->findAll();
         return $this->render('@EmmedyH5P/list.html.twig', ['contents' => $contents]);
     }
+
     /**
      * Show content of H5P created by user
      * @Route("show/{content}")
      * @param Content $content
+     * @param \H5PCore $h5PCore
+     * @param H5POptions $h5POptions
      * @return Response
      */
-    public function showAction(Content $content, \H5PCore $h5PCore, H5POptions $h5POptions)
+    public function showAction(Content $content, \H5PCore $h5PCore, H5POptions $h5POptions): Response
     {
         $h5pIntegration = $this->h5PIntegrations->getGenericH5PIntegrationSettings();
         $contentIdStr = 'cid-' . $content->getId();
@@ -70,7 +72,15 @@ class H5PController extends AbstractController
             $h5pIntegration['contents'][$contentIdStr]['scripts'] = $jsFilePaths;
             $h5pIntegration['contents'][$contentIdStr]['styles'] = $cssFilePaths;
         }
-        return $this->render('@EmmedyH5P/show.html.twig', ['contentId' => $content->getId(), 'isFrame' => $content->getLibrary()->isFrame(), 'h5pIntegration' => $h5pIntegration, 'files' => $files]);
+        return $this->render(
+            '@EmmedyH5P/show.html.twig',
+            [
+                'contentId' => $content->getId(),
+                'isFrame' => $content->getLibrary()->isFrame(),
+                'h5pIntegration' => $h5pIntegration,
+                'files' => $files
+            ]
+        );
     }
 
     /**
@@ -80,7 +90,7 @@ class H5PController extends AbstractController
      */
     public function newAction(Request $request)
     {
-        return $this->handleRequest($request );
+        return $this->handleRequest($request);
     }
 
     /**
@@ -93,6 +103,12 @@ class H5PController extends AbstractController
     {
         return $this->handleRequest($request, $content);
     }
+
+    /**
+     * @param Request $request
+     * @param Content|null $content
+     * @return RedirectResponse|Response
+     */
     private function handleRequest(Request $request, Content $content = null)
     {
         $formData = null;
@@ -110,14 +126,23 @@ class H5PController extends AbstractController
             return $this->redirectToRoute('emmedy_h5p_h5p_show', ['content' => $contentId]);
         }
         $h5pIntegration = $this->h5PIntegrations->getEditorIntegrationSettings($content ? $content->getId() : null);
-        return $this->render('@EmmedyH5P/edit.html.twig', ['form' => $form->createView(), 'h5pIntegration' => $h5pIntegration, 'h5pCoreTranslations' => $this->h5PIntegrations->getTranslationFilePath()]);
+        return $this->render(
+            '@EmmedyH5P/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'h5pIntegration' => $h5pIntegration,
+                'h5pCoreTranslations' => $this->h5PIntegrations->getTranslationFilePath()
+            ]
+        );
     }
+
     /**
      * @Route("delete/{contentId}")
      * @param integer $contentId
+     * @param \H5PStorage $h5PStorage
      * @return RedirectResponse
      */
-    public function deleteAction($contentId, \H5PStorage $h5PStorage)
+    public function deleteAction($contentId, \H5PStorage $h5PStorage): RedirectResponse
     {
         $h5PStorage->deletePackage([
             'id' => $contentId,
