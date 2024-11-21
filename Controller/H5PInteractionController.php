@@ -17,23 +17,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @Route("/h5p/interaction")
- */
+#[Route('/h5p/interaction')]
 class H5PInteractionController extends AbstractController
 {
-    protected $entityManager;
-    protected $resultService;
-    protected $serializer;
-    protected $assetsPaths;
-    protected $options;
-    protected $h5PIntegration;
-    protected $h5PCore;
-    protected $kernel;
+    protected EntityManagerInterface $entityManager;
+    protected ResultService $resultService;
+    protected SerializerInterface $serializer;
+    protected Packages $assetsPaths;
+    protected H5POptions $options;
+    protected H5PIntegration $h5PIntegration;
+    protected H5PCore $h5PCore;
+    protected KernelInterface $kernel;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -55,11 +53,12 @@ class H5PInteractionController extends AbstractController
         $this->kernel = $kernel;
     }
 
+    #[Route("/set-finished/{token}")]
+
     /**
-     * Access callback for the setFinished feature
+     * Access callback for the setFinished feature.
      *
-     * @Route("/set-finished/{token}")
-     * @param Request $request
+     * @param Request $request Current request
      * @param $token
      * @return JsonResponse
      */
@@ -77,11 +76,12 @@ class H5PInteractionController extends AbstractController
         return new JsonResponse(['success' => true]);
     }
 
+    #[Route("/content-user-data/{contentId}/{dataType}/{subContentId}")]
+
     /**
      * Handles insert, updating and deleting content user data through AJAX.
      *
-     * @Route("/content-user-data/{contentId}/{dataType}/{subContentId}")
-     * @param Request $request
+     * @param Request $request Current request
      * @param $contentId
      * @param $dataType
      * @param $subContentId
@@ -103,6 +103,7 @@ class H5PInteractionController extends AbstractController
             if (!\H5PCore::validToken('contentuserdata', $request->get("token"))) {
                 return new JsonResponse(['success' => false, 'message' => 'No content']);
             }
+
             //remove data if data = 0
             if ($data === '0') {
                 //remove data here
@@ -111,6 +112,7 @@ class H5PInteractionController extends AbstractController
                 // Wash values to ensure 0 or 1.
                 $preload = ($preload === '0' ? 0 : 1);
                 $invalidate = ($invalidate === '0' ? 0 : 1);
+
                 //get if exists
                 /**
                  * @var ContentUserData $update
@@ -136,6 +138,7 @@ class H5PInteractionController extends AbstractController
                     $contentUserData->setPreloaded($preload);
                     $contentUserData->setDeleteOnContentChange($invalidate);
                     $contentUserData->setTimestamp(time());
+
                     /** @var Content|null $content */
                     $content = $em->getRepository('Emmedy\H5PBundle\Entity\Content')->findOneBy(['id' => $contentId]);
                     $contentUserData->setMainContent($content);
@@ -153,7 +156,7 @@ class H5PInteractionController extends AbstractController
 
             return new JsonResponse(['success' => true]);
         } else {
-            $data = $em->getRepository("Studit\H5PBundle\Entity\ContentUserData")->findOneBy([
+            $data = $em->getRepository("Emmedy\H5PBundle\Entity\ContentUserData")->findOneBy([
                 'subContentId' => $subContentId,
                 'mainContent' => $contentId,
                 'dataId' => $dataType,
@@ -168,9 +171,10 @@ class H5PInteractionController extends AbstractController
         }
     }
 
+    #[Route("/embed/{content}")]
+
     /**
-     * @Route("/embed/{content}")
-     * @param Request $request
+     * @param Request $request Current request
      * @param Content $content
      * @return Response
      */
@@ -215,7 +219,7 @@ class H5PInteractionController extends AbstractController
             'title' => "H5P Content $id",
         ];
         //include the embed file (provide in h5p-core)
-        include $this->kernel->getProjectDir() . '/vendor/h5p/h5p-core/embed.php';
+        include_once $this->kernel->getProjectDir() . '/vendor/h5p/h5p-core/embed.php';
         $response['#markup'] = ob_get_clean();
         //return nes Response HTML
         return new Response($response['#markup']);

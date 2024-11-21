@@ -19,31 +19,37 @@ class H5PIntegration extends H5PUtils
     /**
      * @var EntityManager
      */
-    private $entityManager;
+    private EntityManager $entityManager;
+
     /**
      * @var \H5PCore
      */
-    private $core;
+    private \H5PCore $core;
+
     /**
      * @var RouterInterface
      */
-    private $router;
+    private RouterInterface $router;
+
     /**
      * @var H5POptions
      */
-    private $options;
+    private H5POptions $options;
+
     /**
      * @var RequestStack
      */
-    private $requestStack;
+    private RequestStack $requestStack;
+
     /**
      * @var Packages
      */
-    private $assetsPaths;
+    private Packages $assetsPaths;
+
     /**
      * @var \H5PContentValidator
      */
-    private $contentValidator;
+    private \H5PContentValidator $contentValidator;
 
     /**
      * H5PContent constructor.
@@ -77,20 +83,25 @@ class H5PIntegration extends H5PUtils
     }
 
     /**
-     * Prepares the generic H5PIntegration settings
+     * Prepares the generic H5PIntegration settings.
+     * @return array|null
      */
-    public function getGenericH5PIntegrationSettings()
+    public function getGenericH5PIntegrationSettings(): ?array
     {
         static $settings;
         if (!empty($settings)) {
-            return $settings; // Only needs to be generated the first time
+            // Only needs to be generated the first time
+            return $settings;
         }
+
         // Load current user
         $user = $this->getCurrentOrAnonymousUser();
+
         // Load configuration settings
         $saveContentState = $this->options->getOption('save_content_state', false);
         $saveContentFrequency = $this->options->getOption('save_content_frequency', 30);
         $hubIsEnabled = $this->options->getOption('hub_is_enabled', true);
+
         // Create AJAX URLs
         $setFinishedUrl = $this->router->generate('emmedy_h5p_h5pinteraction_setfinished', [
             'token' => \H5PCore::createToken('result')
@@ -101,6 +112,7 @@ class H5PIntegration extends H5PUtils
             'subContentId' => ':subContentId',
             'token' => \H5PCore::createToken('contentuserdata')
         ]);
+
         // Define the generic H5PIntegration settings
         $settings = [
             'baseUrl' => "/",
@@ -179,7 +191,9 @@ class H5PIntegration extends H5PUtils
             'jsonContent' => $filteredParameters,
             'fullScreen' => $content->getLibrary()->isFullscreen(),
             'exportUrl' => $this->getExportUrl($content),
-            'embedCode' => '<iframe src="' . $embedUrl . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
+            'embedCode' => '<iframe src="' .
+                $embedUrl .
+                '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
             'resizeCode' => '<script src="' . $resizerUrl . '" charset="UTF-8"></script>',
             'url' => $embedUrl,
             'title' => 'Not Available',
@@ -188,7 +202,7 @@ class H5PIntegration extends H5PUtils
         );
     }
 
-    public function getFilteredParameters(Content $content): ?string
+    public function getFilteredParameters(Content $content): string|object|null
     {
         $params = json_decode($content->getParameters());
         $contentData = [
@@ -220,7 +234,7 @@ class H5PIntegration extends H5PUtils
         }
     }
 
-    public function getEditorIntegrationSettings($contentId = null)
+    public function getEditorIntegrationSettings($contentId = null): array
     {
         $editorSettings = [
             'filesPath' => $this->options->getRelativeH5PPath(),
@@ -267,7 +281,7 @@ class H5PIntegration extends H5PUtils
     }
 
     /**
-     * Extracts assets from a collection of assets
+     * Extracts assets from a collection of assets.
      *
      * @param array $collection Collection of assets
      * @param string $prefix Prefix needed for constructing the file-path of the assets
@@ -290,7 +304,7 @@ class H5PIntegration extends H5PUtils
     }
 
     /**
-     * Get cache buster
+     * Get cache buster.
      *
      * @return string A cache buster that may be applied to resources
      */
@@ -301,7 +315,7 @@ class H5PIntegration extends H5PUtils
     }
 
     /**
-     * Translation file path for the editor. Defaults to English if chosen
+     * Translation file path for the editor. Defaults to English if chosen.
      * language is not available.
      *
      * @return string Path to translation file for editor
@@ -330,7 +344,7 @@ class H5PIntegration extends H5PUtils
     }
 
     /**
-     * Access to direct access to the configuration to save time
+     * Access to direct access to the configuration to save time.
      * @return H5POptions
      */
     public function getOptions(): H5POptions
