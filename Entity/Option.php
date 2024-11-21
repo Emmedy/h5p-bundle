@@ -15,62 +15,41 @@ class Option
 
     #[ORM\Id]
     #[ORM\Column(name: "name", type: "string", length: 255)]
-
-    /**
-     * @var string
-     */
     private ?string $name;
 
     #[ORM\Column(name: "value", type: "text")]
-
-    /**
-     * @var string|null $value
-     */
-    private ?string $value;
+    private string $value;
 
     #[ORM\Column(name: "type", type: "string", length: 255)]
+    private string $type;
 
-    /**
-     * @var string
-     */
-    private ?string $type;
-
-    /**
-     * Constructor of current class.
-     * @param string $name
-     */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): string|int|bool
     {
         if ($this->type === self::INTEGER) {
-            return intval($this->value);
-        } elseif ($this->type === self::BOOLEAN) {
-            return boolval($this->value);
-        } else {
-            return $this->value;
+            return (int)$this->value;
         }
+
+        if ($this->type === self::BOOLEAN) {
+            return (bool)$this->value;
+        }
+
+        return $this->value;
     }
 
     /**
-     * @param string|int|bool $value
      * @throws InvalidArgumentException
      */
-    public function setValue($value): void
+    public function setValue(string|int|bool $value): void
     {
         if (is_int($value)) {
             $this->type = self::INTEGER;
@@ -81,6 +60,6 @@ class Option
         } else {
             throw new InvalidArgumentException("The value type is not supported.");
         }
-        $this->value = strval($value);
+        $this->value = (string)$value;
     }
 }

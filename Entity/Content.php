@@ -11,37 +11,20 @@ class Content
     #[ORM\Id]
     #[ORM\Column(type: "integer")]
     #[ORM\GeneratedValue(strategy:"AUTO")]
-    /**
-     * @var int
-     */
-    private ?int $id;
+    private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Library::class)]
     #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: "CASCADE")]
-    /**
-     * @var Library
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
-     */
-    private ?Library $library;
+    private ?Library $library = null;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: "parameters", type: "text", nullable: true)]
-    private ?string $parameters;
+    private ?string $parameters = null;
 
     #[ORM\Column(name: "filtered_parameters", type: "text", nullable: true)]
-    /**
-     * @var string|null
-     */
-    private ?string $filteredParameters;
+    private ?string $filteredParameters = null;
 
     #[ORM\Column(name: "disabled_features", type: "integer", nullable: true)]
-
-    /**
-     * @var int|null
-     */
-    private ?int $disabledFeatures;
+    private ?int $disabledFeatures = null;
 
     public function __clone(): void
     {
@@ -55,14 +38,7 @@ class Content
     {
         return $this->id;
     }
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
+
     /**
      * @return Library
      */

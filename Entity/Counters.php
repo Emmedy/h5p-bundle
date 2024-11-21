@@ -11,85 +11,55 @@ class Counters
 {
     #[ORM\Id]
     #[ORM\Column(name: "type", type: "string", length: 63)]
-    /**
-     * @var string|null
-     */
-    private ?string $type;
+    private string $type;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Id]
     #[ORM\Column(name: "library_name", type: "string", length: 127)]
-    private ?string $libraryName;
+    private string $libraryName;
 
-    /**
-     * @var string|null
-     */
     #[ORM\Id]
     #[ORM\Column(name: "library_version", type: "string", length: 31)]
-    private ?string $libraryVersion;
+    private string $libraryVersion;
 
-    /**
-     * @var int|null
-     */
     #[ORM\Column(name: "num", type: "integer")]
-    private ?int $num;
-    /**
-     * @return string
-     */
-    public function getType()
+    private int $num;
+
+    public function getType(): string
     {
         return $this->type;
     }
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+
+    public function setType(string $type)
     {
         $this->type = $type;
     }
-    /**
-     * @return string
-     */
-    public function getLibraryName()
+
+    public function getLibraryName(): string
     {
         return $this->libraryName;
     }
-    /**
-     * @param string $libraryName
-     */
-    public function setLibraryName($libraryName)
+
+    public function setLibraryName(string $libraryName)
     {
         $this->libraryName = $libraryName;
     }
-    /**
-     * @return string
-     */
-    public function getLibraryVersion()
+
+    public function getLibraryVersion(): string
     {
         return $this->libraryVersion;
     }
-    /**
-     * @param string $libraryVersion
-     */
-    public function setLibraryVersion($libraryVersion)
+
+    public function setLibraryVersion(string $libraryVersion)
     {
         $this->libraryVersion = $libraryVersion;
     }
-    /**
-     * @return int
-     */
-    public function getNum()
+
+    public function getNum(): int
     {
         return $this->num;
     }
 
-    /**
-      * @param int $num
-      * @return self
-     */
-    public function setNum($num): self
+    public function setNum(int $num): self
     {
         $this->num = $num;
         return $this;

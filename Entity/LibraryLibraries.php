@@ -9,64 +9,45 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: "h5p_library_libraries")]
 class LibraryLibraries
 {
-    /**
-     * @var int|Library|null
-     */
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Library::class)]
     #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: 'CASCADE')]
-    private null|Library|int $library;
-    /**
-     * @var Library|null
-     */
+    private Library $library;
+
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Library::class)]
     #[ORM\JoinColumn(name: "required_library_id", referencedColumnName: "id", onDelete: 'CASCADE')]
-    private ?Library $requiredLibrary;
-    /**
-     * @var string|null
-     */
+    private Library $requiredLibrary;
+
     #[ORM\Column(name: "dependency_type", type: "string", length: 31)]
-    private ?string $dependencyType;
-    /**
-     * @return string
-     */
-    public function getDependencyType()
+    private string $dependencyType;
+
+    public function getDependencyType(): string
     {
         return $this->dependencyType;
     }
-    /**
-     * @param string $dependencyType
-     */
-    public function setDependencyType($dependencyType)
+
+    public function setDependencyType(string $dependencyType): void
     {
         $this->dependencyType = $dependencyType;
     }
-    /**
-     * @return Library
-     */
-    public function getRequiredLibrary()
+
+    public function getRequiredLibrary(): Library
     {
         return $this->requiredLibrary;
     }
-    /**
-     * @param null|Library|int $requiredLibrary
-     */
-    public function setRequiredLibrary($requiredLibrary)
+
+    public function setRequiredLibrary(Library $requiredLibrary): void
     {
         $this->requiredLibrary = $requiredLibrary;
     }
-    /**
-     * @return null|Library|int
-     */
-    public function getLibrary()
+
+    public function getLibrary(): Library
     {
         return $this->library;
     }
-    /**
-     * @param Library $library
-     */
-    public function setLibrary($library)
+
+    public function setLibrary(Library $library): void
     {
         $this->library = $library;
     }
