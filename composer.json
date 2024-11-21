@@ -1,6 +1,6 @@
 {
   "name": "emmedy/h5p-bundle",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "type": "symfony-bundle",
   "description": "H5P Bundle for Symfony 5, 6 and Symfony 7",
   "keywords": [
