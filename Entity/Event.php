@@ -5,193 +5,130 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="EventRepository")
- * @ORM\Table(name="h5p_event")
- */
+#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\Table('h5p_event')]
 class Event
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer")
-     */
-    private $user;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="created_at", type="integer")
-     */
-    private $createdAt;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=63)
-     */
-    private $type;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sub_type", type="string", length=63)
-     */
-    private $subType;
-    /**
-     * @var Content
-     *
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Content")
-     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $content;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="content_title", type="string", length=255)
-     */
-    private $contentTitle;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="library_name", type="string", length=127)
-     */
-    private $libraryName;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="library_version", type="string", length=31)
-     */
-    private $libraryVersion;
-    /**
-     * @return integer
-     */
-    public function getId()
+    #[ORM\Id]
+    #[ORM\Column(type:"integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
+
+    #[ORM\Column(name: 'user_id', type: "integer")]
+    private int $user;
+
+    #[ORM\Column(name: 'created_at', type: "integer")]
+    private int $createdAt;
+
+    #[ORM\Column(name: "type", type: "string", length: 63)]
+    private string $type;
+
+    #[ORM\Column(name: "sub_type", type: "string", length: 63)]
+    private string $subType;
+
+    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id", onDelete: 'CASCADE')]
+    private ?Content $content = null;
+
+    #[ORM\Column(name: "content_title", type: "string", length: 255)]
+    private string $contentTitle;
+
+    #[ORM\Column(name: "library_name", type: "string", length: 127)]
+    private string $libraryName;
+
+    #[ORM\Column(name: "library_version", type: "string", length: 31)]
+    private string $libraryVersion;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    /**
-     * @param integer $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    /**
-     * @return integer
-     */
-    public function getUser()
+
+    public function getUser(): int
     {
         return $this->user;
     }
-    /**
-     * @param integer $user
-     */
-    public function setUser($user)
+
+    public function setUser(int $user): self
     {
         $this->user = $user;
+        return $this;
     }
-    /**
-     * @return integer
-     */
-    public function getCreatedAt()
+
+    public function getCreatedAt(): int
     {
         return $this->createdAt;
     }
-    /**
-     * @param integer $createdAt
-     */
-    public function setCreatedAt($createdAt)
+
+    public function setCreatedAt(int $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getType()
+
+    public function getType(): string
     {
         return $this->type;
     }
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+
+    public function setType(string $type): self
     {
         $this->type = $type;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getSubType()
+
+    public function getSubType(): string
     {
         return $this->subType;
     }
-    /**
-     * @param string $subType
-     */
-    public function setSubType($subType)
+
+    public function setSubType(string $subType): self
     {
         $this->subType = $subType;
+        return $this;
     }
-    /**
-     * @return Content
-     */
-    public function getContent()
+
+    public function getContent(): Content
     {
         return $this->content;
     }
-    /**
-     * @param Content $content
-     */
-    public function setContent($content)
+
+    public function setContent(Content $content): self
     {
         $this->content = $content;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getContentTitle()
+
+    public function getContentTitle(): string
     {
         return $this->contentTitle;
     }
-    /**
-     * @param string $contentTitle
-     */
-    public function setContentTitle($contentTitle)
+
+    public function setContentTitle(string $contentTitle): self
     {
         $this->contentTitle = $contentTitle;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getLibraryName()
+
+    public function getLibraryName():?string
     {
         return $this->libraryName;
     }
-    /**
-     * @param string $libraryName
-     */
-    public function setLibraryName($libraryName)
+
+    public function setLibraryName(string $libraryName): self
     {
         $this->libraryName = $libraryName;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getLibraryVersion()
+
+    public function getLibraryVersion(): string
     {
         return $this->libraryVersion;
     }
-    /**
-     * @param string $libraryVersion
-     */
-    public function setLibraryVersion($libraryVersion)
+
+    public function setLibraryVersion(string $libraryVersion): self
     {
         $this->libraryVersion = $libraryVersion;
+        return $this;
     }
 }

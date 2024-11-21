@@ -5,115 +5,82 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="h5p_content_libraries")
- */
+#[ORM\Entity()]
+#[ORM\Table(name: "h5p_content_libraries")]
 class ContentLibraries
 {
-    /**
-     * @var Content
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Content")
-     * @ORM\JoinColumn(name="content_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $content;
-    /**
-     * @var Library
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library", inversedBy="contentLibraries")
-     * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $library;
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(name="dependency_type", type="string", length=31)
-     */
-    private $dependencyType;
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="drop_css", type="string", length=1)
-     */
-    private $dropCss;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="weight", type="integer")
-     */
-    private $weight;
-    /**
-     * @return Content
-     */
-    public function getContent()
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\JoinColumn(name: "content_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    private Content $content;
+
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Library::class, inversedBy: "contentLibraries")]
+    #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    private Library $library;
+
+    #[ORM\Id()]
+    #[ORM\Column(name: "dependency_type", type: "string", length: 31)]
+    private string $dependencyType;
+
+    #[ORM\Column(name: "drop_css", type: "boolean", length: 1)]
+    private bool $dropCss;
+
+    #[ORM\Column(name: "weight", type: "integer")]
+    private int $weight;
+
+    public function getContent(): Content
     {
         return $this->content;
     }
-    /**
-     * @param Content $content
-     */
-    public function setContent($content)
+
+    public function setContent(Content $content): self
     {
         $this->content = $content;
+        return $this;
     }
-    /**
-     * @return Library
-     */
-    public function getLibrary()
+
+    public function getLibrary(): Library
     {
         return $this->library;
     }
-    /**
-     * @param Library $library
-     */
-    public function setLibrary($library)
+
+    public function setLibrary(Library $library): self
     {
         $this->library = $library;
+        return $this;
     }
-    /**
-     * @return int
-     */
-    public function getDependencyType()
+
+    public function getDependencyType(): string
     {
         return $this->dependencyType;
     }
-    /**
-     * @param int $dependencyType
-     */
-    public function setDependencyType($dependencyType)
+
+    public function setDependencyType(string $dependencyType): self
     {
         $this->dependencyType = $dependencyType;
+        return $this;
     }
-    /**
-     * @return bool
-     */
-    public function isDropCss()
+
+    public function isDropCss(): bool
     {
         return $this->dropCss;
     }
-    /**
-     * @param bool $dropCss
-     */
-    public function setDropCss($dropCss)
+
+    public function setDropCss(bool $dropCss): self
     {
         $this->dropCss = $dropCss;
+        return $this;
     }
-    /**
-     * @return int
-     */
-    public function getWeight()
+
+    public function getWeight(): int
     {
         return $this->weight;
     }
-    /**
-     * @param int $weight
-     */
-    public function setWeight($weight)
+
+    public function setWeight(int $weight): self
     {
         $this->weight = $weight;
+        return $this;
     }
 }

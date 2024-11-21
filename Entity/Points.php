@@ -5,131 +5,86 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="h5p_points")
- */
+#[ORM\Entity()]
+#[ORM\Table(name: "h5p_points")]
 class Points
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer")
-     */
-    private $user;
-    /**
-     * @var Content
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Content")
-     * @ORM\JoinColumn(name="content_main_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $content;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="started", type="integer")
-     */
-    private $started;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="finished", type="integer")
-     */
-    private $finished = 0;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="points", type="integer", nullable=true)
-     */
-    private $points;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="max_points", type="integer", nullable=true)
-     */
-    private $maxPoints;
-    /**
-     * @return integer
-     */
-    public function getUser()
+    #[ORM\Column(name: "user_id", type: "integer")]
+    private ?int $user = null;
+
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\JoinColumn(name: "content_main_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    private Content $content;
+
+    #[ORM\Column(name: "started", type: "integer")]
+    private int $started;
+
+    #[ORM\Column(name: "finished", type: "integer")]
+    private int $finished = 0;
+
+    #[ORM\Column(name: "points", type: "integer", nullable: true)]
+    private ?int $points;
+
+    #[ORM\Column(name: "max_points", type: "integer", nullable: true)]
+    private ?int $maxPoints;
+
+    public function getUser(): ?int
     {
         return $this->user;
     }
-    /**
-     * @param integer $user
-     */
-    public function setUser($user)
+
+    public function setUser(?int $user): void
     {
         $this->user = $user;
     }
-    /**
-     * @return Content
-     */
-    public function getContent()
+
+    public function getContent(): Content
     {
         return $this->content;
     }
-    /**
-     * @param Content $content
-     */
-    public function setContent($content)
+
+    public function setContent(Content $content): void
     {
         $this->content = $content;
     }
-    /**
-     * @return integer
-     */
-    public function getStarted()
+
+    public function getStarted(): int
     {
         return $this->started;
     }
-    /**
-     * @param integer $started
-     */
-    public function setStarted($started)
+
+    public function setStarted(int $started): void
     {
         $this->started = $started;
     }
-    /**
-     * @return integer
-     */
-    public function getFinished()
+
+    public function getFinished(): int
     {
         return $this->finished;
     }
-    /**
-     * @param integer $finished
-     */
-    public function setFinished($finished)
+
+    public function setFinished(int $finished): void
     {
         $this->finished = $finished;
     }
-    /**
-     * @return integer
-     */
-    public function getPoints()
+
+    public function getPoints(): int
     {
         return $this->points;
     }
-    /**
-     * @param integer $points
-     */
-    public function setPoints($points)
+
+    public function setPoints(int $points): void
     {
         $this->points = $points;
     }
-    /**
-     * @return integer
-     */
-    public function getMaxPoints()
+
+    public function getMaxPoints(): int
     {
         return $this->maxPoints;
     }
-    /**
-     * @param integer $maxPoints
-     */
-    public function setMaxPoints($maxPoints)
+
+    public function setMaxPoints(int $maxPoints): void
     {
         $this->maxPoints = $maxPoints;
     }

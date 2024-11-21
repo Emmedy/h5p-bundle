@@ -5,73 +5,51 @@ namespace Emmedy\H5PBundle\Entity;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="OptionRepository")
- * @ORM\Table(name="h5p_option")
- */
+#[ORM\Entity(repositoryClass: OptionRepository::class)]
+#[ORM\Table('h5p_option')]
 class Option
 {
     private const INTEGER = "integer";
     private const BOOLEAN = "boolean";
     private const STRING = "string";
 
-    /**
-     * @var string
-     *
-     * @ORM\Id
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
+    #[ORM\Id]
+    #[ORM\Column(name: "name", type: "string", length: 255)]
+    private ?string $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="value", type="text")
-     */
-    private $value;
+    #[ORM\Column(name: "value", type: "text")]
+    private string $value;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
+    #[ORM\Column(name: "type", type: "string", length: 255)]
+    private string $type;
 
-    /**
-     * @param string $name
-     */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): string|int|bool
     {
         if ($this->type === self::INTEGER) {
-            return intval($this->value);
-        } elseif ($this->type === self::BOOLEAN) {
-            return boolval($this->value);
-        } else {
-            return $this->value;
+            return (int)$this->value;
         }
+
+        if ($this->type === self::BOOLEAN) {
+            return (bool)$this->value;
+        }
+
+        return $this->value;
     }
 
     /**
-     * @param string|int|bool $value
      * @throws InvalidArgumentException
      */
-    public function setValue($value): void
+    public function setValue(string|int|bool $value): void
     {
         if (is_int($value)) {
             $this->type = self::INTEGER;
@@ -82,6 +60,6 @@ class Option
         } else {
             throw new InvalidArgumentException("The value type is not supported.");
         }
-        $this->value = strval($value);
+        $this->value = (string)$value;
     }
 }

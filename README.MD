@@ -12,17 +12,17 @@ This bundle was tested on :
 
 | Version Supported | Symfony 3                                                                 | Symfony 4 | Symfony 5 | Symfony 6 | Symfony 7 |
 |-------------------|---------------------------------------------------------------------------|-----------|-----------|-----------|-----------|
-| 2.X               | &#x274C;                                                                  | &#x274C;  | &#x2705;  | &#x2705;  | &#x2705;  |
+| 3.X               | &#x274C;                                                                  | &#x274C;  | &#x274C;  | &#x2705;  | &#x2705;  |
+| 2.X               | &#x274C;                                                                  | &#x274C;  | &#x2705;  | &#x2705;  | &#x274C;  |
 | 1.X               | [H5PBundle for Symfony 2.X and 3.X](https://github.com/Emmedy/h5p-bundle) | &#x2705;  | &#x2705;  | &#x274C;  | &#x274C;  |
 
 Prerequisite
 ------------
 
-You need install doctrine annotations and orm before running this installation
+You need install orm before running this installation
 
 ```bash
 composer require orm
-composer require doctrine/annotations
 ```
 
 Installation

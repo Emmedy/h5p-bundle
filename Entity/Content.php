@@ -4,49 +4,33 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="ContentRepository")
- * @ORM\Table(name="h5p_content")
- */
+#[ORM\Entity(repositoryClass: ContentRepository::class)]
+#[ORM\Table(name: 'h5p_content')]
 class Content
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @var Library
-     *
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
-     * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $library;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="parameters", type="text", nullable=true)
-     */
-    private $parameters;
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="filtered_parameters", type="text", nullable=true)
-     */
-    private $filteredParameters;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="disabled_features", type="integer", nullable=true)
-     */
-    private $disabledFeatures;
-    public function __clone()
+    #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    #[ORM\GeneratedValue(strategy:"AUTO")]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: Library::class)]
+    #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    private ?Library $library = null;
+
+    #[ORM\Column(name: "parameters", type: "text", nullable: true)]
+    private ?string $parameters = null;
+
+    #[ORM\Column(name: "filtered_parameters", type: "text", nullable: true)]
+    private ?string $filteredParameters = null;
+
+    #[ORM\Column(name: "disabled_features", type: "integer", nullable: true)]
+    private ?int $disabledFeatures = null;
+
+    public function __clone(): void
     {
         $this->id = null;
     }
+
     /**
      * @return int
      */
@@ -54,13 +38,7 @@ class Content
     {
         return $this->id;
     }
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
+
     /**
      * @return Library
      */
@@ -71,9 +49,10 @@ class Content
     /**
      * @param Library $library
      */
-    public function setLibrary(Library $library)
+    public function setLibrary(Library $library): self
     {
         $this->library = $library;
+        return $this;
     }
     /**
      * @return string
@@ -84,10 +63,12 @@ class Content
     }
     /**
      * @param string $parameters
+     * @return self
      */
-    public function setParameters(string $parameters)
+    public function setParameters(string $parameters): self
     {
         $this->parameters = $parameters;
+        return $this;
     }
     /**
      * @return string|null
@@ -100,9 +81,10 @@ class Content
     /**
      * @param string|null $filteredParameters
      */
-    public function setFilteredParameters(?string $filteredParameters)
+    public function setFilteredParameters(?string $filteredParameters): self
     {
         $this->filteredParameters = $filteredParameters;
+        return $this;
     }
     /**
      * @return int
@@ -113,9 +95,11 @@ class Content
     }
     /**
      * @param int $disabledFeatures
+     * @return self
      */
-    public function setDisabledFeatures(int $disabledFeatures)
+    public function setDisabledFeatures(int $disabledFeatures): self
     {
         $this->disabledFeatures = $disabledFeatures;
+        return $this;
     }
 }

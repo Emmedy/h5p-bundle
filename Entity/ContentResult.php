@@ -5,166 +5,108 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="h5p_content_result")
- */
+#[ORM\Entity()]
+#[ORM\Table(name: "h5p_content_result")]
 class ContentResult
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @var Content
-     *
-     * @ORM\ManyToOne(targetEntity="Emmedy\H5PBundle\Entity\Content")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $content;
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", nullable=false)
-     */
-    private $userId;
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $score;
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $maxScore;
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $opened;
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $finished;
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $time;
-    /**
-     * ContentResult constructor.
-     * @param string $userId
-     */
-    public function __construct($userId)
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy:"AUTO")]
+    private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
+    private ?Content $content = null;
+
+    #[ORM\Column(type: "string", nullable: false)]
+    private string|int|null $userId;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $score = null;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $maxScore = null;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $opened = null;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $finished = null;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $time = null;
+
+    public function __construct(string|int|null $userId)
     {
         $this->userId = $userId;
     }
-    /**
-     * @return int
-     */
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    /**
-     * @return Content|null
-     */
-    public function getContent()
+
+    public function getContent(): ?Content
     {
         return $this->content;
     }
-    /**
-     * @param Content|null $content
-     */
-    public function setContent($content)
+
+    public function setContent(?Content $content)
     {
         $this->content = $content;
     }
-    /**
-     * @return string
-     */
-    public function getUserId()
+
+    public function getUserId(): string|int|null
     {
         return $this->userId;
     }
-    /**
-     * @return int|null
-     */
-    public function getScore()
+
+    public function getScore(): ?int
     {
         return $this->score;
     }
-    /**
-     * @param int|null $score
-     */
-    public function setScore($score)
+
+    public function setScore(?int $score)
     {
         $this->score = $score;
     }
-    /**
-     * @return int|null
-     */
-    public function getMaxScore()
+
+    public function getMaxScore(): ?int
     {
         return $this->maxScore;
     }
-    /**
-     * @param int|null $maxScore
-     */
-    public function setMaxScore($maxScore)
+
+    public function setMaxScore(?int $maxScore)
     {
         $this->maxScore = $maxScore;
     }
-    /**
-     * @return int|null
-     */
-    public function getOpened()
+
+    public function getOpened(): ?int
     {
         return $this->opened;
     }
-    /**
-     * @param int|null $opened
-     */
-    public function setOpened($opened)
+
+    public function setOpened(?int $opened)
     {
         $this->opened = $opened;
     }
-    /**
-     * @return int|null
-     */
-    public function getFinished()
+
+    public function getFinished(): ?int
     {
         return $this->finished;
     }
-    /**
-     * @param int|null $finished
-     */
-    public function setFinished($finished)
+
+    public function setFinished(?int $finished)
     {
         $this->finished = $finished;
     }
-    /**
-     * @return int|null
-     */
-    public function getTime()
+
+    public function getTime(): ?int
     {
         return $this->time;
     }
-    /**
-     * @param int|null $time
-     */
-    public function setTime($time)
+
+    public function setTime(?int $time)
     {
         $this->time = $time;
     }

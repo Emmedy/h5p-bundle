@@ -6,9 +6,6 @@ namespace Emmedy\H5PBundle\Entity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * EventRepository
- */
 class EventRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,7 +13,7 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findRecentlyUsedLibraries($userId)
+    public function findRecentlyUsedLibraries($userId): array
     {
         $qb = $this->createQueryBuilder('e')
             ->select('e.libraryName, MAX(e.createdAt) as max_created_at')

@@ -22,7 +22,8 @@ class H5PEvents extends \H5PEventBase
     /**
      * @var EntityManagerInterface $em
      */
-    private $em;
+    private EntityManagerInterface $em;
+
     /**
      * H5PEvents constructor.
      * @param $type

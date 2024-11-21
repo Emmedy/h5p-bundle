@@ -5,146 +5,78 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="h5p_libraries_hub_cache")
- */
+#[ORM\Entity()]
+#[ORM\Table('h5p_libraries_hub_cache')]
 class LibrariesHubCache
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="machine_name", type="string", length=127)
-     */
-    private $machineName;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="major_version", type="integer")
-     */
-    private $majorVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="minor_version", type="integer")
-     */
-    private $minorVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="patch_version", type="integer")
-     */
-    private $patchVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="h5p_major_version", type="integer", nullable=true)
-     */
-    private $h5pMajorVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="h5p_minor_version", type="integer", nullable=true)
-     */
-    private $h5pMinorVersion;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="summary", type="text")
-     */
-    private $summary;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="text")
-     */
-    private $icon;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="created_at", type="integer")
-     */
-    private $createdAt;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="updated_at", type="integer")
-     */
-    private $updatedAt;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_recommended", type="boolean", options={"default": 1})
-     */
-    private $isRecommended = true;
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="popularity", type="integer")
-     */
-    private $popularity = false;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="screenshots", type="text", nullable=true)
-     */
-    private $screenshots;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="license", type="text", nullable=true)
-     */
-    private $license;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="example", type="text")
-     */
-    private $example;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tutorial", type="text", nullable=true)
-     */
-    private $tutorial;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="keywords", type="text", nullable=true)
-     */
-    private $keywords;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="categories", type="text", nullable=true)
-     */
-    private $categories;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="owner", type="text", nullable=true)
-     */
-    private $owner;
+    #[ORM\Id]
+    #[ORM\Column(name: "id", type: 'integer')]
+    #[ORM\GeneratedValue(strategy:"AUTO")]
+    private ?int $id = null;
+
+    #[ORM\Column(name: "machine_name", type: "string", length: 127)]
+    private string $machineName;
+
+    #[ORM\Column(name: "major_version", type: "integer")]
+    private int $majorVersion;
+
+    #[ORM\Column(name: "minor_version", type: "integer")]
+    private int $minorVersion;
+
+    #[ORM\Column(name: "patch_version", type: "integer")]
+    private int $patchVersion;
+
+    #[ORM\Column(name: "h5p_major_version", type: "integer", nullable: true)]
+    private ?int $h5pMajorVersion = null;
+
+    #[ORM\Column(name: "h5p_minor_version", type: "integer", nullable: true)]
+    private ?int $h5pMinorVersion = null;
+
+    #[ORM\Column(name: "title", type: "string", length: 255)]
+    private string $title;
+
+    #[ORM\Column(name: "summary", type: "text")]
+    private string $summary;
+
+    #[ORM\Column(name: "description", type: "text")]
+    private string $description;
+
+    #[ORM\Column(name: "icon", type: "text")]
+    private string $icon;
+
+    #[ORM\Column(name: "created_at", type: "integer")]
+    private int $createdAt;
+
+    #[ORM\Column(name: "updated_at", type: "integer")]
+    private int $updatedAt;
+
+    #[ORM\Column(name: "is_recommended", type: "boolean", options: ["default" => 1])]
+    private bool $isRecommended = true;
+
+    #[ORM\Column(name: "popularity", type: "integer")]
+    private int $popularity = 0;
+
+    #[ORM\Column(name: "screenshots", type: "text", nullable: true)]
+    private ?string $screenshots = null;
+
+    #[ORM\Column(name: "license", type: "text", nullable: true)]
+    private ?string $license = null;
+
+    #[ORM\Column(name: "example", type: "text")]
+    private string $example;
+
+    #[ORM\Column(name: "tutorial", type: "text", nullable: true)]
+    private ?string $tutorial = null;
+
+    #[ORM\Column(name: "keywords", type: "text", nullable: true)]
+    private ?string $keywords = null;
+
+    #[ORM\Column(name: "categories", type: "text", nullable: true)]
+    private ?string $categories = null;
+
+    #[ORM\Column(name: "owner", type: "text", nullable: true)]
+    private ?string $owner = null;
+
     public function __get($name)
     {
         $name = \H5PCore::snakeToCamel([$name => 1]);
@@ -157,311 +89,218 @@ class LibrariesHubCache
         $name = array_keys($name)[0];
         return isset($this->$name);
     }
-    /**
-     * @return int
-     */
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    /**
-     * @return string
-     */
-    public function getMachineName()
+
+    public function getMachineName(): string
     {
         return $this->machineName;
     }
-    /**
-     * @param string $machineName
-     */
-    public function setMachineName($machineName)
+
+    public function setMachineName(string $machineName): void
     {
         $this->machineName = $machineName;
     }
-    /**
-     * @return int
-     */
-    public function getMajorVersion()
+
+    public function getMajorVersion(): int
     {
         return $this->majorVersion;
     }
-    /**
-     * @param int $majorVersion
-     */
-    public function setMajorVersion($majorVersion)
+
+    public function setMajorVersion(int $majorVersion): void
     {
         $this->majorVersion = $majorVersion;
     }
-    /**
-     * @return int
-     */
-    public function getMinorVersion()
+
+    public function getMinorVersion(): int
     {
         return $this->minorVersion;
     }
-    /**
-     * @param int $minorVersion
-     */
-    public function setMinorVersion($minorVersion)
+
+    public function setMinorVersion(int $minorVersion): void
     {
         $this->minorVersion = $minorVersion;
     }
-    /**
-     * @return int
-     */
-    public function getPatchVersion()
+
+    public function getPatchVersion(): int
     {
         return $this->patchVersion;
     }
-    /**
-     * @param int $patchVersion
-     */
-    public function setPatchVersion($patchVersion)
+
+    public function setPatchVersion(int $patchVersion): void
     {
         $this->patchVersion = $patchVersion;
     }
-    /**
-     * @return int
-     */
-    public function getH5pMajorVersion()
+
+    public function getH5pMajorVersion(): ?int
     {
         return $this->h5pMajorVersion;
     }
-    /**
-     * @param int $h5pMajorVersion
-     */
-    public function setH5pMajorVersion($h5pMajorVersion)
+
+    public function setH5pMajorVersion(?int $h5pMajorVersion): void
     {
         $this->h5pMajorVersion = $h5pMajorVersion;
     }
-    /**
-     * @return int
-     */
-    public function getH5pMinorVersion()
+
+    public function getH5pMinorVersion(): ?int
     {
         return $this->h5pMinorVersion;
     }
-    /**
-     * @param int $h5pMinorVersion
-     */
-    public function setH5pMinorVersion($h5pMinorVersion)
+
+    public function setH5pMinorVersion(?int $h5pMinorVersion): void
     {
         $this->h5pMinorVersion = $h5pMinorVersion;
     }
-    /**
-     * @return string
-     */
-    public function getTitle()
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    /**
-     * @return string
-     */
-    public function getSummary()
+
+    public function getSummary(): string
     {
         return $this->summary;
     }
-    /**
-     * @param string $summary
-     */
-    public function setSummary($summary)
+
+    public function setSummary(string $summary): void
     {
         $this->summary = $summary;
     }
-    /**
-     * @return string
-     */
-    public function getDescription()
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
-    /**
-     * @return string
-     */
-    public function getIcon()
+
+    public function getIcon(): string
     {
         return $this->icon;
     }
-    /**
-     * @param string $icon
-     */
-    public function setIcon($icon)
+
+    public function setIcon(string $icon): void
     {
         $this->icon = $icon;
     }
-    /**
-     * @return int
-     */
-    public function getCreatedAt()
+
+    public function getCreatedAt(): int
     {
         return $this->createdAt;
     }
-    /**
-     * @param int $createdAt
-     */
-    public function setCreatedAt($createdAt)
+
+    public function setCreatedAt(int $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
-    /**
-     * @return int
-     */
-    public function getUpdatedAt()
+
+    public function getUpdatedAt(): int
     {
         return $this->updatedAt;
     }
-    /**
-     * @param int $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
+
+    public function setUpdatedAt(int $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
-    /**
-     * @return bool
-     */
-    public function isRecommended()
+
+    public function isRecommended(): bool
     {
         return $this->isRecommended;
     }
-    /**
-     * @param bool $isRecommended
-     */
-    public function setIsRecommended($isRecommended)
+
+    public function setIsRecommended(bool $isRecommended): void
     {
         $this->isRecommended = $isRecommended;
     }
-    /**
-     * @return int
-     */
-    public function getPopularity()
+
+    public function getPopularity(): int
     {
         return $this->popularity;
     }
-    /**
-     * @param int $popularity
-     */
-    public function setPopularity($popularity)
+
+    public function setPopularity(int $popularity): void
     {
         $this->popularity = $popularity;
     }
-    /**
-     * @return string
-     */
-    public function getScreenshots()
+
+    public function getScreenshots(): ?string
     {
         return $this->screenshots;
     }
-    /**
-     * @param string $screenshots
-     */
-    public function setScreenshots($screenshots)
+
+    public function setScreenshots(?string $screenshots): void
     {
         $this->screenshots = $screenshots;
     }
-    /**
-     * @return string
-     */
-    public function getLicense()
+
+    public function getLicense(): ?string
     {
         return $this->license;
     }
-    /**
-     * @param string $license
-     */
-    public function setLicense($license)
+
+    public function setLicense(?string $license): void
     {
         $this->license = $license;
     }
-    /**
-     * @return string
-     */
-    public function getExample()
+
+    public function getExample(): string
     {
         return $this->example;
     }
-    /**
-     * @param string $example
-     */
-    public function setExample($example)
+
+    public function setExample(string $example): void
     {
         $this->example = $example;
     }
-    /**
-     * @return string
-     */
-    public function getTutorial()
+
+    public function getTutorial(): ?string
     {
         return $this->tutorial;
     }
-    /**
-     * @param string $tutorial
-     */
-    public function setTutorial($tutorial)
+
+    public function setTutorial(?string $tutorial): void
     {
         $this->tutorial = $tutorial;
     }
-    /**
-     * @return string
-     */
-    public function getKeywords()
+
+    public function getKeywords(): ?string
     {
         return $this->keywords;
     }
-    /**
-     * @param string $keywords
-     */
-    public function setKeywords($keywords)
+
+    public function setKeywords(?string $keywords): void
     {
         $this->keywords = $keywords;
     }
-    /**
-     * @return string
-     */
-    public function getCategories()
+
+    public function getCategories(): ?string
     {
         return $this->categories;
     }
-    /**
-     * @param string $categories
-     */
-    public function setCategories($categories)
+
+    public function setCategories(?string $categories): void
     {
         $this->categories = $categories;
     }
-    /**
-     * @return string
-     */
-    public function getOwner()
+
+    public function getOwner(): ?string
     {
         return $this->owner;
     }
-    /**
-     * @param string $owner
-     */
-    public function setOwner($owner)
+
+    public function setOwner(?string $owner): void
     {
         $this->owner = $owner;
     }

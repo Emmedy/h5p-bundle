@@ -5,74 +5,49 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="LibraryLibrariesRepository")
- * @ORM\Table(name="h5p_library_libraries")
- */
-
+#[ORM\Entity(repositoryClass: LibraryLibrariesRepository::class)]
+#[ORM\Table(name: "h5p_library_libraries")]
 class LibraryLibraries
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
-     * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $library;
-    /**
-     * @var Library
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
-     * @ORM\JoinColumn(name="required_library_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $requiredLibrary;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dependency_type", type="string", length=31)
-     */
-    private $dependencyType;
-    /**
-     * @return string
-     */
-    public function getDependencyType()
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Library::class)]
+    #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: 'CASCADE')]
+    private Library $library;
+
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Library::class)]
+    #[ORM\JoinColumn(name: "required_library_id", referencedColumnName: "id", onDelete: 'CASCADE')]
+    private Library $requiredLibrary;
+
+    #[ORM\Column(name: "dependency_type", type: "string", length: 31)]
+    private string $dependencyType;
+
+    public function getDependencyType(): string
     {
         return $this->dependencyType;
     }
-    /**
-     * @param string $dependencyType
-     */
-    public function setDependencyType($dependencyType)
+
+    public function setDependencyType(string $dependencyType): void
     {
         $this->dependencyType = $dependencyType;
     }
-    /**
-     * @return Library
-     */
-    public function getRequiredLibrary()
+
+    public function getRequiredLibrary(): Library
     {
         return $this->requiredLibrary;
     }
-    /**
-     * @param Library $requiredLibrary
-     */
-    public function setRequiredLibrary($requiredLibrary)
+
+    public function setRequiredLibrary(Library $requiredLibrary): void
     {
         $this->requiredLibrary = $requiredLibrary;
     }
-    /**
-     * @return Library
-     */
-    public function getLibrary()
+
+    public function getLibrary(): Library
     {
         return $this->library;
     }
-    /**
-     * @param Library $library
-     */
-    public function setLibrary($library)
+
+    public function setLibrary(Library $library): void
     {
         $this->library = $library;
     }

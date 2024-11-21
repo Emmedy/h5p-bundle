@@ -5,72 +5,48 @@ namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="LibrariesLanguagesRepository")
- * @ORM\Table(name="h5p_libraries_languages")
- */
+#[ORM\Entity(repositoryClass: LibrariesLanguagesRepository::class)]
+#[ORM\Table(name: "h5p_libraries_languages")]
 class LibrariesLanguages
 {
-    /**
-     * @var Library
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="\Emmedy\H5PBundle\Entity\Library")
-     * @ORM\JoinColumn(name="library_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $library;
-    /**
-     * @var string
-     *
-     * @ORM\Id
-     * @ORM\Column(name="language_code", type="string", length=31)
-     */
-    private $languageCode;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="language_json", type="text")
-     */
-    private $languageJson;
-    /**
-     * @return Library
-     */
-    public function getLibrary()
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Library::class)]
+    #[ORM\JoinColumn(name: "library_id", referencedColumnName: "id", onDelete: "CASCADE")]
+    private Library $library;
+
+    #[ORM\Id]
+    #[ORM\Column(name: "language_code", type: "string", length: 31)]
+    private string $languageCode;
+
+    #[ORM\Column(name: "language_json", type: "text")]
+    private string $languageJson;
+
+    public function getLibrary(): Library
     {
         return $this->library;
     }
-    /**
-     * @param Library $library
-     */
-    public function setLibrary($library)
+
+    public function setLibrary(Library $library)
     {
         $this->library = $library;
     }
-    /**
-     * @return string
-     */
-    public function getLanguageCode()
+
+    public function getLanguageCode(): string
     {
         return $this->languageCode;
     }
-    /**
-     * @param string $languageCode
-     */
-    public function setLanguageCode($languageCode)
+
+    public function setLanguageCode(string $languageCode)
     {
         $this->languageCode = $languageCode;
     }
-    /**
-     * @return string
-     */
-    public function getLanguageJson()
+
+    public function getLanguageJson(): string
     {
         return $this->languageJson;
     }
-    /**
-     * @param string $languageJson
-     */
-    public function setLanguageJson($languageJson)
+
+    public function setLanguageJson(string $languageJson)
     {
         $this->languageJson = $languageJson;
     }

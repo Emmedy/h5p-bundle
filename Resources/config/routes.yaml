@@ -1,7 +1,7 @@
 emmedy_h5p.ajax:
   resource: "@EmmedyH5PBundle/Controller/H5PAJAXController.php"
-  type:     annotation
+  type:     attribute
 
 emmedy_h5p.interaction:
   resource: "@EmmedyH5PBundle/Controller/H5PInteractionController.php"
-  type:     annotation
+  type:     attribute

@@ -4,137 +4,74 @@
 namespace Emmedy\H5PBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="LibraryRepository")
- * @ORM\Table(name="h5p_library")
- */
+#[ORM\Entity(repositoryClass: LibraryRepository::class)]
+#[ORM\Table(name: 'h5p_library')]
 class Library
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="machine_name", type="string", length=127)
-     */
-    private $machineName;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
-     */
-    private $title;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="major_version", type="integer")
-     */
-    private $majorVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="minor_version", type="integer")
-     */
-    private $minorVersion;
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="patch_version", type="integer")
-     */
-    private $patchVersion;
+    #[ORM\Id]
+    #[ORM\Column(type:"integer")]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id;
 
-    /**
-     * @var boolean
-     * @ORM\Column(name="patch_version_in_folder_name", type="boolean", options={"default": 0})
-     */
-    private $patchVersionInFolderName = false;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="runnable", type="boolean", options={"default": 1})
-     */
-    private $runnable = true;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="fullscreen", type="boolean", options={"default": 0})
-     */
-    private $fullscreen = false;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="embed_types", type="string", length=255)
-     */
-    private $embedTypes;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="preloaded_js", type="text", nullable=true)
-     */
-    private $preloadedJs;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="preloaded_css", type="text", nullable=true)
-     */
-    private $preloadedCss;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="drop_library_css", type="text", nullable=true)
-     */
-    private $dropLibraryCss;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="semantics", type="text")
-     */
-    private $semantics;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="restricted", type="boolean", options={"default": 0})
-     */
-    private $restricted = false;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tutorial_url", type="string", length=1000, nullable=true)
-     */
-    private $tutorialUrl;
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="has_icon", type="boolean", options={"default": 0})
-     */
-    private $hasIcon = false;
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Emmedy\H5PBundle\Entity\ContentLibraries", mappedBy="library")
-     */
-    private $contentLibraries;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="metadata_settings", type="text", nullable=true)
-     */
-    private $metadataSettings;
+    #[ORM\Column(name: "machine_name", type: "string", length: 127)]
+    private string $machineName;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="add_to", type="text", nullable=true)
-     */
-    private $addTo;
+    #[ORM\Column(name: "title", type: "string", length: 255)]
+    private string $title;
+
+    #[ORM\Column(name: "major_version", type: "integer")]
+    private int $majorVersion;
+
+    #[ORM\Column(name: "minor_version", type: "integer")]
+    private int $minorVersion;
+
+    #[ORM\Column(name: "patch_version", type: "integer")]
+    private int $patchVersion;
+
+    #[ORM\Column(name: "patch_version_in_folder_name", type: "boolean", options: [ "default" => 0])]
+    private bool $patchVersionInFolderName = false;
+
+    #[ORM\Column(name: "runnable", type: "boolean", options: [ "default" => 1])]
+    private bool $runnable = true;
+
+    #[ORM\Column(name: "fullscreen", type: "boolean", options: [ "default" => 0])]
+    private bool $fullscreen = false;
+
+    #[ORM\Column(name: "embed_types", type: "string", length: 255)]
+    private ?string $embedTypes;
+
+    #[ORM\Column(name: "preloaded_js", type: "text", nullable: true)]
+    private ?string $preloadedJs;
+
+    #[ORM\Column(name: "preloaded_css", type: "text", nullable: true)]
+    private ?string $preloadedCss;
+
+    #[ORM\Column(name: "drop_library_css", type: "text", nullable: true)]
+    private ?string $dropLibraryCss;
+
+    #[ORM\Column(name: "semantics", type: "text")]
+    private ?string $semantics;
+
+    #[ORM\Column(name: "restricted", type: "boolean", options: ['default' => 0])]
+    private bool $restricted = false;
+
+    #[ORM\Column(name: "tutorial_url", type: "string", length: 1000, nullable: true)]
+    private ?string $tutorialUrl;
+
+    #[ORM\Column(name: "has_icon", type: "boolean", options: ['default' => 0])]
+    private bool $hasIcon = false;
+
+    #[ORM\OneToMany(targetEntity: ContentLibraries::class, mappedBy: "library")]
+    private Collection $contentLibraries;
+
+    #[ORM\Column(name: "metadata_settings", type: "text", nullable: true)]
+    private ?string $metadataSettings;
+
+    #[ORM\Column(name: "add_to", type: "text", nullable: true)]
+    private ?string $addTo;
 
     public function __get($name)
     {
@@ -144,291 +81,230 @@ class Library
         $name = $this->getLocalName($name);
         return $this->$name;
     }
+
     public function __isset($name): bool
     {
         $name = $this->getLocalName($name);
         return isset($this->$name);
     }
+
     public function __set($name, $value): void
     {
         $name = $this->getLocalName($name);
         $this->$name = $value;
     }
+
     private function getLocalName($name): string
     {
         $name = \H5PCore::snakeToCamel([$name => 1]);
         return array_keys($name)[0];
     }
-    /**
-     * Library constructor.
-     */
+
     public function __construct()
     {
         $this->contentLibraries = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return "{$this->machineName} {$this->majorVersion}.{$this->minorVersion}";
     }
-    /**
-     * @return int
-     */
-    public function getId()
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-    /**
-     * @return string
-     */
-    public function getMachineName()
+
+    public function getMachineName(): ?string
     {
         return $this->machineName;
     }
-    /**
-     * @param string $machineName
-     */
-    public function setMachineName($machineName)
+
+    public function setMachineName(string $machineName): self
     {
         $this->machineName = $machineName;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getTitle()
+
+    public function getTitle(): ?string
     {
         return $this->title;
     }
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+
+    public function setTitle($title): self
     {
         $this->title = $title;
+        return $this;
     }
-    /**
-     * @return int
-     */
-    public function getMajorVersion()
+
+    public function getMajorVersion(): int
     {
         return $this->majorVersion;
     }
-    /**
-     * @param int $majorVersion
-     */
-    public function setMajorVersion($majorVersion)
+
+    public function setMajorVersion(int $majorVersion): self
     {
         $this->majorVersion = $majorVersion;
+        return $this;
     }
-    /**
-     * @return int
-     */
-    public function getMinorVersion()
+
+    public function getMinorVersion(): int
     {
         return $this->minorVersion;
     }
-    /**
-     * @param int $minorVersion
-     */
-    public function setMinorVersion($minorVersion)
+
+    public function setMinorVersion(int $minorVersion): self
     {
         $this->minorVersion = $minorVersion;
+        return $this;
     }
-    /**
-     * @return int
-     */
-    public function getPatchVersion()
+
+    public function getPatchVersion(): int
     {
         return $this->patchVersion;
     }
-    /**
-     * @param int $patchVersion
-     */
-    public function setPatchVersion($patchVersion)
+
+    public function setPatchVersion(int $patchVersion): self
     {
         $this->patchVersion = $patchVersion;
+        return $this;
     }
-    /**
-     * @return bool
-     */
-    public function isRunnable()
+
+    public function isRunnable(): bool
     {
         return $this->runnable;
     }
-    /**
-     * @param bool $runnable
-     */
-    public function setRunnable($runnable)
+
+    public function setRunnable($runnable): self
     {
         $this->runnable = $runnable;
+        return $this;
     }
-    /**
-     * @return bool
-     */
-    public function isFullscreen()
+
+    public function isFullscreen(): bool
     {
         return $this->fullscreen;
     }
-    /**
-     * @param bool $fullscreen
-     */
-    public function setFullscreen($fullscreen)
+
+    public function setFullscreen($fullscreen): self
     {
         $this->fullscreen = $fullscreen;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getEmbedTypes()
+
+    public function getEmbedTypes(): ?string
     {
         return $this->embedTypes;
     }
-    /**
-     * @param string $embedTypes
-     */
-    public function setEmbedTypes($embedTypes)
+
+    public function setEmbedTypes(?string $embedTypes): self
     {
         $this->embedTypes = $embedTypes;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getPreloadedJs()
+
+    public function getPreloadedJs(): ?string
     {
         return $this->preloadedJs;
     }
-    /**
-     * @param string $preloadedJs
-     */
-    public function setPreloadedJs($preloadedJs)
+
+    public function setPreloadedJs(?string $preloadedJs): self
     {
         $this->preloadedJs = $preloadedJs;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getPreloadedCss()
+
+    public function getPreloadedCss(): ?string
     {
         return $this->preloadedCss;
     }
-    /**
-     * @param string $preloadedCss
-     */
-    public function setPreloadedCss($preloadedCss)
+
+    public function setPreloadedCss(?string $preloadedCss): self
     {
         $this->preloadedCss = $preloadedCss;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getDropLibraryCss()
+
+    public function getDropLibraryCss(): ?string
     {
         return $this->dropLibraryCss;
     }
-    /**
-     * @param string $dropLibraryCss
-     */
-    public function setDropLibraryCss($dropLibraryCss)
+
+    public function setDropLibraryCss(?string $dropLibraryCss): self
     {
         $this->dropLibraryCss = $dropLibraryCss;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getSemantics()
+
+    public function getSemantics(): ?string
     {
         return $this->semantics;
     }
-    /**
-     * @param string $semantics
-     */
-    public function setSemantics($semantics)
+
+    public function setSemantics(?string $semantics): self
     {
         $this->semantics = $semantics;
+        return $this;
     }
-    /**
-     * @return bool
-     */
-    public function isRestricted()
+
+    public function isRestricted(): ?bool
     {
         return $this->restricted;
     }
-    /**
-     * @param bool $restricted
-     */
-    public function setRestricted($restricted)
+
+    public function setRestricted(?bool $restricted): self
     {
         $this->restricted = $restricted;
+        return $this;
     }
-    /**
-     * @return string
-     */
-    public function getTutorialUrl()
+
+    public function getTutorialUrl(): ?string
     {
         return $this->tutorialUrl;
     }
-    /**
-     * @param string $tutorialUrl
-     */
-    public function setTutorialUrl($tutorialUrl)
+
+    public function setTutorialUrl(?string $tutorialUrl): self
     {
         $this->tutorialUrl = $tutorialUrl;
+        return $this;
     }
-    /**
-     * @return bool
-     */
-    public function isHasIcon()
+
+    public function isHasIcon(): bool
     {
         return $this->hasIcon;
     }
-    /**
-     * @param bool $hasIcon
-     */
-    public function setHasIcon($hasIcon)
+
+    public function setHasIcon(bool $hasIcon): self
     {
         $this->hasIcon = $hasIcon;
-    }
-    public function isFrame()
-    {
-        return (strpos($this->embedTypes, 'iframe') !== false);
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMetadataSettings()
+    public function isFrame(): bool
+    {
+        return (str_contains($this->embedTypes, 'iframe'));
+    }
+
+    public function getMetadataSettings(): ?string
     {
         return $this->metadataSettings;
     }
 
-    /**
-     * @param string $metadataSettings
-     */
-    public function setMetadataSettings($metadataSettings)
+    public function setMetadataSettings(?string $metadataSettings): self
     {
         $this->metadataSettings = $metadataSettings;
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddTo()
+    public function getAddTo(): ?string
     {
         return $this->addTo;
     }
 
-    /**
-     * @param string $addTo
-     */
-    public function setAddTo($addTo)
+    public function setAddTo(?string $addTo): self
     {
         $this->addTo = $addTo;
+        return $this;
     }
 
     public function isPatchVersionInFolderName(): bool
@@ -436,8 +312,9 @@ class Library
         return $this->patchVersionInFolderName;
     }
 
-    public function setPatchVersionInFolderName(bool $patchVersionInFolderName): void
+    public function setPatchVersionInFolderName(bool $patchVersionInFolderName): self
     {
         $this->patchVersionInFolderName = $patchVersionInFolderName;
+        return $this;
     }
 }

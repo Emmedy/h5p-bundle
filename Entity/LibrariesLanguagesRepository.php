@@ -7,9 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * LibrariesLanguagesRepository
- */
 class LibrariesLanguagesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
